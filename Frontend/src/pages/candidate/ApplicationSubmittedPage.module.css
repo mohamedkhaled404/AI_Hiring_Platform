@@ -1,0 +1,155 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  text-align: center;
+}
+.content {
+  max-width: 520px;
+  width: 100%;
+  text-align: center;
+}
+.backWrap {
+  text-align: left;
+}
+
+.iconWrap {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 32px;
+}
+.iconCircle {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f3f5fb, #DBEAFE);
+  margin: 20px auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.iconInner {
+  font-size: 64px;
+  color: var(--primary);
+}
+.checkBadge {
+  position: absolute;
+  top: 30px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  background: var(--success);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  max-width: 480px;
+}
+.message {
+  color: var(--text-muted);
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 520px;
+  margin-bottom: 20px;
+}
+.statusBadge {
+  background: var(--primary-bg);
+  color: var(--primary);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 32px;
+  display: inline-block;
+}
+
+.startAssessmentBtn {
+  padding: 12px 28px;
+  margin-bottom: 16px;
+  width: 100%;
+  max-width: 320px;
+}
+.assessmentNotice {
+  color: #92400E;
+  font-size: 12.5px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+}
+
+.actionsRow {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.actionBtn {
+  padding: 12px 28px;
+}
+
+.etaRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+  justify-content: center;
+}
+
+.modalBackdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+.modalDialog {
+  max-width: 440px;
+}
+.modalContent {
+  border-radius: 16px;
+  border: none;
+}
+.modalBody {
+  padding: 28px;
+  text-align: center;
+}
+.modalIconWrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #FEF3C7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+.modalIcon {
+  color: #D97706;
+  font-size: 20px;
+}
+.modalTitle {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+.modalText {
+  color: var(--text-muted);
+  font-size: 13.5px;
+  margin: 0;
+}
+.modalFooter {
+  border: none;
+  padding: 0 24px 24px;
+  justify-content: center;
+}

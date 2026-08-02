@@ -43,11 +43,11 @@ const PostJobPage = lazy(() => import("../pages/recruiter/PostJobPage"));
 const EditJobPage = lazy(() => import("../pages/recruiter/EditJobPage"));
 const ApplicantsListPage = lazy(() => import("../pages/recruiter/ApplicantsListPage"));
 const CandidateReviewPage = lazy(() => import("../pages/recruiter/CandidateReviewPage"));
-const TopCandidatesPage = lazy(() => import("../pages/recruiter/TopCandidatesPage"));
+// const TopCandidatesPage = lazy(() => import("../pages/recruiter/TopCandidatesPage"));
 const RecruiterFeedbackPage = lazy(() => import("../pages/recruiter/RecruiterFeedbackPage"));
 const AssessmentGeneratorPage = lazy(() => import("../pages/recruiter/AssessmentGeneratorPage"));
 const AIRecommendationPage = lazy(() => import("../pages/recruiter/AIRecommendationPage"));
-const EmailInvitationsPage = lazy(() => import("../pages/recruiter/EmailInvitationsPage"));
+// const EmailInvitationsPage = lazy(() => import("../pages/recruiter/EmailInvitationsPage"));
 const RecruiterProfilePage = lazy(() => import("../pages/recruiter/RecruiterProfilePage"));
 const RecruiterEditProfilePage = lazy(() => import("../pages/recruiter/RecruiterEditProfilePage"));
 const SettingsPage = lazy(() => import("../pages/settings/SettingsPage"));
@@ -130,7 +130,7 @@ export default function AppRoutes() {
           <Route path="job/:jobId" element={<JobDetailsPage />} />
           <Route path="applications" element={<ApplicantsListPage />} />
           <Route path="candidates/:id" element={<CandidateReviewPage />} />
-          <Route path="top-candidates" element={<TopCandidatesPage />} />
+          {/* <Route path="top-candidates" element={<TopCandidatesPage />} /> */}
           <Route path="feedback/:jobId/:applicationId" element={<RecruiterFeedbackPage />} />
           <Route path="feedback" element={<RecruiterFeedbackPage />} />
           <Route path="jobs/:jobId/assessment" element={<AssessmentGeneratorPage />} />
@@ -139,7 +139,7 @@ export default function AppRoutes() {
           <Route path="profile" element={<RecruiterProfilePage />} />
           <Route path="profile/edit" element={<RecruiterEditProfilePage />} />
           <Route path="settings" element={<SettingsPage />} />
-          <Route path="email-invitations" element={<EmailInvitationsPage />} />
+          {/* <Route path="email-invitations" element={<EmailInvitationsPage />} /> */}
         </Route>
       </Route>
 

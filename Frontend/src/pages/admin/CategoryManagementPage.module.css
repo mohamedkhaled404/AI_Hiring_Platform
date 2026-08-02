@@ -1,0 +1,150 @@
+.pageTitle {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.pageSubtitle {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: 14px;
+}
+
+.cardPadding {
+  padding: 24px;
+}
+
+.controlsContainer {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  max-width: 400px;
+}
+
+.searchBoxContainer {
+  flex: 1;
+  position: static;
+  border: 1px solid var(--border);
+  background: var(--body-bg);
+  border-radius: 10px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.searchInput {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 14px;
+  width: 100%;
+}
+
+.actionsHeader {
+  width: 120px;
+  text-align: right;
+}
+
+.emptyStateCell {
+  text-align: center;
+  padding: 32px 0;
+  color: var(--text-muted);
+}
+
+.emptyStateIcon {
+  font-size: 28px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.badgePadding {
+  font-size: 13px;
+  padding: 5px 12px;
+  border-radius: 6px;
+}
+
+.dateCell {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.actionsCell {
+  text-align: right;
+}
+
+.actionsFlex {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.iconBtnSmall {
+  width: 32px;
+  height: 32px;
+  font-size: 14px;
+}
+
+.modalHeader {
+  border-bottom: none;
+  padding: 0;
+}
+
+.modalHeaderTitle {
+  margin: 0;
+  font-size: 18px;
+}
+
+.modalForm {
+  margin-top: 20px;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formLabel {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.formInput {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  outline: none;
+}
+
+.errorMsg {
+  color: var(--danger);
+  font-size: 12px;
+  margin-top: 6px;
+}
+
+.modalFooter {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.footerBtn {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.deleteModalText {
+  font-size: 14px;
+  color: var(--text-dark);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.deleteBtn {
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+}

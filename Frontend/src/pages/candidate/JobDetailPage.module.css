@@ -1,0 +1,164 @@
+.breadcrumb {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+  flex-wrap: wrap;
+}
+.breadcrumbLink {
+  cursor: pointer;
+  color: var(--primary);
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.sideCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mainCard {
+  padding: 28px;
+}
+.headerRow {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+.logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 14px;
+  object-fit: contain;
+  border: 1px solid var(--border);
+  padding: 6px;
+}
+.titleCol {
+  flex: 1;
+}
+.title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.company {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.statusBadge {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+.statusBadge--open {
+  background: #D1FAE5;
+  color: #065F46;
+}
+.statusBadge--expired,
+.statusBadge--closed {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.tagsRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+  background: var(--body-bg);
+  padding: 5px 12px;
+  border-radius: 8px;
+}
+.pill--accent {
+  color: var(--primary);
+  background: var(--primary-bg);
+  font-weight: 600;
+}
+.pill--danger {
+  color: var(--danger);
+}
+
+.skillsSection {
+  margin-bottom: 24px;
+}
+.skillsTitle {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.skillsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.descSection {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+}
+.descTitle {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+.descText {
+  color: var(--text-muted);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  margin: 0;
+}
+.reqTitle {
+  font-weight: 700;
+  font-size: 15px;
+  margin: 20px 0 12px;
+}
+
+.actionsCard {
+  padding: 20px;
+}
+.applyBtn {
+  width: 100%;
+  margin-bottom: 10px;
+}
+.saveBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.overviewCard {
+  padding: 20px;
+}
+.overviewTitle {
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.overviewRow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+.overviewKey {
+  color: var(--text-muted);
+}
+.overviewValue {
+  font-weight: 600;
+}

@@ -1,0 +1,127 @@
+.title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: 14px;
+}
+
+.tableCard {
+  padding: 28px;
+  margin-top: 20px;
+}
+
+.companyLogo {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
+}
+
+.actionsCell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.closeBtnWrap {
+  width: 76px;
+}
+
+.emptyCell {
+  text-align: center;
+}
+
+.paginationFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.pageInfo {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.paginationBtns {
+  display: flex;
+  gap: 8px;
+}
+
+.pageBtn {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+/* Confirmation modals (delete / close) */
+.modalBackdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modalDialog {
+  max-width: 420px;
+}
+
+.modalContentBox {
+  border-radius: 16px;
+  border: none;
+}
+
+.modalBody {
+  padding: 28px;
+  text-align: center;
+}
+
+.modalIconCircle {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.modalIconCircle--danger {
+  background: #FEE2E2;
+}
+
+.modalIconCircle--warning {
+  background: #FEF3C7;
+}
+
+.modalIcon {
+  font-size: 20px;
+}
+
+.modalIcon--danger {
+  color: #DC2626;
+}
+
+.modalIcon--warning {
+  color: #D97706;
+}
+
+.modalTitle {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.modalText {
+  color: var(--text-muted);
+  font-size: 13.5px;
+  margin: 0;
+}
+
+.modalFooter {
+  border: none;
+  padding: 0 24px 24px;
+  justify-content: center;
+}

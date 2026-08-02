@@ -12,6 +12,7 @@ import {
 } from "../../services/userService";
 import { toFrontendRole, toBackendRole } from "../../utils/roleMap";
 import LoadingState from "../../components/common/LoadingState";
+import styles from "./UserManagementPage.module.css";
 
 // Yup validations for Create
 const createUserSchema = yup.object().shape({
@@ -164,8 +165,8 @@ export default function UserManagementPage() {
       {/* Page Header */}
       <div className="page-header-row mb-4">
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4 }}>User Management</h1>
-          <p style={{ color: "var(--text-muted)", margin: 0, fontSize: 14 }}>
+          <h1 className={styles.headerTitle}>User Management</h1>
+          <p className={styles.headerSubtitle}>
             Create, update, and manage candidate, recruiter, and administrator profiles directly on the backend database.
           </p>
         </div>
@@ -179,10 +180,10 @@ export default function UserManagementPage() {
       </div>
 
       {/* Main Table Card */}
-      <div className="hcard" style={{ padding: 24 }}>
+      <div className={`hcard ${styles.cardPadding}`}>
         {/* Search Bar */}
-        <div style={{ display: "flex", gap: 16, marginBottom: 20, maxWidth: 400 }}>
-          <div className="topbar .search-box" style={{ flex: 1, position: "static", border: "1px solid var(--border)", background: "var(--body-bg)", borderRadius: 10, padding: "6px 12px", display: "flex", alignItems: "center", gap: 8 }}>
+        <div className={styles.searchBarContainer}>
+          <div className={styles.searchBox}>
             <i className="bi bi-search text-muted" aria-hidden="true" />
             <input
               type="text"
@@ -218,7 +219,7 @@ export default function UserManagementPage() {
                 filteredUsers.map((u) => (
                   <tr key={u._id}>
                     <td>
-                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <div className={styles.userInfoFlex}>
                         <img
                           src={
                             u.profile_image ||
@@ -226,21 +227,21 @@ export default function UserManagementPage() {
                             `https://ui-avatars.com/api/?name=${encodeURIComponent(u.name)}&background=F3F5FB&color=1D2445&size=80`
                           }
                           alt={u.name}
-                          style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover", border: "1.5px solid var(--border)" }}
+                          className={styles.userAvatar}
                         />
                         <div>
-                          <div style={{ fontWeight: 600, fontSize: 13 }}>{u.name}</div>
-                          <div style={{ fontSize: 11, color: "var(--text-muted)" }}>ID: {u._id}</div>
+                          <div className={styles.userName}>{u.name}</div>
+                          <div className={styles.userId}>ID: {u._id}</div>
                         </div>
                       </div>
                     </td>
-                    <td style={{ fontSize: 13 }}>{u.email}</td>
+                    <td className={styles.emailCell}>{u.email}</td>
                     <td>
-                      <span className={getRoleBadgeClass(u.role)} style={{ fontSize: 12, padding: "4px 10px" }}>
+                      <span className={`${getRoleBadgeClass(u.role)} ${styles.roleBadge}`} style={{ fontSize: 12, padding: "4px 10px" }}>
                         {toFrontendRole(u.role)}
                       </span>
                     </td>
-                    <td style={{ color: "var(--text-muted)", fontSize: 13 }}>
+                    <td className={styles.createdAtCell}>
                       {u.createdAt
                         ? new Date(u.createdAt).toLocaleDateString("en-US", {
                             year: "numeric",
@@ -249,21 +250,8 @@ export default function UserManagementPage() {
                           })
                         : "N/A"}
                     </td>
-                    <td style={{ textAlign: "right" }}>
-                      <div style={{ display: "inline-flex", gap: 8 }}>
-                        {/* <button
-                          type="button"
-                          className="topbar-icon-btn"
-                          style={{ width: 32, height: 32, fontSize: 14 }}
-                          onClick={() => {
-                            setActiveUser(u);
-                            setShowEditModal(true);
-                          }}
-                          title="Edit User"
-                          aria-label={`Edit user ${u.name}`}
-                        >
-                          <i className="bi bi-pencil" aria-hidden="true" />
-                        </button> */}
+                    <td className={styles.actionCell}>
+                      <div className={styles.actionButtons}>
                         <button
                           type="button"
                           className="topbar-icon-btn"
@@ -288,15 +276,14 @@ export default function UserManagementPage() {
 
         {/* Pagination Footer */}
         {totalPages > 1 && (
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 24, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
-            <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
+          <div className={styles.footerContainer}>
+            <span className={styles.pageInfo}>
               Page <strong>{page}</strong> of <strong>{totalPages}</strong>
             </span>
-            <div style={{ display: "flex", gap: 8 }}>
+            <div className={styles.paginationContainer}>
               <button
                 type="button"
-                className="btn-outline-custom"
-                style={{ padding: "6px 12px", fontSize: 12 }}
+                className={`btn-outline-custom ${styles.paginationBtn}`}
                 disabled={page <= 1 || loading}
                 onClick={() => loadUsers(page - 1)}
               >
@@ -304,8 +291,7 @@ export default function UserManagementPage() {
               </button>
               <button
                 type="button"
-                className="btn-outline-custom"
-                style={{ padding: "6px 12px", fontSize: 12 }}
+                className={`btn-outline-custom ${styles.paginationBtn}`}
                 disabled={page >= totalPages || loading}
                 onClick={() => loadUsers(page + 1)}
               >
@@ -320,7 +306,7 @@ export default function UserManagementPage() {
       <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered>
         <div className="hcard p-4 border-0">
           <Modal.Header closeButton style={{ borderBottom: "none", padding: 0 }}>
-            <h2 className="section-title" style={{ margin: 0, fontSize: 18 }}>Add New User</h2>
+            <h2 className={`${styles.modalHeaderTitle} section-title`} style={{ margin: 0, fontSize: 18 }}>Add New User</h2>
           </Modal.Header>
           <Formik
             initialValues={{ name: "", email: "", password: "", role: "candidate" }}
@@ -331,29 +317,29 @@ export default function UserManagementPage() {
               <Form style={{ marginTop: 20 }}>
                 {/* Name */}
                 <div style={{ marginBottom: 14 }}>
-                  <label htmlFor="user-name-add" style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: "block" }}>Full Name</label>
-                  <Field id="user-name-add" name="name" type="text" placeholder="Enter full name" style={{ width: "100%", border: "1.5px solid var(--border)", borderRadius: 10, padding: "10px 14px", fontSize: 14, outline: "none" }} />
+                  <label htmlFor="user-name-add" className={styles.formLabel}>Full Name</label>
+                  <Field id="user-name-add" name="name" type="text" placeholder="Enter full name" className={styles.formField} />
                   <ErrorMessage name="name">{(msg) => <div style={{ color: "var(--danger)", fontSize: 12, marginTop: 4 }}>{msg}</div>}</ErrorMessage>
                 </div>
 
                 {/* Email */}
                 <div style={{ marginBottom: 14 }}>
-                  <label htmlFor="user-email-add" style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: "block" }}>Email Address</label>
-                  <Field id="user-email-add" name="email" type="email" placeholder="Enter email address (e.g., name@domain.com)" style={{ width: "100%", border: "1.5px solid var(--border)", borderRadius: 10, padding: "10px 14px", fontSize: 14, outline: "none" }} />
+                  <label htmlFor="user-email-add" className={styles.formLabel}>Email Address</label>
+                  <Field id="user-email-add" name="email" type="email" placeholder="Enter email address (e.g., name@domain.com)" className={styles.formField} />
                   <ErrorMessage name="email">{(msg) => <div style={{ color: "var(--danger)", fontSize: 12, marginTop: 4 }}>{msg}</div>}</ErrorMessage>
                 </div>
 
                 {/* Password */}
                 <div style={{ marginBottom: 14 }}>
-                  <label htmlFor="user-password-add" style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: "block" }}>Password</label>
-                  <Field id="user-password-add" name="password" type="password" placeholder="Minimum 8 characters" style={{ width: "100%", border: "1.5px solid var(--border)", borderRadius: 10, padding: "10px 14px", fontSize: 14, outline: "none" }} />
-                  <ErrorMessage name="password">{(msg) => <div style={{ color: "var(--danger)", fontSize: 12, marginTop: 4 }}>{msg}</div>}</ErrorMessage>
+                  <label htmlFor="user-password-add" className={styles.formLabel}>Password</label>
+                  <Field id="user-password-add" name="password" type="password" placeholder="Minimum 8 characters" className={styles.formField} />
+                  <ErrorMessage name="password">{(msg) => <div className={styles.errorMsg}>{msg}</div>}</ErrorMessage>
                 </div>
 
                 {/* Role */}
-                <div style={{ marginBottom: 20 }}>
-                  <label htmlFor="user-role-add" style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: "block" }}>Access Role</label>
-                  <Field id="user-role-add" name="role" as="select" style={{ width: "100%", border: "1.5px solid var(--border)", borderRadius: 10, padding: "10px 14px", fontSize: 14, outline: "none", background: "white" }}>
+                <div className={styles.formGroup}>
+                  <label htmlFor="user-role-add" className={styles.formLabel}>Access Role</label>
+                  <Field id="user-role-add" name="role" as="select" className={styles.formField}>
                     <option value="candidate">Candidate</option>
                     <option value="recruiter">Recruiter (HR)</option>
                     <option value="admin">Administrator</option>
@@ -365,8 +351,7 @@ export default function UserManagementPage() {
                 <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
                   <button
                     type="button"
-                    className="btn-outline-custom"
-                    style={{ padding: "8px 16px", fontSize: 13 }}
+                    className={`btn-outline-custom ${styles.modalFooterButton}`}
                     onClick={() => setShowAddModal(false)}
                     disabled={submitting}
                   >
@@ -374,8 +359,7 @@ export default function UserManagementPage() {
                   </button>
                   <button
                     type="submit"
-                    className="btn-primary-custom"
-                    style={{ padding: "8px 16px", fontSize: 13 }}
+                    className={`btn-primary-custom ${styles.modalFooterButton}`}
                     disabled={formikSubmitting || submitting}
                   >
                     {submitting ? "Creating..." : "Create User"}
@@ -391,7 +375,7 @@ export default function UserManagementPage() {
       <Modal show={showEditModal} onHide={() => { setShowEditModal(false); setActiveUser(null); }} centered>
         <div className="hcard p-4 border-0">
           <Modal.Header closeButton style={{ borderBottom: "none", padding: 0 }}>
-            <h2 className="section-title" style={{ margin: 0, fontSize: 18 }}>Edit User Profile</h2>
+            <h2 className={`${styles.modalHeaderTitle} section-title`} style={{ margin: 0, fontSize: 18 }}>Edit User Profile</h2>
           </Modal.Header>
           {activeUser && (
             <Formik
@@ -406,15 +390,15 @@ export default function UserManagementPage() {
                 <Form style={{ marginTop: 20 }}>
                   {/* Name */}
                   <div style={{ marginBottom: 14 }}>
-                    <label htmlFor="user-name-edit" style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: "block" }}>Full Name</label>
-                    <Field id="user-name-edit" name="name" type="text" placeholder="Enter full name" style={{ width: "100%", border: "1.5px solid var(--border)", borderRadius: 10, padding: "10px 14px", fontSize: 14, outline: "none" }} />
+                    <label htmlFor="user-name-edit" className={styles.formLabel}>Full Name</label>
+                    <Field id="user-name-edit" name="name" type="text" placeholder="Enter full name" className={styles.formField} />
                     <ErrorMessage name="name">{(msg) => <div style={{ color: "var(--danger)", fontSize: 12, marginTop: 4 }}>{msg}</div>}</ErrorMessage>
                   </div>
 
                   {/* Email */}
                   <div style={{ marginBottom: 14 }}>
-                    <label htmlFor="user-email-edit" style={{ fontSize: 13, fontWeight: 600, marginBottom: 6, display: "block" }}>Email Address</label>
-                    <Field id="user-email-edit" name="email" type="email" placeholder="Enter email address (e.g., name@domain.com)" style={{ width: "100%", border: "1.5px solid var(--border)", borderRadius: 10, padding: "10px 14px", fontSize: 14, outline: "none" }} />
+                    <label htmlFor="user-email-edit" className={styles.formLabel}>Email Address</label>
+                    <Field id="user-email-edit" name="email" type="email" placeholder="Enter email address (e.g., name@domain.com)" className={styles.formField} />
                     <ErrorMessage name="email">{(msg) => <div style={{ color: "var(--danger)", fontSize: 12, marginTop: 4 }}>{msg}</div>}</ErrorMessage>
                   </div>
 
@@ -422,8 +406,7 @@ export default function UserManagementPage() {
                   <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
                     <button
                       type="button"
-                      className="btn-outline-custom"
-                      style={{ padding: "8px 16px", fontSize: 13 }}
+                      className={`btn-outline-custom ${styles.modalFooterButton}`}
                       onClick={() => { setShowEditModal(false); setActiveUser(null); }}
                       disabled={submitting}
                     >
@@ -449,10 +432,10 @@ export default function UserManagementPage() {
       <Modal show={showDeleteModal} onHide={() => { setShowDeleteModal(false); setActiveUser(null); }} centered>
         <div className="hcard p-4 border-0">
           <Modal.Header closeButton style={{ borderBottom: "none", padding: 0 }}>
-            <h2 className="section-title text-danger" style={{ margin: 0, fontSize: 18 }}>Delete User Profile</h2>
+            <h2 className={`${styles.modalHeaderTitle} section-title text-danger`} style={{ margin: 0, fontSize: 18 }}>Delete User Profile</h2>
           </Modal.Header>
           {activeUser && (
-            <div style={{ marginTop: 20 }}>
+            <div className={styles.deleteModalText}>
               <p style={{ fontSize: 14, color: "var(--text-dark)", lineHeight: 1.6, marginBottom: 24 }}>
                 Are you sure you want to permanently delete the profile for <strong>{activeUser.name}</strong> ({activeUser.email})?
                 This user will no longer be able to log in, and all associated media profiles will be purged. This action is irreversible.

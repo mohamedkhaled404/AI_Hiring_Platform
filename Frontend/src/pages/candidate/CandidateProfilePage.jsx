@@ -4,6 +4,7 @@ import { getCandidateProfile } from "../../services/profileService";
 import { formatEducation, formatSkill, formatSocialLink } from "../../utils/profileFormat";
 import LoadingState from "../../components/common/LoadingState";
 import BackButton from "../../components/common/BackButton";
+import styles from "./CandidateProfilePage.module.css";
 
 export default function CandidateProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -23,7 +24,7 @@ export default function CandidateProfilePage() {
     return (
       <>
         <BackButton fallbackTo="/candidate/applications" label="Back to My Applications" />
-        <div className="hcard" style={{ padding: 24, color: "#991B1B", background: "#FEE2E2" }}>{error}</div>
+        <div className={`hcard ${styles.errorCard}`}>{error}</div>
       </>
     );
   }
@@ -48,44 +49,43 @@ export default function CandidateProfilePage() {
       <div className="page-header-row">
         <div>
           <h1>Candidate Profile</h1>
-          <p style={{ color: "var(--text-muted)", margin: 0 }}>Manage your professional identity and resume details.</p>
+          <p className={styles.subtitle}>Manage your professional identity and resume details.</p>
         </div>
 
-        <Link to="/candidate/profile/edit" className="btn-primary-custom" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center" }}>
+        <Link to="/candidate/profile/edit" className={`btn-primary-custom ${styles.editBtn}`}>
           <i className="bi bi-pencil me-2" />
           Edit Profile
         </Link>
       </div>
 
       <div className="grid-profile">
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div className="hcard" style={{ padding: 24, textAlign: "center" }}>
-            <div style={{ position: "relative", display: "inline-block", marginBottom: 16 }}>
-              <img src={profile.avatar} alt="" style={{ width: 100, height: 100, borderRadius: "50%", objectFit: "cover", border: "3px solid var(--primary-bg)" }} />
+        <div className={styles.col}>
+          <div className={`hcard ${styles.avatarCard}`}>
+            <div className={styles.avatarWrap}>
+              <img src={profile.avatar} alt="" className={styles.avatarImg} />
               {profile.isVerified && (
-                <span style={{ position: "absolute", bottom: 4, right: 4, width: 24, height: 24, background: "var(--primary)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #fff" }}>
-                  <i className="bi bi-check text-white" style={{ fontSize: 12 }} aria-hidden="true" />
+                <span className={styles.verifiedBadge}>
+                  <i className={`bi bi-check text-white ${styles.verifiedIcon}`} aria-hidden="true" />
                 </span>
               )}
             </div>
-            <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 4 }}>{profile.name || "Unnamed Candidate"}</h2>
-            {profile.title && <div style={{ color: "var(--primary)", fontWeight: 600, fontSize: 14, marginBottom: 16 }}>{profile.title}</div>}
+            <h2 className={styles.name}>{profile.name || "Unnamed Candidate"}</h2>
+            {profile.title && <div className={styles.title}>{profile.title}</div>}
 
             {contactRows.map(([icon, text]) => (
-              <div key={text} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13, color: "var(--text-muted)", marginBottom: 8, textAlign: "left" }}>
-                <i className={`bi ${icon}`} style={{ color: "var(--primary)" }} aria-hidden="true" />
+              <div key={text} className={styles.contactRow}>
+                <i className={`bi ${icon} ${styles.contactIcon}`} aria-hidden="true" />
                 {text}
               </div>
             ))}
 
             {profile.cv && (
-              <div style={{ marginTop: 16, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
+              <div className={styles.cvWrap}>
                 <a
                   href={profile.cv}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-outline-primary w-100"
-                  style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 8, textDecoration: "none" }}
+                  className={`btn btn-outline-primary w-100 ${styles.cvBtn}`}
                 >
                   <i className="bi bi-file-earmark-pdf" />
                   View Attached CV
@@ -95,11 +95,11 @@ export default function CandidateProfilePage() {
           </div>
 
           {socialLinks.length > 0 && (
-            <div className="hcard" style={{ padding: 24 }}>
-              <div style={{ fontWeight: 700, marginBottom: 16 }}>Social Links</div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div className={`hcard ${styles.socialCard}`}>
+              <div className={styles.cardTitle}>Social Links</div>
+              <div className={styles.socialList}>
                 {socialLinks.map((link) => (
-                  <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 13, color: "var(--primary)", textDecoration: "none", textTransform: "capitalize" }}>
+                  <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer" className={styles.socialLink}>
                     <i className={`bi ${link.icon}`} aria-hidden="true" />
                     {link.label}
                   </a>
@@ -109,46 +109,48 @@ export default function CandidateProfilePage() {
           )}
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div className="hcard" style={{ padding: 24 }}>
-            <div style={{ fontWeight: 700, marginBottom: 12 }}>About</div>
-            <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.7, margin: 0 }}>
+        <div className={styles.col}>
+          <div className={`hcard ${styles.card}`}>
+            <div className={styles.cardTitleSm}>About</div>
+            <p className={styles.aboutText}>
               {aboutText || "No bio added yet. Click \u201cEdit Profile\u201d to tell recruiters about yourself."}
             </p>
           </div>
 
-          <div className="hcard" style={{ padding: 24 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-              <div style={{ fontWeight: 700 }}>Skills</div>
+          <div className={`hcard ${styles.card}`}>
+            <div className={styles.cardHeaderRow}>
+              <div className={styles.cardHeaderTitle}>Skills</div>
             </div>
             {skills.length > 0 ? (
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              <div className={styles.skillsList}>
                 {skills.map((s) => (
                   <span key={s} className="skill-tag">{s}</span>
                 ))}
               </div>
             ) : (
-              <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>No skills added yet.</p>
+              <p className={styles.emptyText}>No skills added yet.</p>
             )}
           </div>
 
-          <div className="hcard" style={{ padding: 24 }}>
-            <div style={{ fontWeight: 700, marginBottom: 16 }}>Education</div>
+          <div className={`hcard ${styles.card}`}>
+            <div className={styles.cardTitle}>Education</div>
             {education.length > 0 ? (
-              education.map((edu, i) => (
-                <div key={`${edu.degree}-${i}`} style={{ display: "flex", gap: 12, alignItems: "flex-start", marginBottom: i < education.length - 1 ? 16 : 0 }}>
-                  <div style={{ width: 40, height: 40, background: "var(--primary-bg)", borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                    <i className="bi bi-mortarboard" style={{ color: "var(--primary)" }} aria-hidden="true" />
+              <div className={styles.eduList}>
+                {education.map((edu, i) => (
+                  <div key={`${edu.degree}-${i}`} className={styles.eduRow}>
+                    <div className={styles.eduIcon}>
+                      <i className={`bi bi-mortarboard ${styles.contactIcon}`} aria-hidden="true" />
+                    </div>
+                    <div>
+                      {edu.degree && <div className={styles.eduDegree}>{edu.degree}</div>}
+                      {edu.school && <div className={styles.eduSchool}>{edu.school}</div>}
+                      {edu.period && <div className={styles.eduPeriod}>{edu.period}</div>}
+                    </div>
                   </div>
-                  <div>
-                    {edu.degree && <div style={{ fontWeight: 700, fontSize: 14 }}>{edu.degree}</div>}
-                    {edu.school && <div style={{ fontSize: 13, color: "var(--text-muted)" }}>{edu.school}</div>}
-                    {edu.period && <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{edu.period}</div>}
-                  </div>
-                </div>
-              ))
+                ))}
+              </div>
             ) : (
-              <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>No education details added yet.</p>
+              <p className={styles.emptyText}>No education details added yet.</p>
             )}
           </div>
         </div>

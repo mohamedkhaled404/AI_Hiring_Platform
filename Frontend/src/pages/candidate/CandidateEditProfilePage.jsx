@@ -6,6 +6,7 @@ import { saveCandidateProfile } from "../../services/profileService";
 import LoadingState from "../../components/common/LoadingState";
 import BackButton from "../../components/common/BackButton";
 import toast from "react-hot-toast";
+import styles from "./CandidateEditProfilePage.module.css";
 
 const currentYear = new Date().getFullYear();
 
@@ -152,36 +153,32 @@ export default function CandidateEditProfilePage() {
       <div className="page-header-row">
         <div>
           <h1>Edit Profile</h1>
-          <p style={{ color: "var(--text-muted)", margin: 0 }}>Keep your professional details up to date.</p>
+          <p className={styles.subtitle}>Keep your professional details up to date.</p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} style={{ maxWidth: 720 }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formStack}>
           {/* Photo & CV */}
-          <div className="hcard" style={{ padding: 24 }}>
-            <div style={{ fontWeight: 700, marginBottom: 16 }}>Photo & Resume</div>
-            <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
-              <img
-                src={avatarPreview}
-                alt="Avatar"
-                style={{ width: 88, height: 88, borderRadius: "50%", objectFit: "cover", border: "1px solid var(--border)" }}
-              />
+          <div className={`hcard ${styles.sectionCard}`}>
+            <div className={styles.sectionTitle}>Photo & Resume</div>
+            <div className={styles.avatarRow}>
+              <img src={avatarPreview} alt="Avatar" className={styles.avatarImg} />
               <div>
                 <button type="button" className="btn btn-outline-primary" onClick={() => avatarInputRef.current?.click()}>
                   <i className="bi bi-upload me-2" />
                   Upload Photo
                 </button>
-                <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 8 }}>PNG or JPG.</div>
+                <div className={styles.uploadHint}>PNG or JPG.</div>
               </div>
               <input ref={avatarInputRef} type="file" accept="image/png,image/jpeg,image/jpg" className="d-none" onChange={handleAvatarChange} />
 
-              <div style={{ marginLeft: "auto" }}>
+              <div className={styles.cvWrap}>
                 <button type="button" className="btn btn-outline-primary" onClick={() => cvInputRef.current?.click()}>
                   <i className="bi bi-file-earmark-pdf me-2" />
                   {cvFile ? "Change Resume" : "Upload Resume"}
                 </button>
-                <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 8 }}>
+                <div className={styles.uploadHint}>
                   {cvFile ? cvFile.name : user.cv ? "A resume is on file." : "PDF only."}
                 </div>
                 <input ref={cvInputRef} type="file" accept="application/pdf" className="d-none" onChange={handleCvChange} />
@@ -190,10 +187,10 @@ export default function CandidateEditProfilePage() {
           </div>
 
           {/* Basic info */}
-          <div className="hcard" style={{ padding: 24 }}>
-            <div style={{ fontWeight: 700, marginBottom: 16 }}>Basic Information</div>
-            <div style={{ display: "grid", gap: 16 }}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <div className={`hcard ${styles.sectionCard}`}>
+            <div className={styles.sectionTitle}>Basic Information</div>
+            <div className={styles.basicGrid}>
+              <div className={styles.twoCol}>
                 <Field label="Full Name">
                   <input className="form-control" name="name" value={form.name} onChange={handleChange} placeholder="Your name" />
                 </Field>
@@ -220,9 +217,9 @@ export default function CandidateEditProfilePage() {
           </div>
 
           {/* Skills */}
-          <div className="hcard" style={{ padding: 24 }}>
-            <div style={{ fontWeight: 700, marginBottom: 16 }}>Skills</div>
-            <div style={{ display: "flex", gap: 8, marginBottom: skills.length ? 16 : 0 }}>
+          <div className={`hcard ${styles.sectionCard}`}>
+            <div className={styles.sectionTitle}>Skills</div>
+            <div className={`${styles.skillsAddRow} ${skills.length ? styles.mb16 : ""}`}>
               <input
                 className="form-control"
                 value={skillDraft}
@@ -233,11 +230,11 @@ export default function CandidateEditProfilePage() {
               <button type="button" className="btn btn-outline-primary" onClick={addSkill}>Add</button>
             </div>
             {skills.length > 0 && (
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              <div className={styles.skillsList}>
                 {skills.map((skill) => (
-                  <span key={skill} className="skill-tag" style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
+                  <span key={skill} className={`skill-tag ${styles.skillTag}`}>
                     {skill}
-                    <button type="button" onClick={() => removeSkill(skill)} className="border-0 bg-transparent p-0" style={{ color: "inherit", lineHeight: 1 }} aria-label={`Remove ${skill}`}>
+                    <button type="button" onClick={() => removeSkill(skill)} className={`border-0 bg-transparent p-0 ${styles.skillRemoveBtn}`} aria-label={`Remove ${skill}`}>
                       <i className="bi bi-x" />
                     </button>
                   </span>
@@ -247,9 +244,9 @@ export default function CandidateEditProfilePage() {
           </div>
 
           {/* Education */}
-          <div className="hcard" style={{ padding: 24 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-              <div style={{ fontWeight: 700 }}>Education</div>
+          <div className={`hcard ${styles.sectionCard}`}>
+            <div className={styles.sectionHeaderRow}>
+              <div className={styles.sectionTitleFlush}>Education</div>
               <button type="button" className="btn btn-sm btn-outline-primary" onClick={addEducation}>
                 <i className="bi bi-plus-lg me-1" />
                 Add Education
@@ -257,18 +254,18 @@ export default function CandidateEditProfilePage() {
             </div>
 
             {education.length === 0 ? (
-              <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>No education added yet.</p>
+              <p className={styles.emptyText}>No education added yet.</p>
             ) : (
-              <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+              <div className={styles.eduList}>
                 {education.map((edu, index) => (
-                  <div key={index} style={{ border: "1px solid var(--border)", borderRadius: 12, padding: 16 }}>
-                    <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 8 }}>
+                  <div key={index} className={styles.eduCard}>
+                    <div className={styles.eduCardTop}>
                       <button type="button" className="btn btn-sm btn-outline-danger" onClick={() => removeEducation(index)} aria-label="Remove education">
                         <i className="bi bi-trash" />
                       </button>
                     </div>
-                    <div style={{ display: "grid", gap: 12 }}>
-                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                    <div className={styles.eduGrid}>
+                      <div className={styles.twoColSm}>
                         <Field label="Degree">
                           <input className="form-control" value={edu.degree} onChange={(e) => updateEducation(index, "degree", e.target.value)} placeholder="e.g. Bachelor" />
                         </Field>
@@ -279,7 +276,7 @@ export default function CandidateEditProfilePage() {
                       <Field label="University">
                         <input className="form-control" value={edu.university} onChange={(e) => updateEducation(index, "university", e.target.value)} placeholder="e.g. Assiut University" />
                       </Field>
-                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+                      <div className={styles.twoColSm}>
                         <Field label="Start Year">
                           <input type="number" className="form-control" value={edu.from} onChange={(e) => updateEducation(index, "from", e.target.value)} min={1900} max={currentYear} placeholder="2018" />
                         </Field>
@@ -287,7 +284,7 @@ export default function CandidateEditProfilePage() {
                           <input type="number" className="form-control" value={edu.to} onChange={(e) => updateEducation(index, "to", e.target.value)} min={1900} max={currentYear + 10} placeholder="2022" disabled={edu.current} />
                         </Field>
                       </div>
-                      <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 13 }}>
+                      <label className={styles.checkboxLabel}>
                         <input type="checkbox" checked={edu.current} onChange={(e) => updateEducation(index, "current", e.target.checked)} />
                         I currently study here
                       </label>
@@ -299,17 +296,17 @@ export default function CandidateEditProfilePage() {
           </div>
 
           {/* Attachments */}
-          <div className="hcard" style={{ padding: 24 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-              <div style={{ fontWeight: 700 }}>Links & Attachments</div>
+          <div className={`hcard ${styles.sectionCard}`}>
+            <div className={styles.sectionHeaderRow}>
+              <div className={styles.sectionTitleFlush}>Links & Attachments</div>
               <button type="button" className="btn btn-sm btn-outline-primary" onClick={addAttachment}>
                 <i className="bi bi-plus-lg me-1" />
                 Add Link
               </button>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div className={styles.attachList}>
               {attachments.map((link, index) => (
-                <div key={index} style={{ display: "flex", gap: 8 }}>
+                <div key={index} className={styles.attachRow}>
                   <input className="form-control" value={link} onChange={(e) => updateAttachment(index, e.target.value)} placeholder="https://github.com/username" />
                   <button type="button" className="btn btn-outline-danger" onClick={() => removeAttachment(index)} aria-label="Remove link">
                     <i className="bi bi-trash" />
@@ -319,7 +316,7 @@ export default function CandidateEditProfilePage() {
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: 12 }}>
+          <div className={styles.actionsRow}>
             <button type="submit" className="btn-primary-custom" disabled={submitting}>
               {submitting ? "Saving..." : "Save Changes"}
             </button>
@@ -336,7 +333,7 @@ export default function CandidateEditProfilePage() {
 function Field({ label, children }) {
   return (
     <div>
-      <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{label}</label>
+      <label className={styles.fieldLabel}>{label}</label>
       {children}
     </div>
   );

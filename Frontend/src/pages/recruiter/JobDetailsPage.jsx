@@ -4,6 +4,7 @@ import { getJobById } from "../../services/jobService";
 import LoadingState from "../../components/common/LoadingState";
 import EmptyState from "../../components/common/EmptyState";
 import BackButton from "../../components/common/BackButton";
+import styles from "./JobDetailsPage.module.css";
 
 /** Normalize raw backend job into a flat UI shape */
 function normalizeJob(raw) {
@@ -81,88 +82,86 @@ export default function JobDetailsPage() {
   return (
     <>
       <BackButton fallbackTo="/recruiter/jobs" label="Back to Jobs" />
-      <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 20, fontSize: 13, color: "var(--text-muted)", flexWrap: "wrap" }}>
-        <span style={{ cursor: "pointer", color: "var(--primary)" }} onClick={() => navigate("/recruiter/jobs")}>Jobs</span>
+      <div className={styles.breadcrumb}>
+        <span className={styles.breadcrumbLink} onClick={() => navigate("/recruiter/jobs")}>Jobs</span>
         <i className="bi bi-chevron-right"></i>
         <span>{job.title}</span>
       </div>
 
       <div className="grid-aside-main">
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div className="hcard" style={{ padding: 28 }}>
-            <div style={{ display: "flex", gap: 16, alignItems: "flex-start", marginBottom: 20 }}>
+        <div className={styles.col}>
+          <div className={`hcard ${styles.mainCard}`}>
+            <div className={styles.headerRow}>
               <img
                 src={job.logo}
                 alt={job.company}
-                style={{ width: 60, height: 60, borderRadius: 14, objectFit: "contain", border: "1px solid var(--border)", padding: 6 }}
+                className={styles.logo}
                 onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(job.company)}&background=F3F5FB&color=1D2445`; }}
               />
-              <div style={{ flex: 1 }}>
-                <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4 }}>{job.title}</h1>
-                <div style={{ fontSize: 14, color: "var(--text-muted)" }}>{job.company}</div>
+              <div className={styles.titleCol}>
+                <h1 className={styles.title}>{job.title}</h1>
+                <div className={styles.company}>{job.company}</div>
               </div>
-              {
-  job.status === "Open" && !isDeadlinePast ? (
-    <span style={{ background: "#D1FAE5", color: "#065F46", fontSize: 12, fontWeight: 700, padding: "4px 12px", borderRadius: 20 }}>Open</span>
-  ) : isDeadlinePast ? (
-    <span style={{ background: "#FEE2E2", color: "#991B1B", fontSize: 12, fontWeight: 700, padding: "4px 12px", borderRadius: 20 }}>Expired</span>
-  ) : job.status === "Closed" ? (
-    <span style={{ background: "#FEE2E2", color: "#991B1B", fontSize: 12, fontWeight: 700, padding: "4px 12px", borderRadius: 20 }}>Closed</span>
-  ) : null
-}
+              {job.status === "Open" && !isDeadlinePast ? (
+                <span className={`${styles.statusBadge} ${styles["statusBadge--open"]}`}>Open</span>
+              ) : isDeadlinePast ? (
+                <span className={`${styles.statusBadge} ${styles["statusBadge--expired"]}`}>Expired</span>
+              ) : job.status === "Closed" ? (
+                <span className={`${styles.statusBadge} ${styles["statusBadge--closed"]}`}>Closed</span>
+              ) : null}
             </div>
-            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 20 }}>
+            <div className={styles.tagsRow}>
               {job.location && (
-                <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--text-muted)", background: "var(--body-bg)", padding: "5px 12px", borderRadius: 8 }}>
+                <span className={styles.pill}>
                   <i className="bi bi-geo-alt"></i> {job.location}
                 </span>
               )}
               {job.type && (
-                <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--text-muted)", background: "var(--body-bg)", padding: "5px 12px", borderRadius: 8 }}>
+                <span className={styles.pill}>
                   <i className="bi bi-briefcase"></i> {job.type}
                 </span>
               )}
               {job.workplace && (
-                <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--text-muted)", background: "var(--body-bg)", padding: "5px 12px", borderRadius: 8 }}>
+                <span className={styles.pill}>
                   <i className="bi bi-building"></i> {job.workplace}
                 </span>
               )}
               {job.categoryName && (
-                <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: "var(--primary)", background: "var(--primary-bg)", padding: "5px 12px", borderRadius: 8, fontWeight: 600 }}>
+                <span className={`${styles.pill} ${styles["pill--accent"]}`}>
                   <i className="bi bi-tag"></i> {job.categoryName}
                 </span>
               )}
               {job.applicationEnd && (
-                <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: isDeadlinePast ? "var(--danger)" : "var(--text-muted)", background: "var(--body-bg)", padding: "5px 12px", borderRadius: 8 }}>
+                <span className={`${styles.pill} ${isDeadlinePast ? styles["pill--danger"] : ""}`}>
                   <i className={`bi ${isDeadlinePast ? "bi-calendar-x" : "bi-calendar-event"}`}></i>
                   {isDeadlinePast ? "Applications closed" : `Apply by ${new Date(job.applicationEnd).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`}
                 </span>
               )}
             </div>
             {job.skills.length > 0 && (
-              <div style={{ marginBottom: 24 }}>
-                <div style={{ fontWeight: 700, marginBottom: 8 }}>Required Skills</div>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+              <div className={styles.skillsSection}>
+                <div className={styles.skillsTitle}>Required Skills</div>
+                <div className={styles.skillsList}>
                   {job.skills.map((s) => <span key={s} className="skill-tag">{s}</span>)}
                 </div>
               </div>
             )}
 
-            <div style={{ borderTop: "1px solid var(--border)", paddingTop: 24 }}>
-              <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 16 }}>About this role</div>
+            <div className={styles.descSection}>
+              <div className={styles.descTitle}>About this role</div>
               {job.description ? (
-                <p style={{ color: "var(--text-muted)", lineHeight: 1.8, whiteSpace: "pre-wrap", margin: 0 }}>
+                <p className={styles.descText}>
                   {cleanMultilineText(job.description)}
                 </p>
               ) : (
-                <p style={{ color: "var(--text-muted)", lineHeight: 1.8, margin: 0 }}>
+                <p className={styles.descText}>
                   No description provided for this role yet.
                 </p>
               )}
               {job.experience && job.experience !== "Experience details not specified" && (
                 <>
-                  <div style={{ fontWeight: 700, fontSize: 15, margin: "20px 0 12px" }}>Requirements</div>
-                  <p style={{ color: "var(--text-muted)", lineHeight: 1.8, whiteSpace: "pre-wrap", margin: 0 }}>
+                  <div className={styles.reqTitle}>Requirements</div>
+                  <p className={styles.descText}>
                     {cleanMultilineText(job.experience)}
                   </p>
                 </>
@@ -171,19 +170,18 @@ export default function JobDetailsPage() {
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <div className="hcard" style={{ padding: 20 }}>
+        <div className={styles.sideCol}>
+          <div className={`hcard ${styles.actionsCard}`}>
             <button
               type="button"
-              className="btn-primary-custom"
-              style={{ width: "100%" }}
+              className={`btn-primary-custom ${styles.applyBtn}`}
               onClick={() => navigate("/recruiter/applications", { state: { jobId: job.id } })}
             >
               View Applications
             </button>
           </div>
-          <div className="hcard" style={{ padding: 20 }}>
-            <div style={{ fontWeight: 700, marginBottom: 14 }}>Job Overview</div>
+          <div className={`hcard ${styles.overviewCard}`}>
+            <div className={styles.overviewTitle}>Job Overview</div>
             {[
               ["Posted", job.posted],
               ["Location", job.location],
@@ -194,9 +192,9 @@ export default function JobDetailsPage() {
             ]
               .filter(([, v]) => !!v)
               .map(([k, v]) => (
-                <div key={k} style={{ display: "flex", justifyContent: "space-between", marginBottom: 10, fontSize: 13 }}>
-                  <span style={{ color: "var(--text-muted)" }}>{k}</span>
-                  <span style={{ fontWeight: 600 }}>{v}</span>
+                <div key={k} className={styles.overviewRow}>
+                  <span className={styles.overviewKey}>{k}</span>
+                  <span className={styles.overviewValue}>{v}</span>
                 </div>
               ))}
           </div>

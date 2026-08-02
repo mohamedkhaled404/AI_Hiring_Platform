@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import CircleProgress from "../../components/common/CircleProgress";
 import LoadingState from "../../components/common/LoadingState";
 import BackButton from "../../components/common/BackButton";
+import styles from "./ApplicantsListPage.module.css";
 
 function normalizeApplicantsData(data, jobId) {
   if (Array.isArray(data)) return data;
@@ -194,14 +195,14 @@ export default function ApplicantsListPage() {
   return (
     <>
       <BackButton fallbackTo="/recruiter/applications" label="Back to Applications" />
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
+      <div className={styles.headerRow}>
         <div>
-          <h1 style={{ fontSize: 26, fontWeight: 800, marginBottom: 4 }}>
+          <h1 className={styles.title}>
             {jobId && currentJobTitle ? `${currentJobTitle} - Applicants List` : "Applicants List"}
           </h1>
-          <p style={{ color: "var(--text-muted)", margin: 0 }}>Review and filter candidates applying for this position.</p>
+          <p className={styles.subtitle}>Review and filter candidates applying for this position.</p>
         </div>
-        <div style={{ display: "flex", gap: 10 }}>
+        <div className={styles.headerActions}>
           {jobId && (
             <button className="btn-primary-custom" onClick={() => navigate(`/recruiter/jobs/${jobId}/assessment`)}>
               <i className="bi bi-clipboard-check me-2" />
@@ -213,7 +214,7 @@ export default function ApplicantsListPage() {
       </div>
 
       <div className="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
-        <div className="input-group search-filter-box" style={{ maxWidth: 320 }}>
+        <div className={`input-group search-filter-box ${styles.searchBox}`}>
           <span className="input-group-text border-0"><i className="bi bi-search text-muted"></i></span>
           <input
             type="text"
@@ -225,7 +226,7 @@ export default function ApplicantsListPage() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <div className="input-group search-filter-box" style={{ maxWidth: 170 }}>
+        <div className={`input-group search-filter-box ${styles.filterBox}`}>
           <span className="input-group-text border-0"><i className="bi bi-sliders text-muted"></i></span>
           <select className="form-select border-0" value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
             <option value="all">All Status</option>
@@ -236,25 +237,25 @@ export default function ApplicantsListPage() {
       </div>
 
       {isError && (
-        <div style={{ padding: 20, color: "#991B1B" }}>Failed to load applicants: {error?.message || "Unknown error"}</div>
+        <div className={styles.errorText}>Failed to load applicants: {error?.message || "Unknown error"}</div>
       )}
 
       {!isError && !filteredApplications.length && (
-        <div style={{ padding: 20, color: "var(--text-muted)" }}>No applicants found.</div>
+        <div className={styles.emptyText}>No applicants found.</div>
       )}
 
       {!isError && filteredApplications.length > 0 && (
-        <div className="hcard p-0" style={{ overflowX: "auto" }}>
-          <table className="table align-middle mb-0" style={{ minWidth: 900 }}>
+        <div className={`hcard p-0 ${styles.tableCard}`}>
+          <table className={`table align-middle mb-0 ${styles.table}`}>
             <thead className="table-light">
-              <tr style={{ fontSize: 13 }}>
+              <tr className={styles.headRow}>
                 <th>Applicant</th>
                 <th>Status</th>
                 <th className="text-center">CV Score</th>
                 {showAssessmentColumn && <th className="text-center">Assessment Score</th>}
                 {showAssessmentColumn && <th className="text-center">Cheating Flags</th>}
                 <th>AI Report</th>
-                <th style={{ minWidth: 132 }}>Actions</th>
+                <th className={styles.actionsHead}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -267,17 +268,17 @@ export default function ApplicantsListPage() {
                 return (
                   <tr key={candidateId || idx}>
                     <td>
-                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <div className={styles.candidateCell}>
                         <img
                           src={app.candidate?.profile_image || `https://ui-avatars.com/api/?name=${app.candidate?.name?.[0] || "U"}`}
                           alt=""
-                          style={{ width: 40, height: 40, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }}
+                          className={styles.candidateAvatar}
                         />
                         <div>
-                          <div style={{ fontWeight: 700, fontSize: 14 }}>{app.candidate?.name || "Unknown"}</div>
-                          <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{app.candidate?.email || ""}</div>
+                          <div className={styles.candidateName}>{app.candidate?.name || "Unknown"}</div>
+                          <div className={styles.candidateEmail}>{app.candidate?.email || ""}</div>
                           {!jobId && (
-                            <span className="badge rounded-pill mt-1" style={{ background: "var(--primary-bg)", color: "var(--primary)" }}>
+                            <span className={`badge rounded-pill mt-1 ${styles.jobBadge}`}>
                               Applied for: {app.jobTitle}
                             </span>
                           )}
@@ -289,25 +290,25 @@ export default function ApplicantsListPage() {
                         {app.status || "Pending"}
                       </span>
                     </td>
-                    <td style={{ textAlign: "center" }}>
+                    <td className={styles.centerCell}>
                       <CircleProgress value={cvRelevanceScore} size={60} stroke={5} />
                     </td>
                     {showAssessmentColumn && (
-                      <td style={{ textAlign: "center" }}>
+                      <td className={styles.centerCell}>
                         {jobsWithAssessment[app.jobId] ? (
                           <CircleProgress value={assessmentScore} size={60} stroke={5} />
                         ) : (
-                          <span style={{ color: "var(--text-muted)", fontSize: 13 }}>—</span>
+                          <span className={styles.mutedSmall}>—</span>
                         )}
                       </td>
                     )}
                     {showAssessmentColumn && (
-                      <td style={{ textAlign: "center", fontSize: 13 }}>
+                      <td className={styles.violationsCell}>
                         {(() => {
                           const candidateId = app.candidate?._id;
                           const violationEntry = candidateId ? violationsMap[candidateId] : null;
                           if (!violationEntry || violationEntry.totalCount === 0) {
-                            return <span style={{ color: "var(--text-muted)" }}>No cheating detected</span>;
+                            return <span className={styles.mutedSmall}>No cheating detected</span>;
                           }
                           const grouped = {};
                           for (const v of violationEntry.violations) {
@@ -325,9 +326,9 @@ export default function ApplicantsListPage() {
                           );
                           if (formattedDate) tooltipLines.push(`Last: ${formattedDate}`);
                           return (
-                            <span title={tooltipLines.join("\n")} style={{ cursor: "help" }}>
+                            <span title={tooltipLines.join("\n")} className={styles.violationsWrap}>
                               {Object.entries(grouped).map(([type, count]) => (
-                                <span key={type} style={{ display: "inline-block", margin: "0 2px" }}>
+                                <span key={type} className={styles.violationChip}>
                                   🚩 {type} x{count}
                                 </span>
                               ))}
@@ -336,22 +337,20 @@ export default function ApplicantsListPage() {
                         })()}
                       </td>
                     )}
-                    <td style={{ maxWidth: 160 }}>
+                    <td className={styles.reportCell}>
                       <button
                         type="button"
-                        className="btn btn-link btn-sm p-0 fw-bold"
-                        style={{ color: "var(--accent-teal-dark)" }}
+                        className={`btn btn-link btn-sm p-0 fw-bold ${styles.reportLink}`}
                         onClick={() => navigate(`/recruiter/feedback/${effectiveJobId}/${candidateId}`)}
                       >
                         View Report <i className="bi bi-box-arrow-up-right" aria-hidden="true"></i>
                       </button>
                     </td>
                     <td>
-                      <div className="d-flex flex-column gap-1" style={{ minWidth: 128 }}>
+                      <div className={`d-flex flex-column gap-1 ${styles.actionsCol}`}>
                         <button
                           type="button"
-                          className="w-100 view-candidate-btn"
-                          style={{ fontSize: 11.5, padding: "6px 8px", border: "none", borderRadius: 8, background: "var(--accent-teal-dark)", color: "#fff", fontWeight: 600, cursor: "pointer", transition: "background 0.15s" }}
+                          className={`w-100 ${styles.viewCandidateBtn}`}
                           onClick={() => navigate(`/recruiter/candidates/${app.candidate?._id || candidateId}`, {
                             state: {
                               jobId: effectiveJobId,
@@ -368,8 +367,7 @@ export default function ApplicantsListPage() {
                           <div className="d-flex gap-1">
                             <button
                               type="button"
-                              className="flex-fill"
-                              style={{ fontSize: 11.5, padding: "5px 8px", border: "none", borderRadius: 8, background: "#D1FAE5", color: "#065F46", fontWeight: 600, cursor: "pointer" }}
+                              className={`flex-fill ${styles.decisionBtn} ${styles["decisionBtn--accept"]}`}
                               onClick={() => handleStatusUpdate(effectiveJobId, candidateId, "Accepted")}
                               disabled={!!updatingStatus[candidateId]}
                             >
@@ -377,8 +375,7 @@ export default function ApplicantsListPage() {
                             </button>
                             <button
                               type="button"
-                              className="flex-fill"
-                              style={{ fontSize: 11.5, padding: "5px 8px", border: "none", borderRadius: 8, background: "#FEE2E2", color: "#991B1B", fontWeight: 600, cursor: "pointer" }}
+                              className={`flex-fill ${styles.decisionBtn} ${styles["decisionBtn--reject"]}`}
                               onClick={() => handleStatusUpdate(effectiveJobId, candidateId, "Rejected")}
                               disabled={!!updatingStatus[candidateId]}
                             >
@@ -397,7 +394,7 @@ export default function ApplicantsListPage() {
       )}
 
       {!isError && filteredApplications.length > 0 && (
-        <div style={{ marginTop: 16, padding: "8px 4px", fontSize: 13, color: "var(--text-muted)" }}>
+        <div className={styles.footerText}>
           Showing {filteredApplications.length} {filteredApplications.length === 1 ? "applicant" : "applicants"}
         </div>
       )}

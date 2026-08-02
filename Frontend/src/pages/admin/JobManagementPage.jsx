@@ -5,6 +5,7 @@ import { getErrorMessage } from "../../utils/errorMessages";
 
 import LoadingState from "../../components/common/LoadingState";
 import toast from "react-hot-toast";
+import styles from "./JobManagementPage.module.css";
 
 export default function JobManagementPage() {
 
@@ -75,11 +76,11 @@ export default function JobManagementPage() {
   return (
     <div className="container-fluid py-4">
       <div className="page-header-row">
-        <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4 }}>Manage Jobs</h1>
-        <p style={{ color: "var(--text-muted)", margin: 0, fontSize: 14 }}>
+        <h1 className={styles.title}>Manage Jobs</h1>
+        <p className={styles.subtitle}>
           Review and delete job postings.
         </p>
-        <div className="hcard w-100" style={{ padding: 28, marginTop: 20 }}>
+        <div className={`hcard w-100 ${styles.tableCard}`}>
           <table className="table table-hover align-middle w-100">
             <thead>
               <tr>
@@ -94,7 +95,7 @@ export default function JobManagementPage() {
               {jobs.map((job) => (
                 <tr key={job._id}>
                   <td>{job.title}</td>
-                  <td>{job.recruiter?.company_logo ? (<img src={job.recruiter.company_logo} alt="Company logo" style={{ width: "45px", height: "45px", objectFit: "cover" }} className="rounded shadow-sm" />) : null}</td>
+                  <td>{job.recruiter?.company_logo ? (<img src={job.recruiter.company_logo} alt="Company logo" className={`rounded shadow-sm ${styles.companyLogo}`} />) : null}</td>
                   <td>{job.category?.name || "Uncategorized"}</td>
                   <td>
                     <span
@@ -109,8 +110,8 @@ export default function JobManagementPage() {
                     </span>
                   </td>
                   <td>
-                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <div style={{ width: 76 }}>
+                    <div className={styles.actionsCell}>
+                      <div className={styles.closeBtnWrap}>
                         {job.status === "Open" && (
                           <button
                             className="btn btn-sm btn-outline-secondary w-100"
@@ -132,7 +133,7 @@ export default function JobManagementPage() {
               ))}
               {jobs.length === 0 && (
                 <tr>
-                  <td colSpan={5} style={{ textAlign: "center" }}>
+                  <td colSpan={5} className={styles.emptyCell}>
                     No jobs found.
                   </td>
                 </tr>
@@ -142,15 +143,14 @@ export default function JobManagementPage() {
 
           {/* Pagination Footer */}
           {totalPages > 1 && (
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: 24, paddingTop: 16, borderTop: "1px solid var(--border)" }}>
-              <span style={{ fontSize: 13, color: "var(--text-muted)" }}>
+            <div className={styles.paginationFooter}>
+              <span className={styles.pageInfo}>
                 Page <strong>{page}</strong> of <strong>{totalPages}</strong>
               </span>
-              <div style={{ display: "flex", gap: 8 }}>
+              <div className={styles.paginationBtns}>
                 <button
                   type="button"
-                  className="btn-outline-custom"
-                  style={{ padding: "6px 12px", fontSize: 12 }}
+                  className={`btn-outline-custom ${styles.pageBtn}`}
                   disabled={page <= 1 || loading}
                   onClick={() => loadJobs(page - 1)}
                 >
@@ -158,8 +158,7 @@ export default function JobManagementPage() {
                 </button>
                 <button
                   type="button"
-                  className="btn-outline-custom"
-                  style={{ padding: "6px 12px", fontSize: 12 }}
+                  className={`btn-outline-custom ${styles.pageBtn}`}
                   disabled={page >= totalPages || loading}
                   onClick={() => loadJobs(page + 1)}
                 >
@@ -173,19 +172,19 @@ export default function JobManagementPage() {
 
       {/* ===== Delete confirmation modal ===== */}
       {deleteTarget && (
-        <div className="modal show d-block" tabIndex="-1" style={{ background: "rgba(0,0,0,0.5)" }}>
-          <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: 420 }}>
-            <div className="modal-content" style={{ borderRadius: 16, border: "none" }}>
-              <div className="modal-body" style={{ padding: 28, textAlign: "center" }}>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: "#FEE2E2", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-                  <i className="bi bi-trash" style={{ color: "#DC2626", fontSize: 20 }} />
+        <div className={`modal show d-block ${styles.modalBackdrop}`} tabIndex="-1">
+          <div className={`modal-dialog modal-dialog-centered ${styles.modalDialog}`}>
+            <div className={`modal-content ${styles.modalContentBox}`}>
+              <div className={`modal-body ${styles.modalBody}`}>
+                <div className={`${styles.modalIconCircle} ${styles["modalIconCircle--danger"]}`}>
+                  <i className={`bi bi-trash ${styles.modalIcon} ${styles["modalIcon--danger"]}`} />
                 </div>
-                <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 6 }}>Delete this job?</div>
-                <p style={{ color: "var(--text-muted)", fontSize: 13.5, margin: 0 }}>
+                <div className={styles.modalTitle}>Delete this job?</div>
+                <p className={styles.modalText}>
                   Are you sure you want to delete "{deleteTarget.title}"? This action cannot be undone.
                 </p>
               </div>
-              <div className="modal-footer" style={{ border: "none", padding: "0 24px 24px", justifyContent: "center" }}>
+              <div className={`modal-footer ${styles.modalFooter}`}>
                 <button type="button" className="btn btn-light" onClick={() => setDeleteTarget(null)} disabled={deleting}>Cancel</button>
                 <button type="button" className="btn btn-danger" onClick={handleConfirmDelete} disabled={deleting}>
                   {deleting ? "Deleting..." : "Delete"}
@@ -198,19 +197,19 @@ export default function JobManagementPage() {
 
       {/* ===== Close job confirmation modal ===== */}
       {closeTarget && (
-        <div className="modal show d-block" tabIndex="-1" style={{ background: "rgba(0,0,0,0.5)" }}>
-          <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: 420 }}>
-            <div className="modal-content" style={{ borderRadius: 16, border: "none" }}>
-              <div className="modal-body" style={{ padding: 28, textAlign: "center" }}>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: "#FEF3C7", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-                  <i className="bi bi-lock" style={{ color: "#D97706", fontSize: 20 }} />
+        <div className={`modal show d-block ${styles.modalBackdrop}`} tabIndex="-1">
+          <div className={`modal-dialog modal-dialog-centered ${styles.modalDialog}`}>
+            <div className={`modal-content ${styles.modalContentBox}`}>
+              <div className={`modal-body ${styles.modalBody}`}>
+                <div className={`${styles.modalIconCircle} ${styles["modalIconCircle--warning"]}`}>
+                  <i className={`bi bi-lock ${styles.modalIcon} ${styles["modalIcon--warning"]}`} />
                 </div>
-                <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 6 }}>Close this job?</div>
-                <p style={{ color: "var(--text-muted)", fontSize: 13.5, margin: 0 }}>
+                <div className={styles.modalTitle}>Close this job?</div>
+                <p className={styles.modalText}>
                   Are you sure you want to close "{closeTarget.title}"? Candidates won't be able to apply anymore.
                 </p>
               </div>
-              <div className="modal-footer" style={{ border: "none", padding: "0 24px 24px", justifyContent: "center" }}>
+              <div className={`modal-footer ${styles.modalFooter}`}>
                 <button type="button" className="btn btn-light" onClick={() => setCloseTarget(null)} disabled={closing}>Cancel</button>
                 <button type="button" className="btn btn-warning" onClick={handleConfirmClose} disabled={closing}>
                   {closing ? "Closing..." : "Close Job"}

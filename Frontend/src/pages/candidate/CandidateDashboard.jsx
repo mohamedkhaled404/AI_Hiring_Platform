@@ -6,6 +6,7 @@ import { queryKeys } from "../../constants/queryKeys";
 import StatusBadge from "../../components/common/StatusBadge";
 import LoadingState from "../../components/common/LoadingState";
 import EmptyState from "../../components/common/EmptyState";
+import styles from "./CandidateDashboard.module.css";
 
 export default function CandidateDashboard() {
   const { user } = useAuth();
@@ -62,7 +63,7 @@ export default function CandidateDashboard() {
       <div className="page-header-row">
         <div>
           <h1>Welcome, {user?.name?.split(" ")[0]} 👋</h1>
-          <p style={{ color: "var(--text-muted)", margin: 0 }}>
+          <p className={styles.subtitle}>
             Here&apos;s an overview of your recruitment journey today.
           </p>
         </div>
@@ -70,23 +71,23 @@ export default function CandidateDashboard() {
 
       <div className="grid-stats-3 mb-4">
         <div className="hcard stat-card">
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+          <div className={styles.statRow}>
             <div>
               <div className="stat-label">Active Applications</div>
               <div className="stat-value">{activeApplications}</div>
-              <div className="stat-change" style={{ color: "var(--success)" }}>
+              <div className={`stat-change ${styles.statChangeSuccess}`}>
                 <i className="bi bi-arrow-up me-1" aria-hidden="true" />
                 From your submitted applications
               </div>
             </div>
-            <div className="stat-icon" style={{ background: "#f3f5fb" }}>
-              <i className="bi bi-file-earmark-text" style={{ color: "#1d2445" }} aria-hidden="true" />
+            <div className={`stat-icon ${styles.statIcon}`}>
+              <i className={`bi bi-file-earmark-text ${styles.statIconInner}`} aria-hidden="true" />
             </div>
           </div>
         </div>
         {stats.filter((s) => s.label !== "Active Applications").map((s, i) => (
           <div key={i} className="hcard stat-card">
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+            <div className={styles.statRow}>
               <div>
                 <div className="stat-label">{s.label}</div>
                 <div className="stat-value">
@@ -96,13 +97,13 @@ export default function CandidateDashboard() {
                     ? String(feedbackCount).padStart(2, "0")
                     : s.value}
                 </div>
-                <div className="stat-change" style={{ color: s.warning ? "var(--danger)" : "var(--success)" }}>
+                <div className={`stat-change ${styles.statChangeDynamic}`} style={{ "--status-color": s.warning ? "var(--danger)" : "var(--success)" }}>
                   <i className={`bi ${s.warning ? "bi-clock" : "bi-arrow-up"} me-1`} aria-hidden="true" />
                   {s.label === "Feedback Reports" ? "From rejected applications" : s.change}
                 </div>
               </div>
-              <div className="stat-icon" style={{ background: s.iconBg }}>
-                <i className={`bi ${s.icon}`} style={{ color: s.iconColor }} aria-hidden="true" />
+              <div className={`stat-icon ${styles.statIcon}`} style={{ "--icon-bg": s.iconBg }}>
+                <i className={`bi ${s.icon} ${styles.statIconInner}`} style={{ "--icon-color": s.iconColor }} aria-hidden="true" />
               </div>
             </div>
           </div>
@@ -110,13 +111,13 @@ export default function CandidateDashboard() {
       </div>
 
       <div className="grid-aside-main">
-        <div className="hcard" style={{ padding: 24 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
-            <div className="section-title" style={{ margin: 0 }}>Recent Applications</div>
+        <div className={`hcard ${styles.card}`}>
+          <div className={styles.cardHeaderRow}>
+            <div className={`section-title ${styles.cardTitleFlush}`}>Recent Applications</div>
             <button
               type="button"
               onClick={() => navigate("/candidate/applications")}
-              style={{ fontSize: 13, color: "var(--primary)", fontWeight: 600, background: "none", border: "none", cursor: "pointer" }}
+              className={styles.viewAllBtn}
             >
               View All
             </button>
@@ -145,31 +146,26 @@ export default function CandidateDashboard() {
               }
             />
           ) : (
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div className={styles.appList}>
               {recentApps.map((app) => (
                 <div
                   key={app.id}
                   onClick={() => navigate(`/candidate/applications/${app.id}`)}
-                  style={{
-                    display: "flex", alignItems: "center", gap: 14, padding: "14px 16px",
-                    background: "var(--body-bg)", borderRadius: 12, cursor: "pointer", transition: "all 0.15s",
-                  }}
-                  onMouseEnter={(e) => { e.currentTarget.style.background = "var(--primary-bg)"; }}
-                  onMouseLeave={(e) => { e.currentTarget.style.background = "var(--body-bg)"; }}
+                  className={styles.appRow}
                 >
                   <img
                     src={app.logo}
                     alt={app.company}
-                    style={{ width: 40, height: 40, borderRadius: 10, objectFit: "cover", border: "1px solid var(--border)" }}
+                    className={styles.appLogo}
                     onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(app.company)}&background=F3F5FB&color=1D2445&size=40`; }}
                   />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontWeight: 700, fontSize: 14, marginBottom: 2 }}>{app.jobTitle}</div>
-                    <div style={{ fontSize: 12, color: "var(--text-muted)" }}>
+                  <div className={styles.appInfo}>
+                    <div className={styles.appTitle}>{app.jobTitle}</div>
+                    <div className={styles.appMeta}>
                       {app.company} · Applied {app.appliedAt}
                     </div>
                     {app.jobWorkplace && (
-                      <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>
+                      <div className={styles.appWorkplace}>
                         {app.jobWorkplace}{app.jobLocation ? ` · ${app.jobLocation}` : ""}
                       </div>
                     )}
@@ -182,59 +178,48 @@ export default function CandidateDashboard() {
           )}
         </div>
 
-        <div className="hcard" style={{ padding: 24 }}>
+        <div className={`hcard ${styles.card}`}>
           <div className="section-title">Assessments</div>
-          <div style={{ borderBottom: "1px solid var(--border)", paddingBottom: 12, marginBottom: 20 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span style={{ fontWeight: 600, fontSize: 14 }}>To-Do List</span>
-              <span style={{
-                background: "var(--primary)", color: "#fff", fontSize: 11, fontWeight: 700,
-                width: 20, height: 20, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center",
-              }}>
+          <div className={styles.todoHeader}>
+            <div className={styles.todoHeaderRow}>
+              <span className={styles.todoLabel}>To-Do List</span>
+              <span className={styles.todoCount}>
                 {pendingCount}
               </span>
             </div>
           </div>
 
           {pendingCount === 0 ? (
-            <div style={{ textAlign: "center", padding: "32px 16px" }}>
-              <div style={{
-                width: 56, height: 56, background: "#D1FAE5", borderRadius: "50%",
-                display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px",
-              }}>
-                <i className="bi bi-check-circle-fill" style={{ fontSize: 28, color: "#059669" }} aria-hidden="true" />
+            <div className={styles.assessmentPanel}>
+              <div className={styles.assessmentIconWrap} style={{ "--icon-wrap-bg": "#D1FAE5" }}>
+                <i className={`bi bi-check-circle-fill ${styles.assessmentIcon}`} style={{ "--icon-wrap-color": "#059669" }} aria-hidden="true" />
               </div>
-              <div style={{ fontWeight: 700, marginBottom: 8 }}>You&apos;re all caught up!</div>
-              <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.6 }}>
+              <div className={styles.assessmentTitle}>You&apos;re all caught up!</div>
+              <p className={styles.assessmentText}>
                 No pending skill tests or technical assessments require your attention right now.
               </p>
               <button
                 type="button"
-                className="btn-outline-custom"
-                style={{ marginTop: 16, width: "100%" }}
+                className={`btn-outline-custom ${styles.assessmentBtn}`}
                 onClick={() => navigate("/candidate/applications")}
               >
                 View Assessments
               </button>
             </div>
           ) : (
-            <div style={{ textAlign: "center", padding: "32px 16px" }}>
-              <div style={{
-                width: 56, height: 56, background: "#f3f5fb", borderRadius: "50%",
-                display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px",
-              }}>
-                <i className="bi bi-clipboard-check" style={{ fontSize: 28, color: "var(--primary)" }} aria-hidden="true" />
+            <div className={styles.assessmentPanel}>
+              <div className={styles.assessmentIconWrap}>
+                <i className={`bi bi-clipboard-check ${styles.assessmentIcon}`} aria-hidden="true" />
               </div>
-              <div style={{ fontWeight: 700, marginBottom: 8 }}>
+              <div className={styles.assessmentTitle}>
                 {pendingCount} assessment{pendingCount !== 1 ? "s" : ""} pending
               </div>
-              <p style={{ fontSize: 13, color: "var(--text-muted)", lineHeight: 1.6 }}>
+              <p className={styles.assessmentText}>
                 Complete your pending assessments to stay on track.
               </p>
               <button
                 type="button"
-                className="btn-primary-custom"
-                style={{ marginTop: 16, width: "100%" }}
+                className={`btn-primary-custom ${styles.assessmentBtn}`}
                 onClick={() => navigate("/candidate/applications")}
               >
                 View Assessments

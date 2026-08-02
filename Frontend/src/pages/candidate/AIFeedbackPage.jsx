@@ -4,6 +4,7 @@ import { getCandidateFeedbackReport } from "../../services/feedbackService";
 import LoadingState from "../../components/common/LoadingState";
 import EmptyState from "../../components/common/EmptyState";
 import BackButton from "../../components/common/BackButton";
+import styles from "./AIFeedbackPage.module.css";
 
 export default function AIFeedbackPage() {
   const navigate = useNavigate();
@@ -60,97 +61,92 @@ export default function AIFeedbackPage() {
   return (
     <>
       <BackButton forceTo="/candidate/applications" label="Back to Applications" />
-      <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 12, fontSize: 13, flexWrap: "wrap" }}>
-        <span style={{ cursor: "pointer", color: "var(--primary)" }} onClick={() => navigate("/candidate/applications")}>
+      <div className={styles.breadcrumb}>
+        <span className={styles.breadcrumbLink} onClick={() => navigate("/candidate/applications")}>
           Applications
         </span>
         <i className="bi bi-chevron-right text-muted"></i>
         <span className="ai-badge"><i className="bi bi-stars"></i>AI Report</span>
       </div>
 
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
+      <div className={styles.headerRow}>
         <div>
-          <h1 style={{ fontSize: 26, fontWeight: 800, marginBottom: 4 }}>Your AI Feedback Report</h1>
-          <p style={{ color: "var(--text-muted)", margin: 0 }}>
+          <h1 className={styles.title}>Your AI Feedback Report</h1>
+          <p className={styles.subtitle}>
             Personalized analysis of your application.
           </p>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
+        <div className={styles.metaRow}>
           <span
-            style={{
-              display: "inline-flex", alignItems: "center", gap: 6,
-              background: basedOnAssessment ? "var(--primary-bg)" : "#F3F5FB",
-              color: basedOnAssessment ? "var(--primary)" : "var(--text-muted)",
-              padding: "6px 12px", borderRadius: 20, fontSize: 12.5, fontWeight: 600,
-            }}
+            className={`${styles.basisBadge} ${basedOnAssessment ? styles["basisBadge--assessment"] : styles["basisBadge--cvOnly"]}`}
           >
             <i className={`bi ${basedOnAssessment ? "bi-clipboard-check" : "bi-file-earmark-person"}`}></i>
             {basedOnAssessment ? "Based on CV & Assessment" : "Based on CV only"}
           </span>
           {generatedAtLabel && (
-            <span style={{ fontSize: 12, color: "var(--text-muted)" }}>Generated {generatedAtLabel}</span>
+            <span className={styles.generatedText}>Generated {generatedAtLabel}</span>
           )}
         </div>
       </div>
 
       {summary && (
-        <div className="hcard" style={{ padding: 24, marginBottom: 20 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+        <div className={`hcard ${styles.summaryCard}`}>
+          <div className={styles.badgeRow}>
             <span className="ai-badge"><i className="bi bi-stars"></i>Summary</span>
           </div>
-          <p style={{ fontSize: 14, color: "var(--text-dark)", lineHeight: 1.7, margin: 0 }}>{summary}</p>
+          <p className={styles.summaryText}>{summary}</p>
         </div>
       )}
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
-        <div className="hcard" style={{ padding: 24 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-            <i className="bi bi-check-circle-fill" style={{ color: "var(--success)" }}></i>
-            <span style={{ fontWeight: 700 }}>Strengths</span>
+      <div className={styles.swotGrid}>
+        <div className={`hcard ${styles.swotCard}`}>
+          <div className={styles.swotHeaderRow}>
+            <i className={`bi bi-check-circle-fill ${styles.swotIcon} ${styles["swotIcon--success"]}`}></i>
+            <span className={styles.swotLabel}>Strengths</span>
           </div>
           {strengths?.length ? (
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div className={styles.itemList}>
               {strengths.map((s, i) => (
-                <div key={i} style={{ borderLeft: "3px solid var(--success)", paddingLeft: 12, paddingTop: 4, paddingBottom: 4 }}>
-                  <div style={{ fontSize: 13, color: "var(--text-dark)", lineHeight: 1.6 }}>{s}</div>
+                <div key={i} className={`${styles.itemBlock} ${styles["itemBlock--success"]}`}>
+                  <div className={styles.itemText}>{s}</div>
                 </div>
               ))}
             </div>
           ) : (
-            <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>No strengths listed.</p>
+            <p className={styles.emptyText}>No strengths listed.</p>
           )}
         </div>
 
-        <div className="hcard" style={{ padding: 24 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
-            <i className="bi bi-exclamation-triangle-fill" style={{ color: "var(--warning)" }}></i>
-            <span style={{ fontWeight: 700 }}>Weaknesses</span>
+        <div className={`hcard ${styles.swotCard}`}>
+          <div className={styles.swotHeaderRow}>
+            <i className={`bi bi-exclamation-triangle-fill ${styles.swotIcon} ${styles["swotIcon--warning"]}`}></i>
+            <span className={styles.swotLabel}>Weaknesses</span>
           </div>
           {weaknesses?.length ? (
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+            <div className={styles.itemList}>
               {weaknesses.map((w, i) => (
-                <div key={i} style={{ borderLeft: "3px solid var(--warning)", paddingLeft: 12, paddingTop: 4, paddingBottom: 4 }}>
-                  <div style={{ fontSize: 13, color: "var(--text-dark)", lineHeight: 1.6 }}>{w}</div>
+                <div key={i} className={`${styles.itemBlock} ${styles["itemBlock--warning"]}`}>
+                  <div className={styles.itemText}>{w}</div>
                 </div>
               ))}
             </div>
           ) : (
-            <p style={{ fontSize: 13, color: "var(--text-muted)", margin: 0 }}>No weaknesses listed.</p>
+            <p className={styles.emptyText}>No weaknesses listed.</p>
           )}
         </div>
       </div>
 
       {howToImprove && (
-        <div className="hcard" style={{ padding: 24, border: "2px solid var(--primary)", marginBottom: 20 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+        <div className={`hcard ${styles.improveCard}`}>
+          <div className={styles.badgeRow}>
             <span className="ai-badge"><i className="bi bi-lightbulb"></i>How to Improve</span>
           </div>
-          <p style={{ fontSize: 14, color: "var(--text-dark)", lineHeight: 1.7, margin: 0 }}>{howToImprove}</p>
+          <p className={styles.improveText}>{howToImprove}</p>
         </div>
       )}
 
-      <div style={{ textAlign: "center", marginTop: 32 }}>
-        <button className="btn-primary-custom" style={{ fontSize: 15, padding: "12px 32px" }} onClick={() => navigate("/candidate/jobs")}>
+      <div className={styles.ctaWrap}>
+        <button className={`btn-primary-custom ${styles.ctaBtn}`} onClick={() => navigate("/candidate/jobs")}>
           <i className="bi bi-rocket me-2"></i>Browse More Jobs
         </button>
       </div>

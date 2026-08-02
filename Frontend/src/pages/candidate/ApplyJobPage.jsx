@@ -10,6 +10,7 @@ import LoadingState from "../../components/common/LoadingState";
 import EmptyState from "../../components/common/EmptyState";
 import BackButton from "../../components/common/BackButton";
 import toast from "react-hot-toast";
+import styles from "./ApplyJobPage.module.css";
 
 function normalizeJob(raw) {
   if (!raw) return null;
@@ -154,23 +155,23 @@ export default function ApplyJobPage() {
   }
 
   return (
-    <div style={{ maxWidth: 680, margin: "0 auto" }}>
+    <div className={styles.wrap}>
       <BackButton fallbackTo={`/candidate/jobs/${id}`} label="Back to Job" />
-      <div style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 24, fontSize: 13, color: "var(--text-muted)" }}>
-        <span style={{ cursor: "pointer", color: "var(--primary)" }} onClick={() => navigate("/candidate/jobs")}>Jobs</span>
+      <div className={styles.breadcrumb}>
+        <span className={styles.breadcrumbLink} onClick={() => navigate("/candidate/jobs")}>Jobs</span>
         <i className="bi bi-chevron-right" aria-hidden="true" />
-        <span style={{ cursor: "pointer", color: "var(--primary)" }} onClick={() => navigate(`/candidate/jobs/${id}`)}>{job.title}</span>
+        <span className={styles.breadcrumbLink} onClick={() => navigate(`/candidate/jobs/${id}`)}>{job.title}</span>
         <i className="bi bi-chevron-right" aria-hidden="true" />
         <span>Apply</span>
       </div>
 
-      <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 6 }}>Apply to {job.title}</h1>
-      <div style={{ color: "var(--text-muted)", marginBottom: 28 }}>{job.company} · {job.location}</div>
+      <h1 className={styles.title}>Apply to {job.title}</h1>
+      <div className={styles.subtitle}>{job.company} · {job.location}</div>
 
-      <div className="hcard" style={{ padding: 28, marginBottom: 20 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4, gap: 12, flexWrap: "wrap" }}>
-          <div style={{ fontWeight: 700, fontSize: 16 }}>Your CV</div>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, cursor: savedCvUrl ? "pointer" : "not-allowed", fontWeight: 600, color: savedCvUrl ? "var(--primary)" : "var(--text-muted)" }}>
+      <div className={`hcard ${styles.cvCard}`}>
+        <div className={styles.cvHeaderRow}>
+          <div className={styles.cvHeaderTitle}>Your CV</div>
+          <label className={`${styles.savedCvLabel} ${savedCvUrl ? styles["savedCvLabel--enabled"] : styles["savedCvLabel--disabled"]}`}>
             <input
               type="checkbox"
               checked={useSavedCV}
@@ -179,23 +180,22 @@ export default function ApplyJobPage() {
                 setUseSavedCV(e.target.checked);
                 if (e.target.checked) setFile(null);
               }}
-              style={{ width: 16, height: 16, cursor: savedCvUrl ? "pointer" : "not-allowed" }}
+              className={`${styles.savedCvCheckbox} ${savedCvUrl ? styles["savedCvCheckbox--enabled"] : styles["savedCvCheckbox--disabled"]}`}
             />
             Use my saved profile CV
           </label>
         </div>
 
         {savedCvUrl ? (
-          <p style={{ fontSize: 13, color: "var(--text-muted)", marginBottom: 20 }}>
+          <p className={styles.helperText}>
             A CV is saved on your profile. You can apply with it or upload a different PDF for this application.
           </p>
         ) : (
-          <div style={{ background: "#FEF3C7", color: "#92400E", padding: "10px 14px", borderRadius: 10, fontSize: 13, marginBottom: 20 }}>
+          <div className={styles.noCvBanner}>
             No CV found on your profile. Upload a PDF below or{" "}
             <button
               type="button"
-              className="btn btn-link p-0 align-baseline"
-              style={{ color: "#92400E", fontWeight: 700 }}
+              className={`btn btn-link p-0 align-baseline ${styles.noCvLink}`}
               onClick={() => navigate("/candidate/profile/complete")}
             >
               add one to your profile
@@ -205,12 +205,12 @@ export default function ApplyJobPage() {
         )}
 
         {useSavedCV && savedCvUrl ? (
-          <div style={{ border: "1px solid var(--border)", borderRadius: 14, padding: "20px", background: "var(--body-bg)" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-              <i className="bi bi-file-earmark-pdf-fill" style={{ fontSize: 32, color: "#EF4444" }} aria-hidden="true" />
+          <div className={styles.savedCvBox}>
+            <div className={styles.savedCvRow}>
+              <i className={`bi bi-file-earmark-pdf-fill ${styles.pdfIconLg}`} aria-hidden="true" />
               <div>
-                <div style={{ fontWeight: 700 }}>Saved profile CV</div>
-                <a href={savedCvUrl} target="_blank" rel="noreferrer" style={{ fontSize: 13 }}>
+                <div className={styles.savedCvName}>Saved profile CV</div>
+                <a href={savedCvUrl} target="_blank" rel="noreferrer" className={styles.previewLink}>
                   Preview CV
                 </a>
               </div>
@@ -222,28 +222,20 @@ export default function ApplyJobPage() {
             onDragLeave={() => setDragging(false)}
             onDrop={handleDrop}
             onClick={() => document.getElementById("cv-input")?.click()}
-            style={{
-              border: `2px dashed ${dragging ? "var(--primary)" : "var(--border)"}`,
-              borderRadius: 14,
-              padding: "48px 20px",
-              textAlign: "center",
-              cursor: "pointer",
-              background: dragging ? "var(--primary-bg)" : "var(--body-bg)",
-              transition: "all 0.2s",
-            }}
+            className={`${styles.dropzone} ${dragging ? styles["dropzone--active"] : ""}`}
           >
             {file ? (
               <>
-                <i className="bi bi-file-earmark-pdf-fill" style={{ fontSize: 40, color: "#EF4444", display: "block", marginBottom: 10 }} aria-hidden="true" />
-                <div style={{ fontWeight: 700 }}>{file.name}</div>
-                <div style={{ fontSize: 12, color: "var(--text-muted)" }}>{(file.size / 1024).toFixed(1)} KB</div>
+                <i className={`bi bi-file-earmark-pdf-fill ${styles.pdfIconXl}`} aria-hidden="true" />
+                <div className={styles.fileName}>{file.name}</div>
+                <div className={styles.fileSize}>{(file.size / 1024).toFixed(1)} KB</div>
               </>
             ) : (
               <>
-                <i className="bi bi-cloud-arrow-up" style={{ fontSize: 40, color: "var(--primary)", display: "block", marginBottom: 10 }} aria-hidden="true" />
-                <div style={{ fontWeight: 700, marginBottom: 4 }}>Drag & drop your CV here</div>
-                <div style={{ fontSize: 13, color: "var(--text-muted)" }}>
-                  or <span style={{ color: "var(--primary)", fontWeight: 600 }}>browse files</span> · PDF only · Max 5MB
+                <i className={`bi bi-cloud-arrow-up ${styles.uploadIcon}`} aria-hidden="true" />
+                <div className={styles.dropTitle}>Drag & drop your CV here</div>
+                <div className={styles.dropHint}>
+                  or <span className={styles.browseText}>browse files</span> · PDF only · Max 5MB
                 </div>
               </>
             )}
@@ -251,21 +243,20 @@ export default function ApplyJobPage() {
               id="cv-input"
               type="file"
               accept="application/pdf,.pdf"
-              style={{ display: "none" }}
+              className={styles.hiddenInput}
               onChange={(e) => handleFileSelect(e.target.files?.[0])}
             />
           </div>
         )}
       </div>
 
-      <div style={{ display: "flex", gap: 12 }}>
-        <button type="button" className="btn-outline-custom" style={{ flex: 1 }} onClick={() => navigate(`/candidate/jobs/${id}`)}>
+      <div className={styles.actionsRow}>
+        <button type="button" className={`btn-outline-custom ${styles.cancelBtn}`} onClick={() => navigate(`/candidate/jobs/${id}`)}>
           Cancel
         </button>
         <button
           type="button"
-          className="btn-primary-custom"
-          style={{ flex: 2, opacity: !canSubmit && !submitting ? 0.6 : 1, cursor: !canSubmit && !submitting ? "not-allowed" : "pointer" }}
+          className={`btn-primary-custom ${styles.submitBtn} ${!canSubmit && !submitting ? styles["submitBtn--disabled"] : styles["submitBtn--enabled"]}`}
           onClick={handleSubmit}
           disabled={submitting}
         >

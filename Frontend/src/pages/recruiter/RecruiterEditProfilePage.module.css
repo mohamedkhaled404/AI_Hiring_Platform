@@ -1,0 +1,81 @@
+.subtitle {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.form {
+  max-width: 720px;
+}
+.formStack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  padding: 24px;
+}
+.cardTitle {
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.cardTitleFlush {
+  font-weight: 700;
+  margin-bottom: 0;
+}
+.cardHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.logoRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.logoImg {
+  width: 88px;
+  height: 88px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  background: #fff;
+}
+.uploadHint {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+.detailsGrid {
+  display: grid;
+  gap: 16px;
+}
+.twoCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.fieldLabel {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.linksList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.linkRow {
+  display: flex;
+  gap: 8px;
+}
+
+.actionsRow {
+  display: flex;
+  gap: 12px;
+}

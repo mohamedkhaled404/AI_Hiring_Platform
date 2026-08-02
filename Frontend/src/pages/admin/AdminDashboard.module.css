@@ -1,0 +1,48 @@
+.title {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: 14px;
+}
+
+.statCard {
+  border-radius: 8px;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.statValue {
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.iconBtn {
+  width: 40px;
+  height: 40px;
+}
+
+.taskCard {
+  padding: 24px;
+}
+
+.taskTitle {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.taskDesc {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}

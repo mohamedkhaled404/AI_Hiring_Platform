@@ -1,0 +1,122 @@
+.errorCard {
+  padding: 24px;
+  color: #991B1B;
+  background: #FEE2E2;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  margin: 0;
+}
+.editBtn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.logoCard {
+  padding: 24px;
+  text-align: center;
+}
+.logoWrap {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+.logoImg {
+  width: 100px;
+  height: 100px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 3px solid var(--primary-bg);
+  background: #fff;
+}
+.verifiedBadge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+}
+.verifiedIcon {
+  font-size: 12px;
+}
+.companyName {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.industry {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+.companyRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-align: left;
+}
+.companyRowIcon {
+  color: var(--primary);
+}
+.websiteWrap {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.websiteBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.card {
+  padding: 24px;
+}
+.cardTitle {
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.cardTitleSm {
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.socialList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.socialLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--primary);
+  text-decoration: none;
+  text-transform: capitalize;
+}
+.aboutText {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+}

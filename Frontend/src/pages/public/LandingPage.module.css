@@ -136,6 +136,7 @@
 
 .heroVideo .heroSocialText {
   color: #CBD5E1;
+  font-size: 13px;
 }
 
 .heroVideo .heroSocialStrong {
@@ -644,4 +645,181 @@
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+/* ─── Extracted from inline styles & index.css ──────────────────────────────── */
+.btnLgCustom {
+  font-size: 16px;
+  padding: 12px 28px;
+}
+
+.badgeIcon {
+  color: #5EEAD4;
+}
+
+.highlightText {
+  color: #5EEAD4;
+}
+
+.getStartedBtn {
+  background: #5EEAD4;
+  color: #0F172A;
+}
+
+.statsSection {
+  padding: 48px 0;
+  background: #fff;
+}
+
+.tealSection {
+  padding: 80px 0;
+  background: var(--accent-teal-wash);
+}
+
+.whiteSection {
+  padding: 80px 0;
+  background: #fff;
+}
+
+.textLeft {
+  text-align: left;
+}
+
+.dashboardDesc {
+  color: #64748B;
+  margin-bottom: 24px;
+}
+
+.checkIcon {
+  color: #0D9488;
+  margin-right: 10px;
+}
+
+.exploreBtn {
+  margin-top: 24px;
+}
+
+.dashBrand {
+  font-weight: 700;
+  color: #0D9488;
+  font-size: 15px;
+}
+
+.dashWelcome {
+  font-size: 12px;
+  color: #64748B;
+}
+
+.dashStatLabel {
+  font-size: 11px;
+  color: #94A3B8;
+  margin-bottom: 2px;
+}
+
+.dashStatValue {
+  font-weight: 700;
+  font-size: 18px;
+  color: #1E293B;
+}
+
+.dashStatTrend {
+  font-size: 11px;
+  color: #10B981;
+}
+
+.dashCandidatesWrap {
+  padding: 0 16px 16px;
+}
+
+.dashCandidatesTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748B;
+  margin-bottom: 10px;
+}
+
+.dashCandidateInfo {
+  flex: 1;
+}
+
+.dashCandidateName {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.dashCandidateSkills {
+  font-size: 11px;
+  color: #94A3B8;
+}
+
+.dashCandidateScore {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stepCol {
+  position: relative;
+}
+
+.stepIcon {
+  font-size: 24px;
+  color: var(--primary);
+}
+
+.starsWrap {
+  margin-bottom: 12px;
+}
+
+.starIcon {
+  color: #F59E0B;
+  font-size: 14px;
+  margin-right: 2px;
+}
+
+.testimonialText {
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.testimonialAuthor {
+  font-weight: 700;
+  font-size: 14px;
+  color: #1E293B;
+}
+
+.testimonialRole {
+  font-size: 12px;
+  color: #94A3B8;
+}
+
+.faqAnswerWrap {
+  overflow: hidden;
+}
+
+.ctaContent {
+  position: relative;
+  z-index: 1;
+}
+
+.ctaTitle {
+  color: #1d2445;
+  font-weight: 800;
+  font-size: clamp(26px, 4vw, 44px);
+  margin-bottom: 12px;
+}
+
+.ctaDesc {
+  color: #1d2445;
+  margin-bottom: 0;
+  font-size: 17px;
+}
+
+.ctaDisclaimer {
+  color: #1d2445;
+  font-size: 12px;
+  margin-top: 12px;
+  margin-bottom: 0;
+  opacity: 0.6;
 }

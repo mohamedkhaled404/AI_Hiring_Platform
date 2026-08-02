@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as chatService from "../../services/chatService";
 import * as applicationService from "../../services/applicationService";
 import LoadingState from "../../components/common/LoadingState";
+import styles from "./ChatPage.module.css";
 
 function formatTime(dateStr) {
   const d = new Date(dateStr);
@@ -112,9 +113,7 @@ export default function ChatPage() {
     } catch {
       setMessages((prev) =>
         prev.map((m) =>
-          m._id === tempUser._id
-            ? { ...m, failed: true }
-            : m
+          m._id === tempUser._id ? { ...m, failed: true } : m
         )
       );
     } finally {
@@ -206,96 +205,53 @@ export default function ChatPage() {
     type === "mock_interview" ? "bi-person-workspace" : "bi-chat-dots";
 
   return (
-    <div style={{ display: "flex", height: "100vh", background: "var(--body-bg)" }}>
+    <div className={styles.wrapper}>
       {/* Mobile overlay */}
       {sidebarOpen && (
-        <div
-          onClick={() => setSidebarOpen(false)}
-          style={{
-            position: "fixed", inset: 0, background: "rgba(0,0,0,0.3)",
-            zIndex: 999,
-          }}
-        />
+        <div onClick={() => setSidebarOpen(false)} className={styles.overlay} />
       )}
 
       {/* Sidebar */}
-      <aside
-        style={{
-          width: 320, flexShrink: 0, background: "#fff",
-          borderRight: "1px solid var(--border)",
-          display: "flex", flexDirection: "column",
-          position: "relative",
-          zIndex: 1000,
-        }}
-        className={`${sidebarOpen ? "d-flex" : "d-none d-md-flex"}`}
-      >
-        <div
-          style={{
-            padding: "16px 20px", borderBottom: "1px solid var(--border)",
-            display: "flex", alignItems: "center", justifyContent: "space-between",
-          }}
-        >
-          <h2 style={{ fontSize: 16, fontWeight: 700, margin: 0 }}>
+      <aside className={`${sidebarOpen ? "d-flex" : "d-none d-md-flex"} ${styles.aside}`}>
+        <div className={styles.sidebarHeader}>
+          <h2 className={styles.pageTitle}>
             <i className="bi bi-chat-dots me-2" style={{ color: "var(--primary)" }} />
             AI Chat
           </h2>
-          <button
-            className="btn btn-sm"
-            style={{ background: "var(--primary)", color: "#fff", borderRadius: 8, fontWeight: 600, fontSize: 12 }}
-            onClick={openNewChat}
-          >
+          <button className={`btn btn-sm ${styles.newChatBtn}`} onClick={openNewChat}>
             <i className="bi bi-plus-lg me-1" /> New
           </button>
         </div>
 
-        <div style={{ flex: 1, overflowY: "auto" }}>
+        <div className={styles.chatListContainer}>
           {loadingConversations ? (
             <LoadingState message="Loading conversations..." />
           ) : conversations.length === 0 ? (
-            <div style={{ padding: 24, textAlign: "center", color: "var(--text-muted)", fontSize: 13 }}>
-              No conversations yet.
-            </div>
+            <div className={styles.emptyState}>No conversations yet.</div>
           ) : (
             conversations.map((c) => (
               <div
                 key={c._id}
                 onClick={() => selectConversation(c._id)}
+                className={styles.conversationItem}
                 style={{
-                  padding: "12px 20px", cursor: "pointer", borderBottom: "1px solid var(--border)",
                   background: activeId === c._id ? "var(--primary-bg)" : "#fff",
-                  transition: "background 0.15s",
-                  position: "relative",
                 }}
-                onMouseEnter={(e) => { e.currentTarget.querySelector(".chat-delete-btn").style.opacity = 1; }}
-                onMouseLeave={(e) => { e.currentTarget.querySelector(".chat-delete-btn").style.opacity = 0; }}
+                onMouseEnter={(e) => { e.currentTarget.querySelector(`.${styles.deleteBtn}`).style.opacity = 1; }}
+                onMouseLeave={(e) => { e.currentTarget.querySelector(`.${styles.deleteBtn}`).style.opacity = 0; }}
               >
-                <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 4 }}>
+                <div className={styles.conversationDetails}>
                   <i className={`bi ${typeIcon(c.type)}`} style={{ color: "var(--primary)", fontSize: 14 }} />
-                  <span style={{ fontWeight: 600, fontSize: 13, flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                    {c.title}
-                  </span>
-                  <span style={{ fontSize: 11, color: "var(--text-muted)", flexShrink: 0, marginRight: 24 }}>
-                    {formatDate(c.updatedAt)}
-                  </span>
+                  <span className={styles.conversationTitle}>{c.title}</span>
+                  <span className={styles.conversationTimestamp}>{formatDate(c.updatedAt)}</span>
                 </div>
                 {c.status === "completed" && (
-                  <span
-                    className="badge rounded-pill"
-                    style={{ fontSize: 10, background: "#D1FAE5", color: "#065F46" }}
-                  >
-                    Completed
-                  </span>
+                  <span className={`badge rounded-pill ${styles.statusBadge}`}>Completed</span>
                 )}
                 <button
-                  className="chat-delete-btn"
+                  className={styles.deleteBtn}
                   onClick={(e) => { e.stopPropagation(); handleDelete(c._id, c.title); }}
                   disabled={deleting === c._id}
-                  style={{
-                    position: "absolute", top: 8, right: 8, opacity: 0,
-                    transition: "opacity 0.15s",
-                    background: "none", border: "none", padding: "4px 6px",
-                    color: "#DC2626", fontSize: 14, cursor: "pointer",
-                  }}
                   title="Delete conversation"
                 >
                   <i className="bi bi-trash" />
@@ -307,18 +263,12 @@ export default function ChatPage() {
       </aside>
 
       {/* Main chat area */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
+      <div className={styles.chatAreaWrapper}>
         {/* Top bar */}
-        <div
-          style={{
-            padding: "12px 20px", borderBottom: "1px solid var(--border)",
-            background: "#fff", display: "flex", alignItems: "center", gap: 12,
-          }}
-        >
+        <div className={styles.topBar}>
           <button
-            className="btn d-md-none"
+            className={`btn d-md-none ${styles.sidebarToggleBtn}`}
             onClick={() => setSidebarOpen(true)}
-            style={{ padding: "4px 8px", fontSize: 18 }}
           >
             <i className="bi bi-list" />
           </button>
@@ -326,15 +276,15 @@ export default function ChatPage() {
             <>
               <i className={`bi ${typeIcon(activeConversation.type)}`} style={{ color: "var(--primary)", fontSize: 18 }} />
               <div>
-                <div style={{ fontWeight: 600, fontSize: 14 }}>{activeConversation.title}</div>
-                <div style={{ fontSize: 11, color: "var(--text-muted)" }}>
+                <div className={styles.chatHeader}>{activeConversation.title}</div>
+                <div className={styles.chatSubHeader}>
                   {activeConversation.type === "mock_interview" ? "Mock Interview" : "General Chat"}
                   {isCompleted && " · Completed"}
                 </div>
               </div>
             </>
           ) : (
-            <span style={{ color: "var(--text-muted)", fontSize: 14 }}>AI Chat Assistant</span>
+            <span className={styles.topBarFallbackLabel}>AI Chat Assistant</span>
           )}
           <div style={{ marginLeft: "auto", display: "flex", gap: 8 }}>
             <button
@@ -348,87 +298,42 @@ export default function ChatPage() {
         </div>
 
         {/* Messages */}
-        <div style={{ flex: 1, overflowY: "auto", padding: "20px 16px" }}>
+        <div className={styles.chatMessagesContainer}>
           {!activeId ? (
-            <div
-              style={{
-                display: "flex", flexDirection: "column", alignItems: "center",
-                justifyContent: "center", height: "100%", color: "var(--text-muted)",
-                textAlign: "center", gap: 12,
-              }}
-            >
+            <div className={styles.emptyStateContainer}>
               <i className="bi bi-chat-dots" style={{ fontSize: 48, opacity: 0.3 }} />
-              <h3 style={{ fontSize: 18, fontWeight: 600, color: "var(--text-muted)", margin: 0 }}>
-                AI Chat Assistant
-              </h3>
-              <p style={{ fontSize: 13, maxWidth: 360, margin: 0 }}>
-                Start a new conversation for general career chat or a job-specific mock interview.
-              </p>
-              <button
-                className="btn-primary-custom"
-                style={{ padding: "10px 28px", fontSize: 14 }}
-                onClick={openNewChat}
-              >
+              <h3 className={styles.emptyStateHeading}>AI Chat Assistant</h3>
+              <p className={styles.emptyStateText}>Start a new conversation for general career chat or a job-specific mock interview.</p>
+              <button className="btn-primary-custom" style={{ padding: "10px 28px", fontSize: 14 }} onClick={openNewChat}>
                 <i className="bi bi-plus-lg me-2" />New Conversation
               </button>
             </div>
           ) : loadingMessages ? (
             <LoadingState message="Loading messages..." />
           ) : messages.length === 0 ? (
-            <div
-              style={{
-                display: "flex", alignItems: "center", justifyContent: "center",
-                height: "100%", color: "var(--text-muted)", fontSize: 14,
-              }}
-            >
-              Start the conversation by typing a message below.
-            </div>
+            <div className={styles.emptyConversationPlaceholder}>Start the conversation by typing a message below.</div>
           ) : (
-            <div style={{ maxWidth: 720, margin: "0 auto" }}>
+            <div className={styles.messageListWrapper}>
               {messages.map((m, i) => (
                 <div
                   key={m._id || i}
-                  style={{
-                    display: "flex",
-                    justifyContent: m.role === "user" ? "flex-end" : "flex-start",
-                    marginBottom: 12,
-                  }}
+                  style={{ display: "flex", justifyContent: m.role === "user" ? "flex-end" : "flex-start" }}
                 >
                   <div
-                    style={{
-                      maxWidth: "80%",
-                      padding: "10px 16px",
-                      borderRadius: 16,
-                      background: m.role === "user" ? "var(--primary)" : "#fff",
-                      color: m.role === "user" ? "#fff" : "var(--text-dark)",
-                      border: m.role === "user" ? "none" : "1px solid var(--border)",
-                      fontSize: 14,
-                      lineHeight: 1.6,
-                      whiteSpace: "pre-wrap",
-                    }}
+                    className={m.role === "user" ? styles.messageBubbleUser : styles.messageBubbleAssistant}
                   >
                     {m.content}
                     {m.failed && (
-                      <div style={{ fontSize: 11, color: "#991B1B", marginTop: 4 }}>
-                        Failed to send. Try again.
-                      </div>
+                      <div className={styles.failedMessageText}>Failed to send. Try again.</div>
                     )}
                   </div>
                 </div>
               ))}
               {sending && (
-                <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: 12 }}>
-                  <div
-                    style={{
-                      padding: "12px 20px", borderRadius: 16,
-                      background: "#fff", border: "1px solid var(--border)",
-                      display: "flex", gap: 4,
-                    }}
-                  >
-                    <span style={{ animation: "blink 1.4s infinite both" }}>.</span>
-                    <span style={{ animation: "blink 1.4s infinite both", animationDelay: "0.2s" }}>.</span>
-                    <span style={{ animation: "blink 1.4s infinite both", animationDelay: "0.4s" }}>.</span>
-                  </div>
+                <div className={styles.sendingPlaceholder}>
+                  <span style={{ animation: "blink 1.4s infinite both" }}>.</span>
+                  <span style={{ animation: "blink 1.4s infinite both", animationDelay: "0.2s" }}>.</span>
+                  <span style={{ animation: "blink 1.4s infinite both", animationDelay: "0.4s" }}>.</span>
                 </div>
               )}
               <div ref={messagesEndRef} />
@@ -438,14 +343,8 @@ export default function ChatPage() {
 
         {/* Input */}
         {activeId && !isCompleted && (
-          <div
-            style={{
-              padding: "12px 20px", borderTop: "1px solid var(--border)",
-              background: "#fff",
-            }}
-          >
-            <div style={{ maxWidth: 720, margin: "0 auto", display: "flex", gap: 8, alignItems: "flex-end" }}>
-
+          <div className={styles.inputWrapper}>
+            <div className={styles.inputWrapperInner}>
               <div style={{ flex: 1, position: "relative" }}>
                 <textarea
                   ref={inputRef}
@@ -455,10 +354,8 @@ export default function ChatPage() {
                   placeholder="Type your message..."
                   rows={1}
                   disabled={sending}
+                  className={styles.textarea}
                   style={{
-                    width: "100%", padding: "10px 14px", borderRadius: 10,
-                    border: "1px solid var(--border)", fontSize: 14,
-                    resize: "none", outline: "none", fontFamily: "inherit",
                     background: sending ? "#F9FAFB" : "#fff",
                   }}
                   onInput={(e) => {
@@ -468,14 +365,12 @@ export default function ChatPage() {
                 />
               </div>
               <button
-                className="btn"
+                className={`btn ${styles.sendBtn}`}
                 onClick={handleSend}
                 disabled={!input.trim() || sending}
                 style={{
-                  padding: "10px 18px", borderRadius: 10,
                   background: input.trim() && !sending ? "var(--primary)" : "#E5E7EB",
                   color: input.trim() && !sending ? "#fff" : "#9CA3AF",
-                  border: "none", fontWeight: 600, fontSize: 14, flexShrink: 0,
                 }}
               >
                 <i className="bi bi-send-fill" />
@@ -483,181 +378,163 @@ export default function ChatPage() {
             </div>
           </div>
         )}
+
+        {/* New Chat Modal */}
+        {showNewChat && (
+          <div className={styles.modalOverlay} onClick={() => setShowNewChat(false)}>
+            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+              <h3 className={styles.modalHeader}>New Conversation</h3>
+              <div className={styles.modalSection}>
+                <label className={styles.modalLabel}>Type</label>
+                <div style={{ display: "flex", gap: 10 }}>
+                  <label
+                    style={{
+                      flex: 1,
+                      padding: "10px 14px",
+                      borderRadius: 10,
+                      border: `2px solid ${newChatType === "general" ? "var(--primary)" : "var(--border)"}`,
+                      cursor: "pointer",
+                      textAlign: "center",
+                      fontSize: 13,
+                      fontWeight: 600,
+                      background: newChatType === "general" ? "var(--primary-bg)" : "#fff",
+                    }}
+                  >
+                    <input
+                      type="radio"
+                      name="chatType"
+                      value="general"
+                      checked={newChatType === "general"}
+                      onChange={() => setNewChatType("general")}
+                      style={{ display: "none" }}
+                    />
+                    <i className="bi bi-chat-dots me-2" />
+                    General Chat
+                  </label>
+                  <label
+                    style={{
+                      flex: 1,
+                      padding: "10px 14px",
+                      borderRadius: 10,
+                      border: `2px solid ${newChatType === "mock_interview" ? "var(--primary)" : "var(--border)"}`,
+                      cursor: "pointer",
+                      textAlign: "center",
+                      fontSize: 13,
+                      fontWeight: 600,
+                      background: newChatType === "mock_interview" ? "var(--primary-bg)" : "#fff",
+                    }}
+                  >
+                    <input
+                      type="radio"
+                      name="chatType"
+                      value="mock_interview"
+                      checked={newChatType === "mock_interview"}
+                      onChange={() => setNewChatType("mock_interview")}
+                      style={{ display: "none" }}
+                    />
+                    <i className="bi bi-person-workspace me-2" />
+                    Mock Interview
+                  </label>
+                </div>
+              </div>
+
+              {newChatType === "mock_interview" && (
+                <div className={styles.modalSection} style={{ marginBottom: 20 }}>
+                  <label className={styles.modalLabel}>Select a Job</label>
+                  <select
+                    className="form-select"
+                    value={newChatJobId}
+                    onChange={(e) => setNewChatJobId(e.target.value)}
+                    style={{ borderRadius: 10, fontSize: 13, padding: "10px 12px" }}
+                  >
+                    <option value="">-- Select a job --</option>
+                    {appliedJobs
+                      .filter((app) => app.jobId)
+                      .map((app) => (
+                        <option key={app.jobId} value={app.jobId}>
+                          {app.jobTitle}
+                        </option>
+                      ))}
+                  </select>
+                  {appliedJobs.length === 0 && (
+                    <p className={styles.modalHelperText}>No job applications found. Apply to a job first.</p>
+                  )}
+                </div>
+              )}
+
+              <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+                <button
+                  className="btn-outline-custom"
+                  style={{ padding: "8px 20px", fontSize: 13 }}
+                  onClick={() => setShowNewChat(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn-primary-custom"
+                  style={{ padding: "8px 20px", fontSize: 13 }}
+                  disabled={creating || (newChatType === "mock_interview" && !newChatJobId)}
+                  onClick={handleNewChat}
+                >
+                  {creating ? "Creating..." : "Start"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Delete Confirmation Modal */}
+        {deleteTarget && (
+          <div className={styles.deleteModalOverlay} onClick={() => setDeleteTarget(null)}>
+            <div className={styles.deleteModalContent} onClick={(e) => e.stopPropagation()}>
+              <div
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: 12,
+                  margin: "0 auto 16px",
+                  background: "#FEE2E2",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <i className="bi bi-trash" style={{ color: "#DC2626", fontSize: 20 }} />
+              </div>
+              <h3 className={styles.deleteTitle}>Delete Conversation</h3>
+              <p className={styles.deleteMessage}>
+                Are you sure you want to delete "<strong>{deleteTarget.title}</strong>"? This cannot be undone.
+              </p>
+              <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
+                <button
+                  className="btn-outline-custom"
+                  style={{ padding: "8px 20px", fontSize: 13 }}
+                  onClick={() => setDeleteTarget(null)}
+                  disabled={deleting === deleteTarget.id}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn-primary-custom"
+                  style={{ padding: "8px 20px", fontSize: 13, background: "#DC2626", borderColor: "#DC2626" }}
+                  disabled={deleting === deleteTarget.id}
+                  onClick={confirmDelete}
+                >
+                  {deleting === deleteTarget.id ? "Deleting..." : "Delete"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Keyframes */}
+        <style>{`
+          @keyframes blink {
+            0%, 80%, 100% { opacity: 0; }
+            40% { opacity: 1; }
+          }
+        `}</style>
       </div>
-
-      {/* New Chat Modal */}
-      {showNewChat && (
-        <div
-          style={{
-            position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            zIndex: 2000, padding: 16,
-          }}
-          onClick={() => setShowNewChat(false)}
-        >
-          <div
-            className="hcard"
-            style={{ maxWidth: 440, width: "100%", padding: "28px 24px" }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 20 }}>
-              New Conversation
-            </h3>
-
-            <div style={{ marginBottom: 16 }}>
-              <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 8 }}>
-                Type
-              </label>
-              <div style={{ display: "flex", gap: 10 }}>
-                <label
-                  style={{
-                    flex: 1, padding: "10px 14px", borderRadius: 10,
-                    border: `2px solid ${newChatType === "general" ? "var(--primary)" : "var(--border)"}`,
-                    cursor: "pointer", textAlign: "center", fontSize: 13, fontWeight: 600,
-                    background: newChatType === "general" ? "var(--primary-bg)" : "#fff",
-                  }}
-                >
-                  <input
-                    type="radio"
-                    name="chatType"
-                    value="general"
-                    checked={newChatType === "general"}
-                    onChange={() => setNewChatType("general")}
-                    style={{ display: "none" }}
-                  />
-                  <i className="bi bi-chat-dots me-2" />
-                  General Chat
-                </label>
-                <label
-                  style={{
-                    flex: 1, padding: "10px 14px", borderRadius: 10,
-                    border: `2px solid ${newChatType === "mock_interview" ? "var(--primary)" : "var(--border)"}`,
-                    cursor: "pointer", textAlign: "center", fontSize: 13, fontWeight: 600,
-                    background: newChatType === "mock_interview" ? "var(--primary-bg)" : "#fff",
-                  }}
-                >
-                  <input
-                    type="radio"
-                    name="chatType"
-                    value="mock_interview"
-                    checked={newChatType === "mock_interview"}
-                    onChange={() => setNewChatType("mock_interview")}
-                    style={{ display: "none" }}
-                  />
-                  <i className="bi bi-person-workspace me-2" />
-                  Mock Interview
-                </label>
-              </div>
-            </div>
-
-            {newChatType === "mock_interview" && (
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ fontSize: 13, fontWeight: 600, display: "block", marginBottom: 8 }}>
-                  Select a Job
-                </label>
-                <select
-                  className="form-select"
-                  value={newChatJobId}
-                  onChange={(e) => setNewChatJobId(e.target.value)}
-                  style={{ borderRadius: 10, fontSize: 13, padding: "10px 12px" }}
-                >
-                  <option value="">-- Select a job --</option>
-                  {appliedJobs
-                    .filter((app) => app.jobId)
-                    .map((app) => (
-                      <option key={app.jobId} value={app.jobId}>
-                        {app.jobTitle}
-                      </option>
-                    ))}
-                </select>
-                {appliedJobs.length === 0 && (
-                  <p style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6 }}>
-                    No job applications found. Apply to a job first.
-                  </p>
-                )}
-              </div>
-            )}
-
-            <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
-              <button
-                className="btn-outline-custom"
-                style={{ padding: "8px 20px", fontSize: 13 }}
-                onClick={() => setShowNewChat(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="btn-primary-custom"
-                style={{ padding: "8px 20px", fontSize: 13 }}
-                disabled={
-                  creating ||
-                  (newChatType === "mock_interview" && !newChatJobId)
-                }
-                onClick={handleNewChat}
-              >
-                {creating ? "Creating..." : "Start"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Delete Confirmation Modal */}
-      {deleteTarget && (
-        <div
-          style={{
-            position: "fixed", inset: 0, background: "rgba(0,0,0,0.4)",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            zIndex: 2100, padding: 16,
-          }}
-          onClick={() => setDeleteTarget(null)}
-        >
-          <div
-            className="hcard"
-            style={{ maxWidth: 400, width: "100%", padding: "28px 24px", textAlign: "center" }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div style={{
-              width: 48, height: 48, borderRadius: 12, margin: "0 auto 16px",
-              background: "#FEE2E2",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}>
-              <i className="bi bi-trash" style={{ color: "#DC2626", fontSize: 20 }} />
-            </div>
-            <h3 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8 }}>
-              Delete Conversation
-            </h3>
-            <p style={{ color: "var(--text-muted)", fontSize: 13.5, marginBottom: 24 }}>
-              Are you sure you want to delete "<strong>{deleteTarget.title}</strong>"? This cannot be undone.
-            </p>
-            <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
-              <button
-                className="btn-outline-custom"
-                style={{ padding: "8px 20px", fontSize: 13 }}
-                onClick={() => setDeleteTarget(null)}
-                disabled={deleting === deleteTarget.id}
-              >
-                Cancel
-              </button>
-              <button
-                className="btn-primary-custom"
-                style={{ padding: "8px 20px", fontSize: 13, background: "#DC2626", borderColor: "#DC2626" }}
-                disabled={deleting === deleteTarget.id}
-                onClick={confirmDelete}
-              >
-                {deleting === deleteTarget.id ? "Deleting..." : "Delete"}
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <style>{`
-        @keyframes blink {
-          0%, 80%, 100% { opacity: 0; }
-          40% { opacity: 1; }
-        }
-      `}</style>
     </div>
   );
 }

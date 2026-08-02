@@ -1,0 +1,180 @@
+.errorCard {
+  padding: 24px;
+  color: #991B1B;
+  background: #FEE2E2;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  margin: 0;
+}
+.editBtn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.avatarCard {
+  padding: 24px;
+  text-align: center;
+}
+.card {
+  padding: 24px;
+}
+.socialCard {
+  padding: 24px;
+  text-align: left;
+}
+.avatarWrap {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+.avatarImg {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary-bg);
+}
+.verifiedBadge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+}
+.verifiedIcon {
+  font-size: 12px;
+}
+.name {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.title {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+.contactRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-align: left;
+}
+.contactIcon {
+  color: var(--primary);
+}
+.cvWrap {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.cvBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.cardTitle {
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.cardTitleSm {
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.cardHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.cardHeaderTitle {
+  font-weight: 700;
+}
+
+.socialList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.socialLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--primary);
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+.aboutText {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.skillsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.emptyText {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.eduList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.eduRow {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.eduIcon {
+  width: 40px;
+  height: 40px;
+  background: var(--primary-bg);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.eduDegree {
+  font-weight: 700;
+  font-size: 14px;
+}
+.eduSchool {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.eduPeriod {
+  font-size: 12px;
+  color: var(--text-muted);
+}

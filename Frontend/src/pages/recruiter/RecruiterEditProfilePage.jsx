@@ -6,6 +6,7 @@ import { saveRecruiterProfile, COMPANY_SIZES } from "../../services/profileServi
 import LoadingState from "../../components/common/LoadingState";
 import BackButton from "../../components/common/BackButton";
 import toast from "react-hot-toast";
+import styles from "./RecruiterEditProfilePage.module.css";
 
 const emptyForm = {
   name: "",
@@ -108,27 +109,27 @@ export default function RecruiterEditProfilePage() {
       <div className="page-header-row">
         <div>
           <h1>Edit Company Profile</h1>
-          <p style={{ color: "var(--text-muted)", margin: 0 }}>Update the details candidates see about your company.</p>
+          <p className={styles.subtitle}>Update the details candidates see about your company.</p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} style={{ maxWidth: 720 }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <form onSubmit={handleSubmit} className={styles.form}>
+        <div className={styles.formStack}>
           {/* Logo */}
-          <div className="hcard" style={{ padding: 24 }}>
-            <div style={{ fontWeight: 700, marginBottom: 16 }}>Company Logo</div>
-            <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+          <div className={`hcard ${styles.card}`}>
+            <div className={styles.cardTitle}>Company Logo</div>
+            <div className={styles.logoRow}>
               <img
                 src={logoPreview}
                 alt="Company logo"
-                style={{ width: 88, height: 88, borderRadius: 16, objectFit: "cover", border: "1px solid var(--border)", background: "#fff" }}
+                className={styles.logoImg}
               />
               <div>
                 <button type="button" className="btn btn-outline-primary" onClick={() => logoInputRef.current?.click()}>
                   <i className="bi bi-upload me-2" />
                   Upload Logo
                 </button>
-                <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 8 }}>PNG or JPG.</div>
+                <div className={styles.uploadHint}>PNG or JPG.</div>
               </div>
               <input
                 ref={logoInputRef}
@@ -141,16 +142,15 @@ export default function RecruiterEditProfilePage() {
           </div>
 
           {/* Company details */}
-          <div className="hcard" style={{ padding: 24 }}>
-            <div style={{ fontWeight: 700, marginBottom: 16 }}>Company Details</div>
-            <div style={{ display: "grid", gap: 16 }}>
- 
+          <div className={`hcard ${styles.card}`}>
+            <div className={styles.cardTitle}>Company Details</div>
+            <div className={styles.detailsGrid}>
 
               <Field label="Company Name">
                 <input className="form-control" name="company_name" value={form.company_name} onChange={handleChange} placeholder="e.g. Assiut Team" />
               </Field>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <div className={styles.twoCol}>
                 <Field label="Industry">
                   <input className="form-control" name="industry" value={form.industry} onChange={handleChange} placeholder="e.g. Technology" />
                 </Field>
@@ -164,7 +164,7 @@ export default function RecruiterEditProfilePage() {
                 </Field>
               </div>
 
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <div className={styles.twoCol}>
                 <Field label="Location">
                   <input className="form-control" name="company_location" value={form.company_location} onChange={handleChange} placeholder="e.g. Cairo, Egypt" />
                 </Field>
@@ -197,17 +197,17 @@ export default function RecruiterEditProfilePage() {
           </div>
 
           {/* Social links */}
-          <div className="hcard" style={{ padding: 24 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-              <div style={{ fontWeight: 700 }}>Social Links</div>
+          <div className={`hcard ${styles.card}`}>
+            <div className={styles.cardHeaderRow}>
+              <div className={styles.cardTitleFlush}>Social Links</div>
               <button type="button" className="btn btn-sm btn-outline-primary" onClick={addSocialLink}>
                 <i className="bi bi-plus-lg me-1" />
                 Add Link
               </button>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+            <div className={styles.linksList}>
               {socialLinks.map((link, index) => (
-                <div key={index} style={{ display: "flex", gap: 8 }}>
+                <div key={index} className={styles.linkRow}>
                   <input
                     className="form-control"
                     value={link}
@@ -227,7 +227,7 @@ export default function RecruiterEditProfilePage() {
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: 12 }}>
+          <div className={styles.actionsRow}>
             <button type="submit" className="btn-primary-custom" disabled={submitting}>
               {submitting ? "Saving..." : "Save Changes"}
             </button>
@@ -244,7 +244,7 @@ export default function RecruiterEditProfilePage() {
 function Field({ label, children }) {
   return (
     <div>
-      <label style={{ display: "block", fontSize: 13, fontWeight: 600, marginBottom: 6 }}>{label}</label>
+      <label className={styles.fieldLabel}>{label}</label>
       {children}
     </div>
   );

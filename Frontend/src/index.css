@@ -1,4 +1,4 @@
-@import 'bootstrap/dist/css/bootstrap.min.css';
+﻿@import 'bootstrap/dist/css/bootstrap.min.css';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
 :root {
@@ -306,7 +306,6 @@ body { background: var(--body-bg); font-family: 'Inter', 'Segoe UI', sans-serif;
 .job-grid-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(15,118,110,0.14) !important; }
 
 /* View Candidate button (Applicants List) */
-.view-candidate-btn:hover { background: #0C5D57 !important; }
 
 /* Search / status-filter input groups (Applicants List and similar toolbars) */
 .search-filter-box {
@@ -418,33 +417,13 @@ body { background: var(--body-bg); font-family: 'Inter', 'Segoe UI', sans-serif;
   margin-bottom: 28px; line-height: 1.7;
 }
 .landing-hero-visual { display: flex; justify-content: center; align-items: center; }
-.section-heading { font-size: clamp(24px, 4vw, 32px); font-weight: 800; }
-.feature-icon-wrap {
-  width: 44px; height: 44px; background: var(--primary-bg); border-radius: 12px;
-  display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
-  font-size: 22px; color: var(--primary);
-}
 .step-circle {
   width: 48px; height: 48px; border: 2px solid var(--primary); border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   color: var(--primary); font-weight: 800; font-size: 16px; margin-bottom: 16px;
 }
-.btn-lg-custom { font-size: 16px; padding: 12px 28px; }
-.cta-banner {
-  background: color-mix(in srgb, var(--primary) 75%, white);
-  padding: clamp(48px, 8vw, 80px) 0;
-  text-align: center;
-  width: 100%;
-}
+
 .text-white-75 { color: rgba(255,255,255,0.8); }
-.btn-cta-primary {
-  background: #fff; color: var(--primary); border: none; border-radius: 10px;
-  padding: 12px 28px; font-weight: 700; cursor: pointer;
-}
-.btn-cta-outline {
-  background: transparent; color: #fff; border: 2px solid rgba(255,255,255,0.5);
-  border-radius: 10px; padding: 12px 28px; font-weight: 700; cursor: pointer;
-}
 .hero-illustration-wrap {
   background: transparent;
   border: none;
@@ -610,13 +589,6 @@ body { background: var(--body-bg); font-family: 'Inter', 'Segoe UI', sans-serif;
 .back-button:hover .back-button__icon { transform: translateX(-2px); }
 
 
-.assessment-topbar {
-  background: #fff; border-bottom: 1px solid var(--border);
-  padding: 0 16px; min-height: 56px;
-  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
-  position: sticky; top: 0; z-index: 100;
-}
-
 /* Responsive grids (used across dashboards & inner pages) */
 .grid-stats-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .grid-stats-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
@@ -776,29 +748,8 @@ body { background: var(--body-bg); font-family: 'Inter', 'Segoe UI', sans-serif;
 .landing-footer-bottom { padding: 16px 60px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-muted); }
 
 /* Team section */
-.team-card {
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-.team-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 24px rgba(13, 148, 136, 0.14) !important;
-}
-.team-avatar {
-  width: 64px;
-  height: 64px;
-  margin: 0 auto;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 18px;
-  letter-spacing: 0.5px;
-}
 
-/* ── Responsive: Tablet (≤991px) ── */
+/* â”€â”€ Responsive: Tablet (â‰¤991px) â”€â”€ */
 @media (max-width: 991.98px) {
   .sidebar {
     transform: translateX(-100%);
@@ -842,7 +793,7 @@ body { background: var(--body-bg); font-family: 'Inter', 'Segoe UI', sans-serif;
   .landing-footer-bottom { padding: 16px 24px; }
 }
 
-/* ── Responsive: Mobile (≤575px) ── */
+/* â”€â”€ Responsive: Mobile (â‰¤575px) â”€â”€ */
 @media (max-width: 575.98px) {
   .page-content { padding: 16px 12px; }
   .topbar { gap: 8px; }

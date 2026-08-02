@@ -1,0 +1,144 @@
+.headerTitle {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.headerSubtitle {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: 14px;
+}
+
+.cardPadding {
+  padding: 24px;
+}
+
+.searchBarContainer {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  max-width: 400px;
+}
+
+.searchBox {
+  flex: 1;
+  border: 1px solid var(--border);
+  background: var(--body-bg);
+  border-radius: 10px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.userInfoFlex {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.userAvatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1.5px solid var(--border);
+}
+
+.userName {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.userId {
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.emailCell {
+  font-size: 13px;
+}
+
+.roleBadge {
+  /* badge-status (في index.css) أصلاً بتحط border-radius: 20px و font-weight: 600 —
+     سايبها فاضية عشان ميحصلش override للشكل المستدير الأصلي */
+}
+
+.createdAtCell {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.actionCell {
+  text-align: right;
+}
+
+.actionButtons {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.footerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.pageInfo {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.paginationContainer {
+  display: flex;
+  gap: 8px;
+}
+
+.paginationBtn {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.modalHeaderTitle {
+  /* الـ margin/font-size متحطين inline لكل استخدام زي الأصل بالظبط */
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+.formLabel {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.formField {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  outline: none;
+  background: white;
+}
+
+.errorMsg {
+  color: var(--danger);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.modalFooterButton {
+  padding: 8px 16px;
+  font-size: 13px;
+}
+
+.deleteModalText {
+  margin-top: 20px;
+}

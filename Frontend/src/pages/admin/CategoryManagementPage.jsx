@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as yup from "yup";
 import { Modal } from "react-bootstrap";
@@ -11,6 +11,7 @@ import {
   deleteCategory
 } from "../../services/categoryService";
 import LoadingState from "../../components/common/LoadingState";
+import styles from "./CategoryManagementPage.module.css";
 
 // Validation schema for category operations
 const categorySchema = yup.object().shape({
@@ -114,8 +115,8 @@ export default function CategoryManagementPage() {
       {/* Page Header */}
       <div className="page-header-row mb-4">
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4 }}>Category Management</h1>
-          <p style={{ color: "var(--text-muted)", margin: 0, fontSize: 14 }}>
+          <h1 className={styles.pageTitle}>Category Management</h1>
+          <p className={styles.pageSubtitle}>
             Create, update, and manage job tags used for posting new jobs and candidate profile matching.
           </p>
         </div>
@@ -129,17 +130,17 @@ export default function CategoryManagementPage() {
       </div>
 
       {/* Main Container */}
-      <div className="hcard" style={{ padding: 24 }}>
+      <div className={`hcard ${styles.cardPadding}`}>
         {/* Search and Filters */}
-        <div style={{ display: "flex", gap: 16, marginBottom: 20, maxWidth: 400 }}>
-          <div className="topbar .search-box" style={{ flex: 1, position: "static", border: "1px solid var(--border)", background: "var(--body-bg)", borderRadius: 10, padding: "6px 12px", display: "flex", alignItems: "center", gap: 8 }}>
+        <div className={styles.controlsContainer}>
+          <div className={`topbar .search-box ${styles.searchBoxContainer}`}>
             <i className="bi bi-search text-muted" aria-hidden="true" />
             <input
               type="text"
               placeholder="Search categories by name..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ border: "none", background: "transparent", outline: "none", fontSize: 14, width: "100%" }}
+              className={styles.searchInput}
             />
           </div>
         </div>
@@ -151,14 +152,14 @@ export default function CategoryManagementPage() {
               <tr>
                 <th>Category Name</th>
                 <th>Date Created</th>
-                <th style={{ width: "120px", textAlign: "right" }}>Actions</th>
+                <th className={styles.actionsHeader}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {filteredCategories.length === 0 ? (
                 <tr>
-                  <td colSpan="3" style={{ textAlign: "center", padding: "32px 0", color: "var(--text-muted)" }}>
-                    <i className="bi bi-tag" style={{ fontSize: 28, display: "block", marginBottom: 8 }} aria-hidden="true" />
+                  <td colSpan="3" className={styles.emptyStateCell}>
+                    <i className={`bi bi-tag ${styles.emptyStateIcon}`} aria-hidden="true" />
                     No categories found.
                   </td>
                 </tr>
@@ -166,23 +167,22 @@ export default function CategoryManagementPage() {
                 filteredCategories.map((cat) => (
                   <tr key={cat._id}>
                     <td>
-                      <span className="badge-status badge-shortlisted" style={{ fontSize: 13, padding: "5px 12px", borderRadius: 6 }}>
+                      <span className={`badge-status badge-shortlisted ${styles.badgePadding}`}>
                         {cat.name}
                       </span>
                     </td>
-                    <td style={{ color: "var(--text-muted)", fontSize: 13 }}>
+                    <td className={styles.dateCell}>
                       {new Date(cat.createdAt).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric"
                       })}
                     </td>
-                    <td style={{ textAlign: "right" }}>
-                      <div style={{ display: "inline-flex", gap: 8 }}>
+                    <td className={styles.actionsCell}>
+                      <div className={styles.actionsFlex}>
                         <button
                           type="button"
-                          className="topbar-icon-btn"
-                          style={{ width: 32, height: 32, fontSize: 14 }}
+                          className={`topbar-icon-btn ${styles.iconBtnSmall}`}
                           onClick={() => {
                             setActiveCategory(cat);
                             setShowEditModal(true);
@@ -194,8 +194,7 @@ export default function CategoryManagementPage() {
                         </button>
                         <button
                           type="button"
-                          className="topbar-icon-btn"
-                          style={{ width: 32, height: 32, fontSize: 14 }}
+                          className={`topbar-icon-btn ${styles.iconBtnSmall}`}
                           onClick={() => {
                             setActiveCategory(cat);
                             setShowDeleteModal(true);
@@ -218,8 +217,8 @@ export default function CategoryManagementPage() {
       {/* Add Modal */}
       <Modal show={showAddModal} onHide={() => setShowAddModal(false)} centered>
         <div className="hcard p-4 border-0">
-          <Modal.Header closeButton style={{ borderBottom: "none", padding: 0 }}>
-            <h2 className="section-title" style={{ margin: 0, fontSize: 18 }}>Add New Category</h2>
+          <Modal.Header closeButton className={styles.modalHeader}>
+            <h2 className={`section-title ${styles.modalHeaderTitle}`}>Add New Category</h2>
           </Modal.Header>
           <Formik
             initialValues={{ name: "" }}
@@ -227,9 +226,9 @@ export default function CategoryManagementPage() {
             onSubmit={handleAddCategory}
           >
             {({ isSubmitting: formikSubmitting }) => (
-              <Form style={{ marginTop: 20 }}>
-                <div style={{ marginBottom: 20 }}>
-                  <label htmlFor="cat-name-add" style={{ fontSize: 13, fontWeight: 600, marginBottom: 8, display: "block" }}>
+              <Form className={styles.modalForm}>
+                <div className={styles.formGroup}>
+                  <label htmlFor="cat-name-add" className={styles.formLabel}>
                     Category Name
                   </label>
                   <Field
@@ -237,26 +236,18 @@ export default function CategoryManagementPage() {
                     name="name"
                     type="text"
                     placeholder="e.g. Sales, Data Science"
-                    style={{
-                      width: "100%",
-                      border: "1.5px solid var(--border)",
-                      borderRadius: 10,
-                      padding: "10px 14px",
-                      fontSize: 14,
-                      outline: "none"
-                    }}
+                    className={styles.formInput}
                   />
                   <ErrorMessage name="name">
                     {(msg) => (
-                      <div style={{ color: "var(--danger)", fontSize: 12, marginTop: 6 }}>{msg}</div>
+                      <div className={styles.errorMsg}>{msg}</div>
                     )}
                   </ErrorMessage>
                 </div>
-                <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
+                <div className={styles.modalFooter}>
                   <button
                     type="button"
-                    className="btn-outline-custom"
-                    style={{ padding: "8px 16px", fontSize: 13 }}
+                    className={`btn-outline-custom ${styles.footerBtn}`}
                     onClick={() => setShowAddModal(false)}
                     disabled={submitting}
                   >
@@ -264,8 +255,7 @@ export default function CategoryManagementPage() {
                   </button>
                   <button
                     type="submit"
-                    className="btn-primary-custom"
-                    style={{ padding: "8px 16px", fontSize: 13 }}
+                    className={`btn-primary-custom ${styles.footerBtn}`}
                     disabled={formikSubmitting || submitting}
                   >
                     {submitting ? "Creating..." : "Create Category"}
@@ -280,8 +270,8 @@ export default function CategoryManagementPage() {
       {/* Edit Modal */}
       <Modal show={showEditModal} onHide={() => { setShowEditModal(false); setActiveCategory(null); }} centered>
         <div className="hcard p-4 border-0">
-          <Modal.Header closeButton style={{ borderBottom: "none", padding: 0 }}>
-            <h2 className="section-title" style={{ margin: 0, fontSize: 18 }}>Edit Category</h2>
+          <Modal.Header closeButton className={styles.modalHeader}>
+            <h2 className={`section-title ${styles.modalHeaderTitle}`}>Edit Category</h2>
           </Modal.Header>
           {activeCategory && (
             <Formik
@@ -290,35 +280,27 @@ export default function CategoryManagementPage() {
               onSubmit={handleEditCategory}
             >
               {({ isSubmitting: formikSubmitting }) => (
-                <Form style={{ marginTop: 20 }}>
-                  <div style={{ marginBottom: 20 }}>
-                    <label htmlFor="cat-name-edit" style={{ fontSize: 13, fontWeight: 600, marginBottom: 8, display: "block" }}>
+                <Form className={styles.modalForm}>
+                  <div className={styles.formGroup}>
+                    <label htmlFor="cat-name-edit" className={styles.formLabel}>
                       Category Name
                     </label>
                     <Field
                       id="cat-name-edit"
                       name="name"
                       type="text"
-                      style={{
-                        width: "100%",
-                        border: "1.5px solid var(--border)",
-                        borderRadius: 10,
-                        padding: "10px 14px",
-                        fontSize: 14,
-                        outline: "none"
-                      }}
+                      className={styles.formInput}
                     />
                     <ErrorMessage name="name">
                       {(msg) => (
-                        <div style={{ color: "var(--danger)", fontSize: 12, marginTop: 6 }}>{msg}</div>
+                        <div className={styles.errorMsg}>{msg}</div>
                       )}
                     </ErrorMessage>
                   </div>
-                  <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
+                  <div className={styles.modalFooter}>
                     <button
                       type="button"
-                      className="btn-outline-custom"
-                      style={{ padding: "8px 16px", fontSize: 13 }}
+                      className={`btn-outline-custom ${styles.footerBtn}`}
                       onClick={() => { setShowEditModal(false); setActiveCategory(null); }}
                       disabled={submitting}
                     >
@@ -326,8 +308,7 @@ export default function CategoryManagementPage() {
                     </button>
                     <button
                       type="submit"
-                      className="btn-primary-custom"
-                      style={{ padding: "8px 16px", fontSize: 13 }}
+                      className={`btn-primary-custom ${styles.footerBtn}`}
                       disabled={formikSubmitting || submitting}
                     >
                       {submitting ? "Saving..." : "Save Changes"}
@@ -343,20 +324,19 @@ export default function CategoryManagementPage() {
       {/* Delete Modal */}
       <Modal show={showDeleteModal} onHide={() => { setShowDeleteModal(false); setActiveCategory(null); }} centered>
         <div className="hcard p-4 border-0">
-          <Modal.Header closeButton style={{ borderBottom: "none", padding: 0 }}>
-            <h2 className="section-title text-danger" style={{ margin: 0, fontSize: 18 }}>Remove Category</h2>
+          <Modal.Header closeButton className={styles.modalHeader}>
+            <h2 className={`section-title text-danger ${styles.modalHeaderTitle}`}>Remove Category</h2>
           </Modal.Header>
           {activeCategory && (
-            <div style={{ marginTop: 20 }}>
-              <p style={{ fontSize: 14, color: "var(--text-dark)", lineHeight: 1.6, marginBottom: 24 }}>
+            <div className={styles.modalForm}>
+              <p className={styles.deleteModalText}>
                 Are you sure you want to delete the category <strong>{activeCategory.name}</strong>?
                 This will make jobs classified under this category lose their category name grouping. This action is irreversible.
               </p>
-              <div style={{ display: "flex", justifyContent: "flex-end", gap: 10 }}>
+              <div className={styles.modalFooter}>
                 <button
                   type="button"
-                  className="btn-outline-custom"
-                  style={{ padding: "8px 16px", fontSize: 13 }}
+                  className={`btn-outline-custom ${styles.footerBtn}`}
                   onClick={() => { setShowDeleteModal(false); setActiveCategory(null); }}
                   disabled={submitting}
                 >
@@ -364,8 +344,7 @@ export default function CategoryManagementPage() {
                 </button>
                 <button
                   type="button"
-                  className="btn btn-danger"
-                  style={{ borderRadius: 10, padding: "8px 16px", fontSize: 13, fontWeight: 600 }}
+                  className={`btn btn-danger ${styles.deleteBtn}`}
                   onClick={handleDeleteCategory}
                   disabled={submitting}
                 >

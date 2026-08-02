@@ -1,4 +1,5 @@
 import { useEffect, useState, useId } from "react";
+import styles from "./MyJobsPage.module.css";
 import { useNavigate } from "react-router-dom";
 import { Dropdown, Badge, Row, Col, Card } from "react-bootstrap";
 import { getMyJobs } from "../../services/recruiterService";
@@ -49,7 +50,7 @@ function JobActionsMenu({ items }) {
   const toggleId = useId();
   return (
     <Dropdown align="end">
-      <Dropdown.Toggle as="button" className="job-actions-toggle" style={{ padding: 0 }} id={toggleId}>
+      <Dropdown.Toggle as="button" className={styles.jobActionsToggle} style={{ padding: 0 }} id={toggleId}>
         <i className="bi bi-three-dots"></i>
       </Dropdown.Toggle>
       {/* strategy: "fixed" keeps the menu positioned relative to the viewport instead of the
@@ -258,7 +259,7 @@ export default function MyJobsPage() {
       </Row>
 
       <div className="d-flex align-items-center justify-content-between mb-3" style={{ flexWrap: "wrap", gap: 12 }}>
-        <div className="job-filter-tabs mb-0">
+        <div className={`${styles.jobFilterTabs} mb-0`}>
           {tabs.map((tab) => {
             const count = tab === "All" ? data.jobs.length : data.jobs.filter((j) => j.status === tab).length;
             const active = statusFilter === tab;
@@ -266,20 +267,20 @@ export default function MyJobsPage() {
               <button
                 key={tab}
                 type="button"
-                className={`job-filter-tab ${active ? "job-filter-tab--active" : ""}`}
+                className={`${styles.jobFilterTab} ${active ? styles.jobFilterTabActive : ''}`}
                 onClick={() => setStatusFilter(tab)}
               >
                 {tab}
-                <span className="job-filter-tab__count">{count}</span>
+                <span className={styles.jobFilterTabCount}>{count}</span>
               </button>
             );
           })}
         </div>
 
-        <div className="view-toggle-group" role="group" aria-label="Toggle jobs view">
+        <div className={styles.viewToggleGroup} role="group" aria-label="Toggle jobs view">
           <button
             type="button"
-            className={`view-toggle-btn ${viewMode === "grid" ? "view-toggle-btn--active" : ""}`}
+            className={`${styles.viewToggleBtn} ${viewMode === "grid" ? styles.viewToggleBtnActive : ''}`}
             aria-label="Grid view"
             title="Grid view"
             onClick={() => setViewMode("grid")}
@@ -288,7 +289,7 @@ export default function MyJobsPage() {
           </button>
           <button
             type="button"
-            className={`view-toggle-btn ${viewMode === "list" ? "view-toggle-btn--active" : ""}`}
+            className={`${styles.viewToggleBtn} ${viewMode === "list" ? styles.viewToggleBtnActive : ''}`}
             aria-label="List view"
             title="List view"
             onClick={() => setViewMode("list")}
@@ -325,7 +326,7 @@ export default function MyJobsPage() {
             return (
               <Card
                 key={job.id}
-                className="border-0 shadow-sm job-grid-card"
+                className={`border-0 shadow-sm ${styles.jobGridCard}`}
                 style={{ borderTop: `3px solid ${statusAccent[job.status] || statusAccent.default}` }}
               >
                 <Card.Body className="d-flex flex-column" style={{ gap: 10 }}>

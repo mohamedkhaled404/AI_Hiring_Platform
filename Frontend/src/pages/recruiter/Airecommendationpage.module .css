@@ -1,0 +1,181 @@
+.breadcrumb {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 20px;
+  font-size: 13px;
+  flex-wrap: wrap;
+}
+.breadcrumbLink {
+  cursor: pointer;
+  color: var(--primary);
+}
+.breadcrumbMuted {
+  color: var(--text-muted);
+}
+
+.mainCard {
+  padding: 28px;
+  margin-bottom: 20px;
+  border: 2px solid var(--primary);
+}
+.mainGrid {
+  grid-template-columns: 200px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.confidenceCol {
+  text-align: center;
+}
+.confidenceLabel {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+.synthesisHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+.synthesisTitle {
+  font-size: 24px;
+  font-weight: 800;
+  margin: 0;
+}
+.exportBtn {
+  font-size: 13px;
+}
+.summaryText {
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 20px;
+}
+
+.metricCard {
+  background: var(--metric-color, var(--body-bg));
+  border-radius: 12px;
+  padding: 14px;
+}
+.metricIcon {
+  font-size: 18px;
+}
+.metricTitle {
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 4px;
+}
+.metricDesc {
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.sideCol {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.panelCard {
+  padding: 24px;
+}
+.panelTitle {
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.competencyRow {
+  margin-bottom: 14px;
+}
+.competencyHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+.competencyValue {
+  font-weight: 700;
+}
+.matchBarFill {
+  width: var(--bar-width, 0%);
+}
+
+.insightHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+.insightIcon {
+  color: var(--primary);
+}
+.insightLabel {
+  font-weight: 700;
+}
+.insightQuote {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+.insightActions {
+  display: flex;
+  gap: 12px;
+}
+.insightActionBtn {
+  font-size: 13px;
+}
+.insightLinkBtn {
+  font-size: 13px;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.predictionCol {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.predictionCard {
+  padding: 20px;
+  background: var(--primary-bg);
+}
+.predictionTitle {
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.predictionRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
+.predictionDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--dot-color, var(--warning));
+}
+
+.verifiedCard {
+  padding: 20px;
+}
+.verifiedTitle {
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.verifiedText {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.scheduleBtn {
+  padding: 14px;
+}

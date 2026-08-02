@@ -1,0 +1,585 @@
+.editWindowBanner {
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.editWindowBanner.locked {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.editWindowBanner.warning {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.durationEditForm {
+  margin-top: 8px;
+}
+
+.durationEditRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.durationInput {
+  width: 90px;
+  border-radius: 8px;
+}
+
+.durationUnit {
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+
+.durationSaveBtn,
+.durationCancelBtn {
+  border-radius: 8px;
+}
+
+.durationView {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.durationView.locked {
+  cursor: default;
+}
+
+.durationEditIcon {
+  font-size: 11px;
+}
+
+.fieldError {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #DC2626;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.changeTypeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--primary-bg);
+  color: var(--primary);
+  border: none;
+  border-radius: 20px;
+  padding: 6px 14px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s;
+}
+
+.changeTypeBtn:hover:not(:disabled) {
+  background: #E4D9FC;
+}
+
+.changeTypeBtn:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.changeTypeIcon {
+  font-size: 11px;
+}
+
+.pageHeader {
+  margin-bottom: 24px;
+}
+
+.pageTitle {
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.pageSubtitle {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.typeGrid {
+  margin-top: 0;
+}
+
+.typeGridWithError {
+  margin-top: 4px;
+}
+
+.typeCard {
+  padding: 24px;
+  border: 2px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+  height: 100%;
+}
+
+.typeCardIcon {
+  font-size: 28px;
+  color: var(--primary);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.typeCardTitle {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.typeCardDesc {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.disabledCard {
+  padding: 32px;
+  max-width: 600px;
+  text-align: center;
+}
+
+.disabledIcon {
+  font-size: 36px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.disabledTitle {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.disabledDesc {
+  color: var(--text-muted);
+  margin-bottom: 20px;
+}
+
+.disabledActions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+.aiConfigCard {
+  max-width: 700px;
+  overflow: hidden;
+}
+
+.aiConfigHeader {
+  padding: 28px 32px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.aiConfigTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.aiConfigIconWrap {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, var(--primary-bg), #e4d9fc);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.aiConfigIcon {
+  color: var(--primary);
+  font-size: 20px;
+}
+
+.aiConfigTitle {
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.aiConfigSubtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.aiConfigForm {
+  padding: 24px 32px 32px;
+}
+
+.fieldLabel {
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.fieldLabelIcon {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.fieldInput {
+  border-radius: 10px;
+}
+
+.fieldHint {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.difficultyRow {
+  display: flex;
+  gap: 8px;
+}
+
+.difficultyBtn {
+  flex: 1;
+  padding: 9px 0;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all .15s;
+}
+
+.requiredStar {
+  color: #DC2626;
+}
+
+.formFooterDivider {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.wideSubmitBtn {
+  min-width: 200px;
+}
+
+.manualSetupCard {
+  padding: 32px;
+  max-width: 700px;
+}
+
+.manualSetupHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.manualSetupIconWrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #f3f5fb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.manualSetupIcon {
+  color: #1d2445;
+  font-size: 20px;
+}
+
+.manualSetupTitle {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.manualSetupSubtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.manualFormFooter {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sectionHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.sectionSubtitle {
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.sectionMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.regenerateBtn {
+  font-size: 13px;
+}
+
+.manualBadge {
+  background: #f3f5fb;
+  color: #1d2445;
+}
+
+.manualSectionWrap {
+  margin-bottom: 20px;
+}
+
+.addQuestionBtn {
+  border-style: dashed;
+}
+
+.publishRow {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  max-width: 900px;
+  margin-top: 20px;
+}
+
+.modalOverlay {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modalDialogSm {
+  max-width: 420px;
+}
+
+.modalDialogMd {
+  max-width: 560px;
+}
+
+.modalContent {
+  border-radius: 16px;
+  border: none;
+}
+
+.questionModalHeader {
+  border: none;
+  padding: 24px 24px 0;
+}
+
+.questionModalTitle {
+  font-weight: 800;
+}
+
+.questionModalBody {
+  padding: 24px;
+}
+
+.smallFieldLabel {
+  font-size: 13px;
+}
+
+.smallFormField {
+  font-size: 14px;
+  border-radius: 10px;
+}
+
+.questionModalFooter {
+  border: none;
+  padding: 0 24px 24px;
+}
+
+.confirmModalBody {
+  padding: 28px;
+  text-align: center;
+}
+
+.confirmIconWrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.publishIconWrap {
+  background: var(--primary-bg);
+}
+
+.publishIcon {
+  color: var(--primary);
+  font-size: 20px;
+}
+
+.confirmTitle {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.confirmDesc {
+  color: var(--text-muted);
+  font-size: 13.5px;
+  margin-bottom: 12px;
+}
+
+.confirmListTitle {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.confirmList {
+  text-align: left;
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 0;
+  padding-inline-start: 20px;
+  line-height: 1.8;
+}
+
+.confirmModalFooter {
+  border: none;
+  padding: 0 24px 24px;
+  justify-content: center;
+}
+
+.deleteIconWrap {
+  background: #FEE2E2;
+}
+
+.deleteIcon {
+  color: #DC2626;
+  font-size: 20px;
+}
+
+.deleteConfirmBtn {
+  background: #DC2626;
+  border-color: #DC2626;
+}
+
+.questionListEmpty {
+  padding: 32px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.questionListWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.questionCard {
+  padding: 20px;
+  position: relative;
+}
+
+.questionCardActions {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 6px;
+}
+
+.questionNumber {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.questionText {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.questionTextLocked {
+  padding-right: 0;
+}
+
+.questionTextWithRegenerate {
+  padding-right: 120px;
+}
+
+.questionTextDefault {
+  padding-right: 80px;
+}
+
+.optionsList {
+  font-size: 13px;
+  margin-bottom: 10px;
+  padding-inline-start: 18px;
+}
+
+.optionCorrect {
+  color: #065F46;
+  font-weight: 700;
+}
+
+.optionDefault {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.tagsRow {
+  display: flex;
+  gap: 8px;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+}
+
+.topicTag {
+  background: #F3F4F6;
+  color: #374151;
+}
+
+.difficultyEasy {
+  background: #D1FAE5;
+  color: #065F46;
+}
+
+.difficultyMedium {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.difficultyHard {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.difficultyDefault {
+  background: #f3f5fb;
+  color: #1d2445;
+}

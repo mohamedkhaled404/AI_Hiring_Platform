@@ -15,6 +15,7 @@ import { getJobById, openJob } from "../../services/jobService";
 import LoadingState from "../../components/common/LoadingState";
 import BackButton from "../../components/common/BackButton";
 import toast from "react-hot-toast";
+import styles from "./AssessmentGeneratorPage.module.css";
 
 // Candidates need a realistic minimum to actually read and answer questions —
 // the backend rejects anything shorter, so we catch it here first with a clear message
@@ -41,7 +42,7 @@ function EditWindowBanner({ job, timeLeftMs, isLocked }) {
 
   if (isLocked) {
     return (
-      <div style={{ background: "#FEE2E2", color: "#991B1B", padding: "10px 16px", borderRadius: 10, fontSize: 13, fontWeight: 600, marginBottom: 20, display: "flex", alignItems: "center", gap: 8 }}>
+      <div className={`${styles.editWindowBanner} ${styles.locked}`}>
         <i className="bi bi-lock-fill" />
         The editing window has expired — this assessment is now locked and can no longer be modified.
       </div>
@@ -51,7 +52,7 @@ function EditWindowBanner({ job, timeLeftMs, isLocked }) {
   if (timeLeftMs === null) return null;
 
   return (
-    <div style={{ background: "#FEF3C7", color: "#92400E", padding: "10px 16px", borderRadius: 10, fontSize: 13, fontWeight: 600, marginBottom: 20, display: "flex", alignItems: "center", gap: 8 }}>
+    <div className={`${styles.editWindowBanner} ${styles.warning}`}>
       <i className="bi bi-clock-history" />
       {formatCountdown(timeLeftMs)} left to edit or add questions before this assessment locks automatically.
     </div>
@@ -61,18 +62,18 @@ function EditWindowBanner({ job, timeLeftMs, isLocked }) {
 function DurationBadge({ assessment, isLocked, editing, draft, setDraft, onEditStart, onSave, onCancel, saving, error }) {
   if (editing) {
     return (
-      <div style={{ marginTop: 8 }}>
-        <form onSubmit={onSave} style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+      <div className={styles.durationEditForm}>
+        <form onSubmit={onSave} className={styles.durationEditRow}>
           <input
             type="number" min={MIN_ASSESSMENT_DURATION_MINUTES} max="240" required autoFocus
             value={draft} onChange={(e) => setDraft(e.target.value)}
-            className="form-control form-control-sm" style={{ width: 90, borderRadius: 8 }}
+            className={`form-control form-control-sm ${styles.durationInput}`}
           />
-          <span style={{ fontSize: 12.5, color: "var(--text-muted)" }}>minutes</span>
-          <button type="submit" className="btn btn-sm btn-primary" disabled={saving} style={{ borderRadius: 8 }}>
+          <span className={styles.durationUnit}>minutes</span>
+          <button type="submit" className={`btn btn-sm btn-primary ${styles.durationSaveBtn}`} disabled={saving}>
             {saving ? "Saving..." : "Save"}
           </button>
-          <button type="button" className="btn btn-sm btn-light" onClick={onCancel} style={{ borderRadius: 8 }}>Cancel</button>
+          <button type="button" className={`btn btn-sm btn-light ${styles.durationCancelBtn}`} onClick={onCancel}>Cancel</button>
         </form>
         <FieldError message={error} />
       </div>
@@ -81,13 +82,13 @@ function DurationBadge({ assessment, isLocked, editing, draft, setDraft, onEditS
 
   return (
     <div
-      style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 8, fontSize: 12.5, color: "var(--text-muted)", cursor: isLocked ? "default" : "pointer" }}
+      className={`${styles.durationView} ${isLocked ? styles.locked : ""}`}
       onClick={() => !isLocked && onEditStart()}
       title={isLocked ? undefined : "Click to change the duration"}
     >
       <i className="bi bi-stopwatch" />
       {assessment?.durationMinutes ? `${assessment.durationMinutes} minute time limit` : "No time limit set"}
-      {!isLocked && <i className="bi bi-pencil" style={{ fontSize: 11 }} />}
+      {!isLocked && <i className={`bi bi-pencil ${styles.durationEditIcon}`} />}
     </div>
   );
 }
@@ -95,7 +96,7 @@ function DurationBadge({ assessment, isLocked, editing, draft, setDraft, onEditS
 function FieldError({ message }) {
   if (!message) return null;
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#DC2626", fontSize: 12.5, fontWeight: 600, marginTop: 8 }}>
+    <div className={styles.fieldError}>
       <i className="bi bi-exclamation-circle-fill" />
       {message}
     </div>
@@ -115,19 +116,10 @@ function ChangeTypeButton({ onClick, style, disabled }) {
       type="button"
       onClick={onClick}
       disabled={disabled}
-      style={{
-        display: "inline-flex", alignItems: "center", gap: 6,
-        background: "var(--primary-bg)", color: "var(--primary)",
-        border: "none", borderRadius: 20, padding: "6px 14px",
-        fontSize: 12.5, fontWeight: 700, cursor: disabled ? "not-allowed" : "pointer",
-        opacity: disabled ? 0.5 : 1,
-        transition: "background .15s",
-        ...style,
-      }}
-      onMouseEnter={(e) => { if (!disabled) e.currentTarget.style.background = "#E4D9FC"; }}
-      onMouseLeave={(e) => { e.currentTarget.style.background = "var(--primary-bg)"; }}
+      className={styles.changeTypeBtn}
+      style={style}
     >
-      <i className="bi bi-arrow-left-right" style={{ fontSize: 11 }} />
+      <i className={`bi bi-arrow-left-right ${styles.changeTypeIcon}`} />
       Change Assessment Type
     </button>
   );
@@ -137,30 +129,26 @@ function PublishConfirmModal({ show, onCancel, onConfirm, pending }) {
   if (!show) return null;
 
   return (
-    <div className="modal show d-block" tabIndex="-1" style={{ background: "rgba(0,0,0,0.5)" }}>
-      <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: 420 }}>
-        <div className="modal-content" style={{ borderRadius: 16, border: "none" }}>
-          <div className="modal-body" style={{ padding: 28, textAlign: "center" }}>
-            <div style={{
-              width: 48, height: 48, borderRadius: 12, margin: "0 auto 16px",
-              background: "var(--primary-bg)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}>
-              <i className="bi bi-upload" style={{ color: "var(--primary)", fontSize: 20 }} />
+    <div className={`modal show d-block ${styles.modalOverlay}`} tabIndex="-1">
+      <div className={`modal-dialog modal-dialog-centered ${styles.modalDialogSm}`}>
+        <div className={`modal-content ${styles.modalContent}`}>
+          <div className={`modal-body ${styles.confirmModalBody}`}>
+            <div className={`${styles.confirmIconWrap} ${styles.publishIconWrap}`}>
+              <i className={`bi bi-upload ${styles.publishIcon}`} />
             </div>
-            <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 6 }}>Publish Job</div>
-            <p style={{ color: "var(--text-muted)", fontSize: 13.5, marginBottom: 12 }}>
+            <div className={styles.confirmTitle}>Publish Job</div>
+            <p className={styles.confirmDesc}>
               Are you sure you want to publish this job now?
             </p>
-            <div style={{ fontWeight: 600, fontSize: 13, color: "var(--text-muted)", marginBottom: 8 }}>Once published:</div>
-            <ul style={{ textAlign: "left", color: "var(--text-muted)", fontSize: 13, margin: 0, paddingInlineStart: 20, lineHeight: 1.8 }}>
+            <div className={styles.confirmListTitle}>Once published:</div>
+            <ul className={styles.confirmList}>
               <li>The job will become visible to candidates immediately.</li>
               <li>The job will no longer be editable.</li>
               <li>The assessment will be locked.</li>
               <li>This action cannot be undone.</li>
             </ul>
           </div>
-          <div className="modal-footer" style={{ border: "none", padding: "0 24px 24px", justifyContent: "center" }}>
+          <div className={`modal-footer ${styles.confirmModalFooter}`}>
             <button type="button" className="btn-outline-custom" onClick={onCancel} disabled={pending}>Cancel</button>
             <button type="button" className="btn-primary-custom" onClick={onConfirm} disabled={pending}>
               {pending ? "Publishing..." : "Publish Now"}
@@ -202,16 +190,7 @@ export default function AssessmentGeneratorPage() {
     },
   });
 
-  // The user's in-flight choice on the "pick a type" screen, before the backend confirms it.
-  // Lets us show the AI config form (or a brief loading state for Manual/None) without
-  // waiting for a refetch, and lets the user pick a *different* type than whatever the
-  // backend currently has (e.g. switching from AI back to the choice screen).
   const [pendingChoice, setPendingChoice] = useState(null); // 'AI' | 'MANUAL_SETUP' | 'MANUAL' | null
-
-  // True while the recruiter is deliberately re-picking the assessment type via
-  // "Change Assessment Type", even though an assessment already exists on the backend
-  // (e.g. they cleared out all their Manual questions and now want to switch to AI).
-  // Without this, `mode` below would just fall back to whatever `assessment.type` already is.
   const [overridingType, setOverridingType] = useState(false);
 
   const [generateConfig, setGenerateConfig] = useState({
@@ -221,35 +200,27 @@ export default function AssessmentGeneratorPage() {
     durationMinutes: 30,
   });
 
-  // Duration asked for on the Manual setup screen (before the assessment record is created)
   const [manualDuration, setManualDuration] = useState(30);
 
   const [questionModalOpen, setQuestionModalOpen] = useState(false);
   const [editingQuestion, setEditingQuestion] = useState(null);
 
-  // Custom delete-confirmation modal — replaces window.confirm(), which renders as an
-  // ugly native "localhost says" browser dialog instead of matching the app's UI.
   const [deleteConfirmId, setDeleteConfirmId] = useState(null);
   const [deletingQuestion, setDeletingQuestion] = useState(false);
 
   const [showPublishModal, setShowPublishModal] = useState(false);
 
-  // Inline "edit duration" control for an already-created assessment (AI or Manual)
   const [editingDuration, setEditingDuration] = useState(false);
   const [durationDraft, setDurationDraft] = useState(30);
 
-  // Inline validation/error messages shown under each of the three duration-related
-  // forms, instead of letting a raw backend error surface as a native browser alert.
   const [generateError, setGenerateError] = useState(null);
   const [manualSetupError, setManualSetupError] = useState(null);
   const [durationEditError, setDurationEditError] = useState(null);
 
-  // Same idea for the remaining actions on this page — no more native alert() popups.
   const [chooseError, setChooseError] = useState(null);
   const [listActionError, setListActionError] = useState(null); // regenerate-all / regenerate-one / delete
   const [questionModalError, setQuestionModalError] = useState(null);
 
-  // Countdown timer — job is only editable within 5 minutes of creation
   const [timeLeftMs, setTimeLeftMs] = useState(null);
 
   useEffect(() => {
@@ -270,13 +241,6 @@ export default function AssessmentGeneratorPage() {
   const assessment = data?.assessment;
   const questions = data?.questions || [];
 
-  // ---- Determine which screen to show ----
-  // 'choose'        — the mandatory first screen: No Assessment / AI / Manual
-  // 'ai-config'     — AI chosen but no questions generated yet: show the config form
-  // 'ai'            — AI assessment with questions: show the question list + AI-only actions
-  // 'manual-setup'  — Manual chosen but not (re)created yet: ask for the assessment duration first
-  // 'manual'        — Manual assessment: show the question list + Add/Edit/Delete only
-  // 'disabled'      — "No Assessment" was chosen: nothing to manage
   const inSetupFlow = notFound || overridingType;
   let mode;
   if (inSetupFlow) {
@@ -294,12 +258,10 @@ export default function AssessmentGeneratorPage() {
   const handleChooseType = async (type) => {
     if (type === "AI") {
       setGenerateError(null);
-      setPendingChoice("AI"); // just reveal the config form locally, no API call yet
+      setPendingChoice("AI");
       return;
     }
     if (type === "MANUAL") {
-      // Always ask for the assessment duration first, whether this is the very first
-      // assessment for this job or the recruiter is switching over from AI/None.
       setManualSetupError(null);
       setPendingChoice("MANUAL_SETUP");
       return;
@@ -357,8 +319,6 @@ export default function AssessmentGeneratorPage() {
     }
   };
 
-  // Confirms the duration on the Manual setup screen, then bootstraps/overwrites the
-  // MANUAL assessment record so Add/Edit/Delete have something to attach to.
   const handleConfirmManualSetup = async (e) => {
     e.preventDefault();
     const duration = Number(manualDuration);
@@ -464,9 +424,6 @@ export default function AssessmentGeneratorPage() {
     const correctAnswer = (formData.get("correctAnswer") || "").trim();
     const question = (formData.get("question") || "").trim();
 
-    // Catch the common mistakes client-side, with a plain-language message,
-    // instead of letting an incomplete/mismatched form hit the API and bounce back
-    // as a raw "Failed to save" error.
     if (!question || options.some((opt) => !opt)) {
       setQuestionModalError("Please fill in the question and all four options before saving.");
       return;
@@ -505,16 +462,15 @@ export default function AssessmentGeneratorPage() {
       <BackButton fallbackTo={`/recruiter/job/${jobId}`} label="Back to Job" />
       <EditWindowBanner job={job} timeLeftMs={timeLeftMs} isLocked={isLocked} />
 
-      <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontSize: 26, fontWeight: 800, marginBottom: 4 }}>Assessment</h1>
-        <p style={{ color: "var(--text-muted)", margin: 0 }}>Configure how candidates for this job will be assessed.</p>
+      <div className={styles.pageHeader}>
+        <h1 className={styles.pageTitle}>Assessment</h1>
+        <p className={styles.pageSubtitle}>Configure how candidates for this job will be assessed.</p>
       </div>
 
-      {/* ===== STEP 1 — mandatory type choice ===== */}
       {mode === "choose" && (
         <div>
           <FieldError message={chooseError} />
-          <div className="row g-4" style={{ marginTop: chooseError ? 4 : 0 }}>
+          <div className={`row g-4 ${chooseError ? styles.typeGridWithError : styles.typeGrid}`}>
             {[
               { type: "NONE", icon: "bi-slash-circle", title: "No Assessment", desc: "Don't require candidates to take any assessment for this job." },
               { type: "AI", icon: "bi-stars", title: "AI Assessment", desc: "Let AI generate multiple-choice questions based on your topics and difficulty." },
@@ -523,14 +479,13 @@ export default function AssessmentGeneratorPage() {
               <div className="col-md-4" key={opt.type}>
                 <button
                   type="button"
-                  className="hcard w-100 text-start"
-                  style={{ padding: 24, border: "2px solid var(--border)", background: "#fff", cursor: "pointer", height: "100%" }}
+                  className={`hcard w-100 text-start ${styles.typeCard}`}
                   onClick={() => handleChooseType(opt.type)}
                   disabled={updateSettingsMut.isPending || isLocked}
                 >
-                  <i className={`bi ${opt.icon}`} style={{ fontSize: 28, color: "var(--primary)", marginBottom: 12, display: "block" }} />
-                  <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 6 }}>{opt.title}</div>
-                  <div style={{ fontSize: 13, color: "var(--text-muted)" }}>{opt.desc}</div>
+                  <i className={`bi ${opt.icon} ${styles.typeCardIcon}`} />
+                  <div className={styles.typeCardTitle}>{opt.title}</div>
+                  <div className={styles.typeCardDesc}>{opt.desc}</div>
                 </button>
               </div>
             ))}
@@ -538,13 +493,12 @@ export default function AssessmentGeneratorPage() {
         </div>
       )}
 
-      {/* ===== "No Assessment" confirmation ===== */}
       {mode === "disabled" && (
-        <div className="hcard" style={{ padding: 32, maxWidth: 600, textAlign: "center" }}>
-          <i className="bi bi-slash-circle" style={{ fontSize: 36, color: "var(--text-muted)", marginBottom: 16, display: "block" }} />
-          <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 8 }}>Assessment disabled</div>
-          <p style={{ color: "var(--text-muted)", marginBottom: 20 }}>Candidates applying to this job won't be asked to take an assessment.</p>
-          <div style={{ display: "flex", gap: 10, justifyContent: "center" }}>
+        <div className={`hcard ${styles.disabledCard}`}>
+          <i className={`bi bi-slash-circle ${styles.disabledIcon}`} />
+          <div className={styles.disabledTitle}>Assessment disabled</div>
+          <p className={styles.disabledDesc}>Candidates applying to this job won't be asked to take an assessment.</p>
+          <div className={styles.disabledActions}>
             <button type="button" className="btn-outline-custom" onClick={handleChangeType} disabled={isLocked}>
               Change Assessment Type
             </button>
@@ -557,38 +511,37 @@ export default function AssessmentGeneratorPage() {
         </div>
       )}
 
-      {/* ===== AI config form (before questions exist) ===== */}
       {mode === "ai-config" && (
-        <div className="hcard" style={{ maxWidth: 700, overflow: "hidden" }}>
-          <div style={{ padding: "28px 32px 24px", borderBottom: "1px solid var(--border)" }}>
+        <div className={`hcard ${styles.aiConfigCard}`}>
+          <div className={styles.aiConfigHeader}>
             <ChangeTypeButton onClick={handleChangeType} style={{ marginBottom: 20 }} />
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <div style={{ width: 46, height: 46, borderRadius: 13, background: "linear-gradient(135deg, var(--primary-bg), #e4d9fc)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                <i className="bi bi-stars" style={{ color: "var(--primary)", fontSize: 20 }} />
+            <div className={styles.aiConfigTitleRow}>
+              <div className={styles.aiConfigIconWrap}>
+                <i className={`bi bi-stars ${styles.aiConfigIcon}`} />
               </div>
               <div>
-                <div style={{ fontWeight: 800, fontSize: 16 }}>Configure Assessment</div>
-                <div style={{ fontSize: 13, color: "var(--text-muted)" }}>Tell the AI what to test candidates on — it'll generate the questions for you.</div>
+                <div className={styles.aiConfigTitle}>Configure Assessment</div>
+                <div className={styles.aiConfigSubtitle}>Tell the AI what to test candidates on — it'll generate the questions for you.</div>
               </div>
             </div>
           </div>
 
-          <form onSubmit={handleGenerate} style={{ padding: "24px 32px 32px" }}>
+          <form onSubmit={handleGenerate} className={styles.aiConfigForm}>
             <div className="row g-4">
               <div className="col-md-6">
-                <label className="form-label fw-bold" style={{ fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
-                  <i className="bi bi-list-ol" style={{ color: "var(--text-muted)", fontSize: 13 }} />Question Count
+                <label className={`form-label fw-bold ${styles.fieldLabel}`}>
+                  <i className={`bi bi-list-ol ${styles.fieldLabelIcon}`} />Question Count
                 </label>
-                <input type="number" min="1" max="100" className="form-control" style={{ borderRadius: 10 }}
+                <input type="number" min="1" max="100" className={`form-control ${styles.fieldInput}`}
                   value={generateConfig.questionCount}
                   onChange={(e) => setGenerateConfig({ ...generateConfig, questionCount: e.target.value })} />
-                <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6 }}>Between 1 and 100 questions.</div>
+                <div className={styles.fieldHint}>Between 1 and 100 questions.</div>
               </div>
               <div className="col-md-6">
-                <label className="form-label fw-bold" style={{ fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
-                  <i className="bi bi-bar-chart-steps" style={{ color: "var(--text-muted)", fontSize: 13 }} />Difficulty
+                <label className={`form-label fw-bold ${styles.fieldLabel}`}>
+                  <i className={`bi bi-bar-chart-steps ${styles.fieldLabelIcon}`} />Difficulty
                 </label>
-                <div style={{ display: "flex", gap: 8 }}>
+                <div className={styles.difficultyRow}>
                   {["Easy", "Medium", "Hard"].map((level) => {
                     const active = generateConfig.difficulty === level;
                     const colors = tagColors[level];
@@ -597,12 +550,11 @@ export default function AssessmentGeneratorPage() {
                         key={level}
                         type="button"
                         onClick={() => setGenerateConfig({ ...generateConfig, difficulty: level })}
+                        className={styles.difficultyBtn}
                         style={{
-                          flex: 1, padding: "9px 0", borderRadius: 10, fontSize: 13, fontWeight: 700, cursor: "pointer",
                           border: active ? `1.5px solid ${colors.color}` : "1.5px solid var(--border)",
                           background: active ? colors.bg : "#fff",
                           color: active ? colors.color : "var(--text-muted)",
-                          transition: "all .15s",
                         }}
                       >
                         {level}
@@ -612,29 +564,29 @@ export default function AssessmentGeneratorPage() {
                 </div>
               </div>
               <div className="col-md-6">
-                <label className="form-label fw-bold" style={{ fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
-                  <i className="bi bi-clock" style={{ color: "var(--text-muted)", fontSize: 13 }} />Duration (minutes) <span style={{ color: "#DC2626" }}>*</span>
+                <label className={`form-label fw-bold ${styles.fieldLabel}`}>
+                  <i className={`bi bi-clock ${styles.fieldLabelIcon}`} />Duration (minutes) <span className={styles.requiredStar}>*</span>
                 </label>
-                <input type="number" min={MIN_ASSESSMENT_DURATION_MINUTES} max="240" required className="form-control" style={{ borderRadius: 10 }}
+                <input type="number" min={MIN_ASSESSMENT_DURATION_MINUTES} max="240" required className={`form-control ${styles.fieldInput}`}
                   value={generateConfig.durationMinutes}
                   onChange={(e) => setGenerateConfig({ ...generateConfig, durationMinutes: e.target.value })} />
-                <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6 }}>How long candidates get once they start.</div>
+                <div className={styles.fieldHint}>How long candidates get once they start.</div>
               </div>
               <div className="col-md-6">
-                <label className="form-label fw-bold" style={{ fontSize: 13, display: "flex", alignItems: "center", gap: 6 }}>
-                  <i className="bi bi-tags" style={{ color: "var(--text-muted)", fontSize: 13 }} />Topics
+                <label className={`form-label fw-bold ${styles.fieldLabel}`}>
+                  <i className={`bi bi-tags ${styles.fieldLabelIcon}`} />Topics
                 </label>
-                <input type="text" className="form-control" style={{ borderRadius: 10 }}
+                <input type="text" className={`form-control ${styles.fieldInput}`}
                   value={generateConfig.topics}
                   onChange={(e) => setGenerateConfig({ ...generateConfig, topics: e.target.value })} placeholder="React, JavaScript" />
-                <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6 }}>Comma separated. Leave blank to let AI choose based on the job.</div>
+                <div className={styles.fieldHint}>Comma separated. Leave blank to let AI choose based on the job.</div>
               </div>
             </div>
 
             <FieldError message={generateError} />
 
-            <div style={{ marginTop: 24, paddingTop: 20, borderTop: "1px solid var(--border)", display: "flex", justifyContent: "flex-end" }}>
-              <button type="submit" className="btn-primary-custom" disabled={generateMut.isPending || isLocked} style={{ minWidth: 200 }}>
+            <div className={styles.formFooterDivider}>
+              <button type="submit" className={`btn-primary-custom ${styles.wideSubmitBtn}`} disabled={generateMut.isPending || isLocked}>
                 {generateMut.isPending ? <><span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Generating...</> : <><i className="bi bi-magic me-2"></i>Generate Questions</>}
               </button>
             </div>
@@ -642,35 +594,34 @@ export default function AssessmentGeneratorPage() {
         </div>
       )}
 
-      {/* ===== Manual setup — ask for duration before creating the record ===== */}
       {mode === "manual-setup" && (
-        <div className="hcard" style={{ padding: 32, maxWidth: 700 }}>
+        <div className={`hcard ${styles.manualSetupCard}`}>
           <ChangeTypeButton onClick={handleChangeType} style={{ marginBottom: 20 }} />
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 24 }}>
-            <div style={{ width: 44, height: 44, borderRadius: 12, background: "#f3f5fb", display: "flex", alignItems: "center", justifyContent: "center" }}>
-              <i className="bi bi-pencil-square" style={{ color: "#1d2445", fontSize: 20 }} />
+          <div className={styles.manualSetupHeader}>
+            <div className={styles.manualSetupIconWrap}>
+              <i className={`bi bi-pencil-square ${styles.manualSetupIcon}`} />
             </div>
             <div>
-              <div style={{ fontWeight: 700, fontSize: 16 }}>Set Up Manual Assessment</div>
-              <div style={{ fontSize: 13, color: "var(--text-muted)" }}>Before you start adding questions, set the time candidates will have to complete it.</div>
+              <div className={styles.manualSetupTitle}>Set Up Manual Assessment</div>
+              <div className={styles.manualSetupSubtitle}>Before you start adding questions, set the time candidates will have to complete it.</div>
             </div>
           </div>
 
           <form onSubmit={handleConfirmManualSetup}>
             <div className="row g-4">
               <div className="col-md-6">
-                <label className="form-label fw-bold" style={{ fontSize: 13 }}>Duration (minutes) <span style={{ color: "#DC2626" }}>*</span></label>
-                <input type="number" min={MIN_ASSESSMENT_DURATION_MINUTES} max="240" required className="form-control" style={{ borderRadius: 10 }}
+                <label className="form-label fw-bold" style={{ fontSize: 13 }}>Duration (minutes) <span className={styles.requiredStar}>*</span></label>
+                <input type="number" min={MIN_ASSESSMENT_DURATION_MINUTES} max="240" required className={`form-control ${styles.fieldInput}`}
                   value={manualDuration}
                   onChange={(e) => setManualDuration(e.target.value)} />
-                <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 4 }}>How long candidates get to complete the assessment once they start it.</div>
+                <div className={styles.fieldHint} style={{ marginTop: 4 }}>How long candidates get to complete the assessment once they start it.</div>
               </div>
             </div>
 
             <FieldError message={manualSetupError} />
 
-            <div style={{ marginTop: 16, display: "flex", justifyContent: "flex-end" }}>
-              <button type="submit" className="btn-primary-custom" disabled={updateSettingsMut.isPending} style={{ minWidth: 200 }}>
+            <div className={styles.manualFormFooter}>
+              <button type="submit" className={`btn-primary-custom ${styles.wideSubmitBtn}`} disabled={updateSettingsMut.isPending}>
                 {updateSettingsMut.isPending ? <><span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Creating...</> : <><i className="bi bi-arrow-right me-2"></i>Continue</>}
               </button>
             </div>
@@ -678,14 +629,13 @@ export default function AssessmentGeneratorPage() {
         </div>
       )}
 
-      {/* ===== AI question list ===== */}
       {mode === "ai" && (
         <>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20 }}>
+          <div className={styles.sectionHeaderRow}>
             <div>
               <span className="ai-badge mb-2 d-inline-flex"><i className="bi bi-stars" /> AI-Powered Assessment</span>
-              <p style={{ color: "var(--text-muted)", margin: 0 }}>Review and refine the questions generated for this position.</p>
-              <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+              <p className={styles.sectionSubtitle}>Review and refine the questions generated for this position.</p>
+              <div className={styles.sectionMetaRow}>
                 <ChangeTypeButton onClick={handleChangeType} disabled={isLocked} style={{ marginTop: 8 }} />
                 <DurationBadge
                   assessment={assessment} isLocked={isLocked}
@@ -700,7 +650,7 @@ export default function AssessmentGeneratorPage() {
               </div>
             </div>
             {!isLocked && (
-              <button type="button" className="btn-outline-custom" style={{ fontSize: 13 }} onClick={handleRegenerateAssessment} disabled={regenerateAssMut.isPending}>
+              <button type="button" className={`btn-outline-custom ${styles.regenerateBtn}`} onClick={handleRegenerateAssessment} disabled={regenerateAssMut.isPending}>
                 <i className="bi bi-arrow-clockwise me-2" />{regenerateAssMut.isPending ? "Regenerating..." : "Regenerate All Questions"}
               </button>
             )}
@@ -718,7 +668,7 @@ export default function AssessmentGeneratorPage() {
             isLocked={isLocked}
           />
 
-          <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", maxWidth: 900, marginTop: 20 }}>
+          <div className={styles.publishRow}>
             {job?.status === "Drafted" && !isLocked && (
               <button type="button" className="btn-outline-custom" onClick={() => setShowPublishModal(true)} disabled={publishJobMutation.isPending}>
                 <i className="bi bi-send me-2" />Publish Now
@@ -728,15 +678,14 @@ export default function AssessmentGeneratorPage() {
         </>
       )}
 
-      {/* ===== Manual question list ===== */}
       {mode === "manual" && (
         <>
-          <div style={{ marginBottom: 20 }}>
-            <span className="ai-badge mb-2 d-inline-flex" style={{ background: "#f3f5fb", color: "#1d2445" }}>
+          <div className={styles.manualSectionWrap}>
+            <span className={`ai-badge mb-2 d-inline-flex ${styles.manualBadge}`}>
               <i className="bi bi-pencil-square" /> Manual Assessment
             </span>
-            <p style={{ color: "var(--text-muted)", margin: 0 }}>Write and manage your own questions for this position.</p>
-            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            <p className={styles.sectionSubtitle}>Write and manage your own questions for this position.</p>
+            <div className={styles.sectionMetaRow}>
               <ChangeTypeButton onClick={handleChangeType} disabled={isLocked} style={{ marginTop: 8 }} />
               <DurationBadge
                 assessment={assessment} isLocked={isLocked}
@@ -761,11 +710,11 @@ export default function AssessmentGeneratorPage() {
             isLocked={isLocked}
           />
 
-          <button type="button" className="btn-outline-custom w-100 mt-3" style={{ borderStyle: "dashed" }} onClick={openAddQuestion} disabled={isLocked}>
+          <button type="button" className={`btn-outline-custom w-100 mt-3 ${styles.addQuestionBtn}`} onClick={openAddQuestion} disabled={isLocked}>
             <i className="bi bi-plus me-2" />Add Question
           </button>
 
-          <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", maxWidth: 900, marginTop: 20 }}>
+          <div className={styles.publishRow}>
             {job?.status === "Drafted" && !isLocked && (
               <button
                 type="button"
@@ -786,43 +735,42 @@ export default function AssessmentGeneratorPage() {
         </>
       )}
 
-      {/* ===== Add / Edit question modal — shared by AI & Manual ===== */}
       {questionModalOpen && (
-        <div className="modal show d-block" tabIndex="-1" style={{ background: "rgba(0,0,0,0.5)" }}>
-          <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: 560 }}>
-            <div className="modal-content" style={{ borderRadius: 16, border: "none" }}>
-              <div className="modal-header" style={{ border: "none", padding: "24px 24px 0" }}>
-                <h5 style={{ fontWeight: 800 }}>{editingQuestion ? "Edit Question" : "Add Question"}</h5>
+        <div className={`modal show d-block ${styles.modalOverlay}`} tabIndex="-1">
+          <div className={`modal-dialog modal-dialog-centered ${styles.modalDialogMd}`}>
+            <div className={`modal-content ${styles.modalContent}`}>
+              <div className={`modal-header ${styles.questionModalHeader}`}>
+                <h5 className={styles.questionModalTitle}>{editingQuestion ? "Edit Question" : "Add Question"}</h5>
                 <button type="button" className="btn-close" onClick={() => setQuestionModalOpen(false)}></button>
               </div>
-              <div className="modal-body" style={{ padding: 24 }}>
+              <div className={`modal-body ${styles.questionModalBody}`}>
                 <form id="questionForm" onSubmit={handleQuestionSave}>
                   <div className="mb-3">
-                    <label className="form-label fw-bold" style={{ fontSize: 13 }}>Question</label>
-                    <textarea name="question" className="form-control" rows="2" required defaultValue={editingQuestion?.question || ""} style={{ fontSize: 14, borderRadius: 10 }}></textarea>
+                    <label className={`form-label fw-bold ${styles.smallFieldLabel}`}>Question</label>
+                    <textarea name="question" className={`form-control ${styles.smallFormField}`} rows="2" required defaultValue={editingQuestion?.question || ""}></textarea>
                   </div>
                   {[1, 2, 3, 4].map((n) => (
                     <div className="mb-2" key={n}>
-                      <label className="form-label fw-bold" style={{ fontSize: 13 }}>Option {n}</label>
-                      <input name={`option${n}`} type="text" className="form-control" required defaultValue={editingQuestion?.options?.[n - 1] || ""} style={{ fontSize: 14, borderRadius: 10 }} />
+                      <label className={`form-label fw-bold ${styles.smallFieldLabel}`}>Option {n}</label>
+                      <input name={`option${n}`} type="text" className={`form-control ${styles.smallFormField}`} required defaultValue={editingQuestion?.options?.[n - 1] || ""} />
                     </div>
                   ))}
                   <div className="mb-3">
-                    <label className="form-label fw-bold" style={{ fontSize: 13 }}>Correct Answer (must match one option exactly)</label>
-                    <input name="correctAnswer" type="text" className="form-control" required defaultValue={editingQuestion?.correctAnswer || ""} style={{ fontSize: 14, borderRadius: 10 }} />
+                    <label className={`form-label fw-bold ${styles.smallFieldLabel}`}>Correct Answer (must match one option exactly)</label>
+                    <input name="correctAnswer" type="text" className={`form-control ${styles.smallFormField}`} required defaultValue={editingQuestion?.correctAnswer || ""} />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label fw-bold" style={{ fontSize: 13 }}>Explanation</label>
-                    <textarea name="explanation" className="form-control" rows="2" defaultValue={editingQuestion?.explanation || ""} style={{ fontSize: 14, borderRadius: 10 }}></textarea>
+                    <label className={`form-label fw-bold ${styles.smallFieldLabel}`}>Explanation</label>
+                    <textarea name="explanation" className={`form-control ${styles.smallFormField}`} rows="2" defaultValue={editingQuestion?.explanation || ""}></textarea>
                   </div>
                   <div className="row">
                     <div className="col-6 mb-3">
-                      <label className="form-label fw-bold" style={{ fontSize: 13 }}>Topic</label>
-                      <input name="topic" type="text" className="form-control" defaultValue={editingQuestion?.topic || ""} style={{ fontSize: 14, borderRadius: 10 }} />
+                      <label className={`form-label fw-bold ${styles.smallFieldLabel}`}>Topic</label>
+                      <input name="topic" type="text" className={`form-control ${styles.smallFormField}`} defaultValue={editingQuestion?.topic || ""} />
                     </div>
                     <div className="col-6 mb-3">
-                      <label className="form-label fw-bold" style={{ fontSize: 13 }}>Difficulty</label>
-                      <select name="difficulty" className="form-select" defaultValue={editingQuestion?.difficulty || "Medium"} style={{ fontSize: 14, borderRadius: 10 }}>
+                      <label className={`form-label fw-bold ${styles.smallFieldLabel}`}>Difficulty</label>
+                      <select name="difficulty" className={`form-select ${styles.smallFormField}`} defaultValue={editingQuestion?.difficulty || "Medium"}>
                         <option value="Easy">Easy</option>
                         <option value="Medium">Medium</option>
                         <option value="Hard">Hard</option>
@@ -832,7 +780,7 @@ export default function AssessmentGeneratorPage() {
                 </form>
                 <FieldError message={questionModalError} />
               </div>
-              <div className="modal-footer" style={{ border: "none", padding: "0 24px 24px" }}>
+              <div className={`modal-footer ${styles.questionModalFooter}`}>
                 <button type="button" className="btn-outline-custom" onClick={() => setQuestionModalOpen(false)}>Cancel</button>
                 <button type="submit" form="questionForm" className="btn-primary-custom" disabled={addQuestionMut.isPending || updateQuestionMut.isPending}>
                   {(addQuestionMut.isPending || updateQuestionMut.isPending) ? "Saving..." : "Save Question"}
@@ -843,23 +791,22 @@ export default function AssessmentGeneratorPage() {
         </div>
       )}
 
-      {/* ===== Delete confirmation modal — replaces window.confirm() ===== */}
       {deleteConfirmId && (
-        <div className="modal show d-block" tabIndex="-1" style={{ background: "rgba(0,0,0,0.5)" }}>
-          <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: 420 }}>
-            <div className="modal-content" style={{ borderRadius: 16, border: "none" }}>
-              <div className="modal-body" style={{ padding: 28, textAlign: "center" }}>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: "#FEE2E2", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-                  <i className="bi bi-trash" style={{ color: "#DC2626", fontSize: 20 }} />
+        <div className={`modal show d-block ${styles.modalOverlay}`} tabIndex="-1">
+          <div className={`modal-dialog modal-dialog-centered ${styles.modalDialogSm}`}>
+            <div className={`modal-content ${styles.modalContent}`}>
+              <div className={`modal-body ${styles.confirmModalBody}`}>
+                <div className={`${styles.confirmIconWrap} ${styles.deleteIconWrap}`}>
+                  <i className={`bi bi-trash ${styles.deleteIcon}`} />
                 </div>
-                <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 6 }}>Delete this question?</div>
-                <p style={{ color: "var(--text-muted)", fontSize: 13.5, margin: 0 }}>This can't be undone.</p>
+                <div className={styles.confirmTitle}>Delete this question?</div>
+                <p className={styles.confirmDesc} style={{ marginBottom: 0 }}>This can't be undone.</p>
               </div>
-              <div className="modal-footer" style={{ border: "none", padding: "0 24px 24px", justifyContent: "center" }}>
+              <div className={`modal-footer ${styles.confirmModalFooter}`}>
                 <button type="button" className="btn-outline-custom" onClick={() => setDeleteConfirmId(null)} disabled={deletingQuestion}>
                   Cancel
                 </button>
-                <button type="button" className="btn-primary-custom" style={{ background: "#DC2626", borderColor: "#DC2626" }} onClick={handleConfirmDelete} disabled={deletingQuestion}>
+                <button type="button" className={`btn-primary-custom ${styles.deleteConfirmBtn}`} onClick={handleConfirmDelete} disabled={deletingQuestion}>
                   {deletingQuestion ? "Deleting..." : "Delete"}
                 </button>
               </div>
@@ -881,18 +828,28 @@ export default function AssessmentGeneratorPage() {
 function QuestionList({ questions, allowRegenerate, onEdit, onDelete, onRegenerate, regeneratingId, isLocked }) {
   if (questions.length === 0) {
     return (
-      <div className="hcard" style={{ padding: 32, textAlign: "center", color: "var(--text-muted)" }}>
+      <div className={`hcard ${styles.questionListEmpty}`}>
         No questions yet.
       </div>
     );
   }
 
+  const questionTextClass = isLocked
+    ? styles.questionTextLocked
+    : (allowRegenerate ? styles.questionTextWithRegenerate : styles.questionTextDefault);
+
+  const difficultyClass = {
+    Easy: styles.difficultyEasy,
+    Medium: styles.difficultyMedium,
+    Hard: styles.difficultyHard,
+  };
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+    <div className={styles.questionListWrap}>
       {questions.map((q, i) => (
-        <div key={q._id} className="hcard" style={{ padding: 20, position: "relative" }}>
+        <div key={q._id} className={`hcard ${styles.questionCard}`}>
           {!isLocked && (
-            <div style={{ position: "absolute", top: 16, right: 16, display: "flex", gap: 6 }}>
+            <div className={styles.questionCardActions}>
               {allowRegenerate && (
                 <button onClick={() => onRegenerate(q._id)} className="btn btn-sm btn-light" title="Regenerate via AI" disabled={regeneratingId === q._id}>
                   <i className={`bi ${regeneratingId === q._id ? "bi-hourglass-split" : "bi-arrow-clockwise"}`}></i>
@@ -902,22 +859,22 @@ function QuestionList({ questions, allowRegenerate, onEdit, onDelete, onRegenera
               <button onClick={() => onDelete(q._id)} className="btn btn-sm btn-light" title="Delete"><i className="bi bi-trash text-danger"></i></button>
             </div>
           )}
-          <div style={{ fontSize: 12, color: "var(--text-muted)", fontWeight: 700, marginBottom: 8 }}>Question {String(i + 1).padStart(2, "0")}</div>
-          <p style={{ fontWeight: 600, fontSize: 14, lineHeight: 1.6, marginBottom: 10, paddingRight: isLocked ? 0 : (allowRegenerate ? 120 : 80) }}>{q.question}</p>
+          <div className={styles.questionNumber}>Question {String(i + 1).padStart(2, "0")}</div>
+          <p className={`${styles.questionText} ${questionTextClass}`}>{q.question}</p>
           {q.options?.length > 0 && (
-            <ul style={{ fontSize: 13, marginBottom: 10, paddingInlineStart: 18 }}>
+            <ul className={styles.optionsList}>
               {q.options.map((opt) => (
-                <li key={opt} style={{ color: opt === q.correctAnswer ? "#065F46" : "var(--text-muted)", fontWeight: opt === q.correctAnswer ? 700 : 400 }}>
+                <li key={opt} className={opt === q.correctAnswer ? styles.optionCorrect : styles.optionDefault}>
                   {opt}{opt === q.correctAnswer && " ✓"}
                 </li>
               ))}
             </ul>
           )}
-          <div style={{ display: "flex", gap: 8 }}>
+          <div className={styles.tagsRow}>
             {q.topic && (
-              <span style={{ background: "#F3F4F6", color: "#374151", fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 20 }}>{q.topic}</span>
+              <span className={`${styles.tag} ${styles.topicTag}`}>{q.topic}</span>
             )}
-            <span style={{ background: (tagColors[q.difficulty] || tagColors.default).bg, color: (tagColors[q.difficulty] || tagColors.default).color, fontSize: 11, fontWeight: 600, padding: "3px 10px", borderRadius: 20 }}>
+            <span className={`${styles.tag} ${difficultyClass[q.difficulty] || styles.difficultyDefault}`}>
               {q.difficulty}
             </span>
           </div>

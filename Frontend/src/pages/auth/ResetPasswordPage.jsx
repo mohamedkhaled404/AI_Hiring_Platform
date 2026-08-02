@@ -8,6 +8,7 @@ import AuthPasswordField from "../../components/auth/AuthPasswordField";
 import BrandLogo from "../../components/common/BrandLogo";
 import BackButton from "../../components/common/BackButton";
 import * as authService from "../../services/authService";
+import styles from "./ResetPasswordPage.module.css";
 
 const schema = yup.object({
   newPassword: yup
@@ -62,26 +63,17 @@ export default function ResetPasswordPage() {
           <div className="mb-3">
             <BrandLogo size="sm" linkTo="/" />
           </div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 6 }}>Reset password</h1>
-          <p style={{ color: "var(--text-muted)", marginBottom: 32 }}>
+          <h1 className={styles.title}>Reset password</h1>
+          <p className={styles.subtitle}>
             Choose a new password for your account.
           </p>
 
           {!isLinkValid ? (
             <div>
-              <div
-                style={{
-                  background: "#FEE2E2",
-                  color: "#991B1B",
-                  padding: "12px 14px",
-                  borderRadius: 10,
-                  fontSize: 14,
-                  marginBottom: 20,
-                }}
-              >
+              <div className={styles.invalidLinkBanner}>
                 This reset link is invalid or incomplete. Please request a new one.
               </div>
-              <Link to="/login" className="btn-primary-custom" style={{ textDecoration: "none", display: "inline-block" }}>
+              <Link to="/login" className={`btn-primary-custom ${styles.invalidLinkAction}`}>
                 Back to Login
               </Link>
             </div>
@@ -102,7 +94,7 @@ export default function ResetPasswordPage() {
                   />
                   <ErrorMessage name="newPassword">
                     {(msg) => (
-                      <p style={{ color: "#991B1B", fontSize: 12, marginTop: 4, marginBottom: 8 }}>{msg}</p>
+                      <p className={styles.fieldError}>{msg}</p>
                     )}
                   </ErrorMessage>
 
@@ -115,15 +107,14 @@ export default function ResetPasswordPage() {
                   />
                   <ErrorMessage name="confirmPassword">
                     {(msg) => (
-                      <p style={{ color: "#991B1B", fontSize: 12, marginTop: 4, marginBottom: 8 }}>{msg}</p>
+                      <p className={styles.fieldError}>{msg}</p>
                     )}
                   </ErrorMessage>
 
                   <button
                     type="submit"
-                    className="btn-primary-custom w-100 mb-3"
+                    className={`btn-primary-custom w-100 mb-3 ${styles.submitBtn}`}
                     disabled={isSubmitting}
-                    style={{ marginTop: 16 }}
                   >
                     {isSubmitting ? "Resetting..." : "Reset Password"}
                   </button>
@@ -132,9 +123,9 @@ export default function ResetPasswordPage() {
             </Formik>
           )}
 
-          <div style={{ textAlign: "center", fontSize: 14, color: "var(--text-muted)", marginTop: 16 }}>
+          <div className={styles.footerNote}>
             Remember your password?{" "}
-            <Link to="/login" style={{ color: "var(--primary)", fontWeight: 700, textDecoration: "none" }}>
+            <Link to="/login" className={styles.footerLink}>
               Log in
             </Link>
           </div>

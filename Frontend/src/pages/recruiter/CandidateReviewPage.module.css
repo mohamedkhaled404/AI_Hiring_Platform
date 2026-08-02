@@ -1,0 +1,185 @@
+.errorBox {
+  padding: 24px;
+  color: #991B1B;
+  background: #FEE2E2;
+}
+.profileGridSpacing {
+  margin-top: 16px;
+}
+.colStack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.cardPad24 {
+  padding: 24px;
+}
+.cardPad24Center {
+  padding: 24px;
+  text-align: center;
+}
+.cardPad20 {
+  padding: 20px;
+}
+.cardPad20Center {
+  padding: 20px;
+  text-align: center;
+}
+.avatarWrap {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+.avatarImg {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--primary-bg);
+}
+.verifiedBadge {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+}
+.verifiedIcon {
+  font-size: 12px;
+}
+.candidateName {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.candidateTitle {
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+.contactRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-align: left;
+}
+.iconPrimary {
+  color: var(--primary);
+}
+.cvWrapper {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.cvLinkInner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+}
+.sectionLabelMb16 {
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.sectionLabelMb12 {
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.fw700 {
+  font-weight: 700;
+}
+.colGap10 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.socialLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: var(--primary);
+  text-decoration: none;
+  text-transform: capitalize;
+}
+.aiReportBtn {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.aboutText {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  margin: 0;
+}
+.mutedNote {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+}
+.skillsHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.skillsWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.eduItem {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+.eduIconWrap {
+  width: 40px;
+  height: 40px;
+  background: var(--primary-bg);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.eduDegree {
+  font-weight: 700;
+  font-size: 14px;
+}
+.eduSchool {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.eduPeriod {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.matchScoreLabel {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}

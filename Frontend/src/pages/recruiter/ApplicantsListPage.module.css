@@ -1,0 +1,142 @@
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.title {
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.subtitle {
+  color: var(--text-muted);
+  margin: 0;
+}
+.headerActions {
+  display: flex;
+  gap: 10px;
+}
+
+.searchBox {
+  max-width: 320px;
+}
+.filterBox {
+  max-width: 170px;
+}
+
+.errorText {
+  padding: 20px;
+  color: #991B1B;
+}
+.emptyText {
+  padding: 20px;
+  color: var(--text-muted);
+}
+
+.tableCard {
+  overflow-x: auto;
+}
+.table {
+  min-width: 900px;
+}
+.headRow {
+  font-size: 13px;
+}
+.actionsHead {
+  min-width: 132px;
+}
+
+.candidateCell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.candidateAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.candidateName {
+  font-weight: 700;
+  font-size: 14px;
+}
+.candidateEmail {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.jobBadge {
+  background: var(--primary-bg);
+  color: var(--primary);
+}
+
+.centerCell {
+  text-align: center;
+}
+.mutedSmall {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.violationsCell {
+  text-align: center;
+  font-size: 13px;
+}
+.violationsWrap {
+  cursor: help;
+}
+.violationChip {
+  display: inline-block;
+  margin: 0 2px;
+}
+
+.reportCell {
+  max-width: 160px;
+}
+.reportLink {
+  color: var(--accent-teal-dark);
+}
+
+.actionsCol {
+  min-width: 128px;
+}
+.viewCandidateBtn {
+  font-size: 11.5px;
+  padding: 6px 8px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent-teal-dark);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.viewCandidateBtn:hover {
+  background: #0C5D57;
+}
+.decisionBtn {
+  font-size: 11.5px;
+  padding: 5px 8px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.decisionBtn--accept {
+  background: #D1FAE5;
+  color: #065F46;
+}
+.decisionBtn--reject {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
+.footerText {
+  margin-top: 16px;
+  padding: 8px 4px;
+  font-size: 13px;
+  color: var(--text-muted);
+}

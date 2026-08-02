@@ -10,10 +10,7 @@ import { postJobSchema } from "../../schemas/postJobSchema";
 import LoadingState from "../../components/common/LoadingState";
 import BackButton from "../../components/common/BackButton";
 import toast from "react-hot-toast";
-
-const inputStyle = { width: "100%", border: "1.5px solid var(--border)", borderRadius: 10, padding: "10px 14px", fontSize: 14, outline: "none" };
-const labelStyle = { fontSize: 13, fontWeight: 600, marginBottom: 6, display: "block" };
-const errorStyle = { color: "#991B1B", fontSize: 12, marginTop: 4, marginBottom: 8 };
+import styles from "./EditJobPage.module.css";
 
 function todayMinDate() {
   return new Date().toISOString().slice(0, 10);
@@ -22,7 +19,7 @@ function todayMinDate() {
 function FieldError({ name }) {
   return (
     <ErrorMessage name={name}>
-      {(msg) => <p style={errorStyle}>{msg}</p>}
+      {(msg) => <p className={styles.fieldError}>{msg}</p>}
     </ErrorMessage>
   );
 }
@@ -39,7 +36,7 @@ function formatCountdown(ms) {
 function EditWindowBanner({ timeLeftMs, isLocked }) {
   if (isLocked) {
     return (
-      <div style={{ background: "#FEE2E2", color: "#991B1B", padding: "10px 16px", borderRadius: 10, fontSize: 13, fontWeight: 600, marginBottom: 20, display: "flex", alignItems: "center", gap: 8 }}>
+      <div className={`${styles.banner} ${styles["banner--locked"]}`}>
         <i className="bi bi-lock-fill" aria-hidden="true" />
         The editing window has expired - this job can no longer be modified.
       </div>
@@ -49,7 +46,7 @@ function EditWindowBanner({ timeLeftMs, isLocked }) {
   if (timeLeftMs === null) return null;
 
   return (
-    <div style={{ background: "#FEF3C7", color: "#92400E", padding: "10px 16px", borderRadius: 10, fontSize: 13, fontWeight: 600, marginBottom: 20, display: "flex", alignItems: "center", gap: 8 }}>
+    <div className={`${styles.banner} ${styles["banner--warning"]}`}>
       <i className="bi bi-clock-history" aria-hidden="true" />
       {formatCountdown(timeLeftMs)} left to edit this job before it locks automatically.
     </div>
@@ -60,30 +57,26 @@ function PublishConfirmModal({ show, onCancel, onConfirm, pending }) {
   if (!show) return null;
 
   return (
-    <div className="modal show d-block" tabIndex="-1" style={{ background: "rgba(0,0,0,0.5)" }}>
-      <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: 420 }}>
-        <div className="modal-content" style={{ borderRadius: 16, border: "none" }}>
-          <div className="modal-body" style={{ padding: 28, textAlign: "center" }}>
-            <div style={{
-              width: 48, height: 48, borderRadius: 12, margin: "0 auto 16px",
-              background: "var(--primary-bg)",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}>
-              <i className="bi bi-upload" style={{ color: "var(--primary)", fontSize: 20 }} />
+    <div className={`modal show d-block ${styles.modalBackdrop}`} tabIndex="-1">
+      <div className={`modal-dialog modal-dialog-centered ${styles.modalDialog}`}>
+        <div className={`modal-content ${styles.modalContent}`}>
+          <div className={`modal-body ${styles.modalBody}`}>
+            <div className={styles.modalIconWrap}>
+              <i className={`bi bi-upload ${styles.modalIcon}`} />
             </div>
-            <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 6 }}>Publish Job</div>
-            <p style={{ color: "var(--text-muted)", fontSize: 13.5, marginBottom: 12 }}>
+            <div className={styles.modalTitle}>Publish Job</div>
+            <p className={styles.modalText}>
               Are you sure you want to publish this job now?
             </p>
-            <div style={{ fontWeight: 600, fontSize: 13, color: "var(--text-muted)", marginBottom: 8 }}>Once published:</div>
-            <ul style={{ textAlign: "left", color: "var(--text-muted)", fontSize: 13, margin: 0, paddingInlineStart: 20, lineHeight: 1.8 }}>
+            <div className={styles.modalListLabel}>Once published:</div>
+            <ul className={styles.modalList}>
               <li>The job will become visible to candidates immediately.</li>
               <li>You will no longer be able to edit this job.</li>
               <li>The assessment linked to this job will be locked.</li>
               <li>This action cannot be undone.</li>
             </ul>
           </div>
-          <div className="modal-footer" style={{ border: "none", padding: "0 24px 24px", justifyContent: "center" }}>
+          <div className={`modal-footer ${styles.modalFooter}`}>
             <button type="button" className="btn-outline-custom" onClick={onCancel} disabled={pending}>Cancel</button>
             <button type="button" className="btn-primary-custom" onClick={onConfirm} disabled={pending}>
               {pending ? "Publishing..." : "Publish Now"}
@@ -170,7 +163,7 @@ export default function EditJobPage() {
     return (
       <>
         <BackButton fallbackTo="/recruiter/jobs" label="Back to Jobs" />
-        <div style={{ background: "#FEE2E2", color: "#991B1B", padding: "12px 16px", borderRadius: 10, fontSize: 14 }}>
+        <div className={styles.notFoundBanner}>
           {jobFetchError?.message || "Failed to load job details."}
         </div>
       </>
@@ -181,7 +174,7 @@ export default function EditJobPage() {
     return (
       <>
         <BackButton fallbackTo="/recruiter/jobs" label="Back to Jobs" />
-        <div style={{ background: "#FEE2E2", color: "#991B1B", padding: "12px 16px", borderRadius: 10, fontSize: 14 }}>
+        <div className={styles.notFoundBanner}>
           Job not found.
         </div>
       </>
@@ -208,8 +201,8 @@ export default function EditJobPage() {
       <BackButton fallbackTo="/recruiter/jobs" label="Back to Jobs" />
       <div className="page-header-row">
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4 }}>Edit Job</h1>
-          <p style={{ color: "var(--text-muted)", margin: 0, fontSize: 14 }}>Update the details of your job posting.</p>
+          <h1 className={styles.pageTitle}>Edit Job</h1>
+          <p className={styles.pageSubtitle}>Update the details of your job posting.</p>
         </div>
       </div>
 
@@ -259,15 +252,15 @@ export default function EditJobPage() {
           return (
             <Form>
               {updateJobMutation.isError && (
-                <div style={{ background: "#FEE2E2", color: "#991B1B", padding: "10px 14px", borderRadius: 10, fontSize: 13, marginBottom: 16 }}>
+                <div className={styles.errorBanner}>
                   {updateJobMutation.error?.message || "Failed to update job. Please try again."}
                 </div>
               )}
 
-              <div className="hcard" style={{ padding: 28, marginBottom: 20 }}>
-                <div style={{ marginBottom: 16 }}>
-                  <label style={labelStyle} htmlFor="category">Category</label>
-                  <Field as="select" id="category" name="category" style={inputStyle}>
+              <div className={`hcard ${styles.formCard}`}>
+                <div className={styles.formGroup}>
+                  <label className={styles.label} htmlFor="category">Category</label>
+                  <Field as="select" id="category" name="category" className={styles.input}>
                     <option value="">Select category</option>
                     {categories.map((c) => (
                       <option key={c._id} value={c._id}>{c.name}</option>
@@ -276,54 +269,54 @@ export default function EditJobPage() {
                   <FieldError name="category" />
                 </div>
 
-                <div style={{ marginBottom: 16 }}>
-                  <label style={labelStyle} htmlFor="title">Job Title</label>
-                  <Field id="title" name="title" placeholder="e.g. Frontend Developer" style={inputStyle} />
+                <div className={styles.formGroup}>
+                  <label className={styles.label} htmlFor="title">Job Title</label>
+                  <Field id="title" name="title" placeholder="e.g. Frontend Developer" className={styles.input} />
                   <FieldError name="title" />
                 </div>
 
-                <div style={{ marginBottom: 16 }}>
-                  <label style={labelStyle} htmlFor="description">Description</label>
+                <div className={styles.formGroup}>
+                  <label className={styles.label} htmlFor="description">Description</label>
                   <Field
                     as="textarea"
                     id="description"
                     name="description"
                     rows={5}
                     placeholder="Describe the role and responsibilities..."
-                    style={{ ...inputStyle, resize: "vertical" }}
+                    className={`${styles.input} ${styles.textarea}`}
                   />
                   <FieldError name="description" />
                 </div>
 
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 16 }} className="grid-stats-3">
+                <div className={`grid-stats-3 ${styles.threeCol}`}>
                   <div>
-                    <label style={labelStyle} htmlFor="workplace">Workplace</label>
-                    <Field as="select" id="workplace" name="workplace" style={inputStyle}>
+                    <label className={styles.label} htmlFor="workplace">Workplace</label>
+                    <Field as="select" id="workplace" name="workplace" className={styles.input}>
                       {WORKPLACES.map((o) => <option key={o} value={o}>{o}</option>)}
                     </Field>
                     <FieldError name="workplace" />
                   </div>
                   <div>
-                    <label style={labelStyle} htmlFor="jobType">Job Type</label>
-                    <Field as="select" id="jobType" name="jobType" style={inputStyle}>
+                    <label className={styles.label} htmlFor="jobType">Job Type</label>
+                    <Field as="select" id="jobType" name="jobType" className={styles.input}>
                       {JOB_TYPES.map((o) => <option key={o} value={o}>{o}</option>)}
                     </Field>
                     <FieldError name="jobType" />
                   </div>
                   <div>
-                    <label style={labelStyle} htmlFor="location">Location</label>
-                    <Field id="location" name="location" placeholder="e.g. Cairo, Egypt" style={inputStyle} />
+                    <label className={styles.label} htmlFor="location">Location</label>
+                    <Field id="location" name="location" placeholder="e.g. Cairo, Egypt" className={styles.input} />
                     <FieldError name="location" />
                   </div>
                 </div>
 
-                <div style={{ marginBottom: 16 }}>
-                  <label style={labelStyle}>Skills</label>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8, padding: "10px 12px", border: "1.5px solid var(--border)", borderRadius: 10, minHeight: 44 }}>
+                <div className={styles.formGroup}>
+                  <label className={styles.label}>Skills</label>
+                  <div className={styles.skillsBox}>
                     {values.skills.map((s) => (
-                      <span key={s} style={{ background: "var(--primary-bg)", color: "var(--primary)", padding: "4px 10px", borderRadius: 20, fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
+                      <span key={s} className={styles.skillChip}>
                         {s}
-                        <i className="bi bi-x" style={{ cursor: "pointer" }} onClick={() => removeSkill(s)} aria-hidden="true" />
+                        <i className={`bi bi-x ${styles.skillChipRemove}`} onClick={() => removeSkill(s)} aria-hidden="true" />
                       </span>
                     ))}
                     <input
@@ -332,33 +325,33 @@ export default function EditJobPage() {
                       onKeyDown={handleSkillKey}
                       onBlur={() => addSkill()}
                       placeholder="Add skill..."
-                      style={{ border: "none", outline: "none", flex: 1, minWidth: 100, fontSize: 13 }}
+                      className={styles.skillInput}
                     />
                   </div>
                   <FieldError name="skills" />
-                  <div style={{ fontSize: 12, color: "var(--text-muted)", marginTop: 6 }}>Press Enter or use commas to separate tags.</div>
+                  <div className={styles.skillsHint}>Press Enter or use commas to separate tags.</div>
                 </div>
 
-                <div style={{ marginBottom: 16 }}>
-                  <label style={labelStyle} htmlFor="requirements">Requirements</label>
+                <div className={styles.formGroup}>
+                  <label className={styles.label} htmlFor="requirements">Requirements</label>
                   <Field
                     as="textarea"
                     id="requirements"
                     name="requirements"
                     rows={3}
                     placeholder="e.g. 2+ years of frontend experience."
-                    style={{ ...inputStyle, resize: "vertical" }}
+                    className={`${styles.input} ${styles.textarea}`}
                   />
                   <FieldError name="requirements" />
                 </div>
 
-                <div style={{ marginBottom: 16 }}>
-                  <label style={labelStyle} htmlFor="application-end">Application End</label>
-                  <Field id="application-end" name="applicationEnd" type="date" min={todayMinDate()} style={{ ...inputStyle, width: "auto", maxWidth: 220 }} />
+                <div className={styles.formGroup}>
+                  <label className={styles.label} htmlFor="application-end">Application End</label>
+                  <Field id="application-end" name="applicationEnd" type="date" min={todayMinDate()} className={`${styles.input} ${styles.dateInput}`} />
                   <FieldError name="applicationEnd" />
                 </div>
 
-                <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 28, paddingTop: 20, borderTop: "1px solid var(--border)" }}>
+                <div className={styles.actionsRow}>
                   {job.status === "Drafted" && (
                     <button
                       type="button"

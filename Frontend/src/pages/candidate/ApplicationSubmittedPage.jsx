@@ -4,6 +4,7 @@ import { getApplicationSubmitted } from "../../services/applicationService";
 import LoadingState from "../../components/common/LoadingState";
 import BackButton from "../../components/common/BackButton";
 import EmptyState from "../../components/common/EmptyState";
+import styles from "./ApplicationSubmittedPage.module.css";
 
 export default function ApplicationSubmittedPage() {
   const navigate = useNavigate();
@@ -60,9 +61,9 @@ export default function ApplicationSubmittedPage() {
   }
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "40px 16px", textAlign: "center" }}>
-      <div style={{ maxWidth: 520, width: "100%", textAlign: "center" }}>
-        <div style={{ textAlign: "left" }}>
+    <div className={styles.page}>
+      <div className={styles.content}>
+        <div className={styles.backWrap}>
           <button
             type="button"
             className="back-button rounded-pill px-3 py-2 shadow-sm"
@@ -72,27 +73,26 @@ export default function ApplicationSubmittedPage() {
             <span>Back to Jobs</span>
           </button>
         </div>
-        <div style={{ position: "relative", width: 200, height: 200, margin: "0 auto 32px" }}>
-          <div style={{ width: 160, height: 160, borderRadius: "50%", background: "linear-gradient(135deg, #f3f5fb, #DBEAFE)", margin: "20px auto 0", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <i className="bi bi-person-workspace" style={{ fontSize: 64, color: "var(--primary)" }} aria-hidden="true" />
+        <div className={styles.iconWrap}>
+          <div className={styles.iconCircle}>
+            <i className={`bi bi-person-workspace ${styles.iconInner}`} aria-hidden="true" />
           </div>
-          <span style={{ position: "absolute", top: 30, right: 20, width: 32, height: 32, background: "var(--success)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", color: "#fff" }}>
+          <span className={styles.checkBadge}>
             <i className="bi bi-check-lg" aria-hidden="true" />
           </span>
         </div>
 
-        <h1 style={{ fontSize: 28, fontWeight: 800, marginBottom: 12, maxWidth: 480 }}>Application Submitted Successfully!</h1>
-        <p style={{ color: "var(--text-muted)", fontSize: 15, lineHeight: 1.7, maxWidth: 520, marginBottom: 20 }}>{data.message}</p>
+        <h1 className={styles.title}>Application Submitted Successfully!</h1>
+        <p className={styles.message}>{data.message}</p>
 
-        <span style={{ background: "var(--primary-bg)", color: "var(--primary)", padding: "8px 16px", borderRadius: 20, fontSize: 13, fontWeight: 600, marginBottom: 32, display: "inline-block" }}>
+        <span className={styles.statusBadge}>
           • {data.statusLabel}
         </span>
 
         {data.jobId && hasAssessment && (
           <button
             type="button"
-            className="btn-primary-custom"
-            style={{ padding: "12px 28px", marginBottom: 16, width: "100%", maxWidth: 320 }}
+            className={`btn-primary-custom ${styles.startAssessmentBtn}`}
             onClick={() => navigate(`/candidate/jobs/${data.jobId}/assessment`)}
           >
             <i className="bi bi-clipboard-check me-2" aria-hidden="true" />
@@ -101,32 +101,30 @@ export default function ApplicationSubmittedPage() {
         )}
 
         {hasAssessment && (
-          <p style={{ color: "#92400E", fontSize: 12.5, marginBottom: 16, display: "flex", alignItems: "center", gap: 6, justifyContent: "center" }}>
+          <p className={styles.assessmentNotice}>
             <i className="bi bi-info-circle-fill" aria-hidden="true" />
             This job requires an assessment — the company won't see your application until it's completed. You can complete it within 3 days.
           </p>
         )}
 
-        <div style={{ display: "flex", gap: 12, marginBottom: 32, flexWrap: "wrap", justifyContent: "center" }}>
+        <div className={styles.actionsRow}>
           <button
             type="button"
-            className="btn-outline-custom"
-            style={{ padding: "12px 28px" }}
+            className={`btn-outline-custom ${styles.actionBtn}`}
             onClick={() => guardedNavigate(() => navigate(`/candidate/applications/${applicationId}`))}
           >
             Track Application
           </button>
           <button
             type="button"
-            className="btn-outline-custom"
-            style={{ padding: "12px 28px" }}
+            className={`btn-outline-custom ${styles.actionBtn}`}
             onClick={() => guardedNavigate(() => navigate("/candidate/jobs"))}
           >
             Back to Jobs
           </button>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "var(--text-muted)", justifyContent: "center" }}>
+        <div className={styles.etaRow}>
           <i className="bi bi-info-circle" aria-hidden="true" />
           {data.eta}
         </div>
@@ -134,19 +132,19 @@ export default function ApplicationSubmittedPage() {
 
       {/* ===== Leave-without-assessment confirmation modal ===== */}
       {pendingNav && (
-        <div className="modal show d-block" tabIndex="-1" style={{ background: "rgba(0,0,0,0.5)" }}>
-          <div className="modal-dialog modal-dialog-centered" style={{ maxWidth: 440 }}>
-            <div className="modal-content" style={{ borderRadius: 16, border: "none" }}>
-              <div className="modal-body" style={{ padding: 28, textAlign: "center" }}>
-                <div style={{ width: 48, height: 48, borderRadius: 12, background: "#FEF3C7", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
-                  <i className="bi bi-exclamation-triangle" style={{ color: "#D97706", fontSize: 20 }} />
+        <div className={`modal show d-block ${styles.modalBackdrop}`} tabIndex="-1">
+          <div className={`modal-dialog modal-dialog-centered ${styles.modalDialog}`}>
+            <div className={`modal-content ${styles.modalContent}`}>
+              <div className={`modal-body ${styles.modalBody}`}>
+                <div className={styles.modalIconWrap}>
+                  <i className={`bi bi-exclamation-triangle ${styles.modalIcon}`} />
                 </div>
-                <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 6 }}>Leave without completing the assessment?</div>
-                <p style={{ color: "var(--text-muted)", fontSize: 13.5, margin: 0 }}>
+                <div className={styles.modalTitle}>Leave without completing the assessment?</div>
+                <p className={styles.modalText}>
                   This job requires an assessment. You can complete it within 3 days, otherwise the company won't be able to see your application.
                 </p>
               </div>
-              <div className="modal-footer" style={{ border: "none", padding: "0 24px 24px", justifyContent: "center" }}>
+              <div className={`modal-footer ${styles.modalFooter}`}>
                 <button type="button" className="btn btn-light" onClick={() => setPendingNav(null)}>
                   Stay &amp; Take Assessment
                 </button>

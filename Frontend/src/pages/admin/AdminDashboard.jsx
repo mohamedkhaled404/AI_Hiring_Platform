@@ -5,6 +5,7 @@ import { getCategories } from "../../services/categoryService";
 import { getAllUsers } from "../../services/userService";
 import { getJobs } from "../../services/jobService";
 import LoadingState from "../../components/common/LoadingState";
+import styles from "./AdminDashboard.module.css";
 
 export default function AdminDashboard() {
   const { user } = useAuth();
@@ -68,8 +69,8 @@ export default function AdminDashboard() {
     <>
       <div className="page-header-row">
         <div>
-          <h1 style={{ fontSize: 24, fontWeight: 800, marginBottom: 4 }}>Admin Dashboard</h1>
-          <p style={{ color: "var(--text-muted)", margin: 0, fontSize: 14 }}>
+          <h1 className={styles.title}>Admin Dashboard</h1>
+          <p className={styles.subtitle}>
             System overview and data administration panel. Welcome back, {user?.name || "Administrator"}.
           </p>
         </div>
@@ -78,17 +79,17 @@ export default function AdminDashboard() {
 <div className="row g-4 mb-4">
   {statCards.map((card) => (
     <div key={card.label} className="col-12 col-md-4">
-        <div className="border-0 shadow-sm d-flex justify-content-between align-items-center p-4" style={{ backgroundColor: card.bgColor, borderRadius: 8 }}>
+        <div className={`border-0 shadow-sm d-flex justify-content-between align-items-center p-4 ${styles.statCard}`} style={{ backgroundColor: card.bgColor }}>
         <div className="d-flex flex-column">
-          <div className="stat-label" style={{ fontSize: 13, color: "var(--text-muted)", fontWeight: 500 }}>{card.label}</div>
-          <div className="stat-value" style={{ fontSize: 32, fontWeight: 800 }}>{card.value}</div>
+          <div className={styles.statLabel}>{card.label}</div>
+          <div className={styles.statValue}>{card.value}</div>
         </div>
         {card.onClick ? (
-          <button type="button" onClick={card.onClick} className="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" style={{ width: 40, height: 40 }}>
+          <button type="button" onClick={card.onClick} className={`btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center ${styles.iconBtn}`}>
             <i className="bi bi-arrow-right-short fs-4"></i>
           </button>
         ) : card.linkTo ? (
-          <Link to={card.linkTo} className="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" style={{ width: 40, height: 40 }}>
+          <Link to={card.linkTo} className={`btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center ${styles.iconBtn}`}>
             <i className="bi bi-arrow-right-short fs-4"></i>
           </Link>
         ) : null}
@@ -99,11 +100,11 @@ export default function AdminDashboard() {
 
         <div className="row g-4 mb-4">
           <div className="col-12">
-            <div className="hcard" style={{ padding: 24 }}>
-              <h2 className="section-title" style={{ fontSize: 16, fontWeight: 700, marginBottom: 16 }}>
+            <div className={`hcard ${styles.taskCard}`}>
+              <h2 className={`section-title ${styles.taskTitle}`}>
                 Quick Admin Tasks
               </h2>
-              <p style={{ fontSize: 14, color: "var(--text-muted)", lineHeight: 1.6, marginBottom: 20 }}>
+              <p className={styles.taskDesc}>
                 Use the category manager to review and add job tags. These categories dictate options when recruiter HRs submit job vacancies and candidates browse or filter open roles.
               </p>
               <button

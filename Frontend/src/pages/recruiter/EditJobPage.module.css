@@ -1,0 +1,190 @@
+.input {
+  width: 100%;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 14px;
+  outline: none;
+}
+.textarea {
+  resize: vertical;
+}
+.dateInput {
+  width: auto;
+  max-width: 220px;
+}
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  display: block;
+}
+.fieldError {
+  color: #991B1B;
+  font-size: 12px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+.banner {
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.banner--locked {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+.banner--warning {
+  background: #FEF3C7;
+  color: #92400E;
+}
+
+.modalBackdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+.modalDialog {
+  max-width: 420px;
+}
+.modalContent {
+  border-radius: 16px;
+  border: none;
+}
+.modalBody {
+  padding: 28px;
+  text-align: center;
+}
+.modalIconWrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  margin: 0 auto 16px;
+  background: var(--primary-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modalIcon {
+  color: var(--primary);
+  font-size: 20px;
+}
+.modalTitle {
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+.modalText {
+  color: var(--text-muted);
+  font-size: 13.5px;
+  margin-bottom: 12px;
+}
+.modalListLabel {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.modalList {
+  text-align: left;
+  color: var(--text-muted);
+  font-size: 13px;
+  margin: 0;
+  padding-inline-start: 20px;
+  line-height: 1.8;
+}
+.modalFooter {
+  border: none;
+  padding: 0 24px 24px;
+  justify-content: center;
+}
+
+.errorBanner {
+  background: #FEE2E2;
+  color: #991B1B;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+.notFoundBanner {
+  background: #FEE2E2;
+  color: #991B1B;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.pageTitle {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+.pageSubtitle {
+  color: var(--text-muted);
+  margin: 0;
+  font-size: 14px;
+}
+
+.formCard {
+  padding: 28px;
+  margin-bottom: 20px;
+}
+.formGroup {
+  margin-bottom: 16px;
+}
+.threeCol {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.skillsBox {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  min-height: 44px;
+}
+.skillChip {
+  background: var(--primary-bg);
+  color: var(--primary);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.skillChipRemove {
+  cursor: pointer;
+}
+.skillInput {
+  border: none;
+  outline: none;
+  flex: 1;
+  min-width: 100px;
+  font-size: 13px;
+}
+.skillsHint {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 6px;
+}
+
+.actionsRow {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}

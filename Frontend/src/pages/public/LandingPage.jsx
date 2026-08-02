@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import authHeroVideo from "../../assets/authhero.mp4";
@@ -111,27 +111,26 @@ export default function LandingPage() {
               variants={stagger}
             >
               <motion.div className={s.badge} variants={fadeUp} transition={{ duration: 0.55 }}>
-                <i className="bi bi-stars me-2" style={{ color: "#5EEAD4" }} />
+                <i className={`bi bi-stars me-2 ${s.badgeIcon}`} />
                 Revolutionizing Recruitment
               </motion.div>
               <motion.h1 className={s.heroTitle} variants={fadeUp} transition={{ duration: 0.6 }}>
-                AI-Powered <span style={{ color: "#5EEAD4" }}>Recruitment</span> Platform
+                AI-Powered <span className={s.highlightText}>Recruitment</span> Platform
               </motion.h1>
               <motion.p className={s.heroDesc} variants={fadeUp} transition={{ duration: 0.6 }}>
                 The future of hiring is human-centered and AI-driven. Automate the mundane and focus on what truly matters: finding the perfect fit.
               </motion.p>
               <motion.div className={`d-flex flex-wrap justify-content-center gap-3 mb-4 ${s.heroBtns}`} variants={fadeUp} transition={{ duration: 0.6 }}>
                 <motion.button
-                  className="btn-primary-custom btn-lg-custom"
+                  className={`btn-primary-custom ${s.btnLgCustom} ${s.getStartedBtn}`}
                   onClick={() => navigate("/register")}
                   whileHover={{ scale: 1.03, y: -2 }}
                   whileTap={{ scale: 0.98 }}
-                  style={{ background: "#5EEAD4", color: "#0F172A" }}
                 >
                   Get Started Free <i className="bi bi-arrow-right ms-1" />
                 </motion.button>
                 <motion.button
-                  className={`btn-outline-custom btn-lg-custom ${s.btnOutlineLight}`}
+                  className={`btn-outline-custom ${s.btnLgCustom} ${s.btnOutlineLight}`}
                   onClick={() => document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })}
                   whileHover={{ scale: 1.03, y: -2 }}
                   whileTap={{ scale: 0.98 }}
@@ -152,7 +151,7 @@ export default function LandingPage() {
                     />
                   ))}
                 </div>
-                <span className={s.heroSocialText} style={{ fontSize: 13 }}>
+                <span className={s.heroSocialText}>
                   <strong className={s.heroSocialStrong}>Join 500+ companies</strong> already hiring smarter
                 </span>
               </motion.div>
@@ -183,7 +182,7 @@ export default function LandingPage() {
       </motion.section>
 
       {/* Stats */}
-      <section style={{ padding: "48px 0", background: "#fff" }}>
+      <section className={s.statsSection}>
         <div className="container">
           <motion.div className="row g-3" variants={stagger} initial="hidden" whileInView="visible" viewport={viewport}>
             {STATS.map((st) => (
@@ -204,7 +203,7 @@ export default function LandingPage() {
       </section>
 
       {/* Features */}
-      <section id="features" style={{ padding: "80px 0", background: "var(--accent-teal-wash)" }}>
+      <section id="features" className={s.tealSection}>
         <div className="container">
           <motion.div
             className="text-center mb-5"
@@ -246,7 +245,7 @@ export default function LandingPage() {
       </section>
 
       {/* Dashboard preview */}
-      <section style={{ padding: "80px 0", background: "#fff" }}>
+      <section className={s.whiteSection}>
         <div className="container">
           <div className="row align-items-center g-5">
             <motion.div
@@ -258,23 +257,22 @@ export default function LandingPage() {
               transition={{ duration: 0.65 }}
             >
               <div className={s.sectionEyebrow}>REAL-TIME DASHBOARD</div>
-              <h2 className={s.sectionTitle} style={{ textAlign: "left" }}>
+              <h2 className={`${s.sectionTitle} ${s.textLeft}`}>
                 All your hiring in one intelligent dashboard
               </h2>
-              <p style={{ color: "#64748B", marginBottom: 24 }}>
+              <p className={s.dashboardDesc}>
                 Get a complete overview of your recruitment pipeline, candidate quality, and team performance in real-time.
               </p>
               <ul className={s.checkList}>
                 {["Track every candidate in your pipeline", "AI-powered match scores & insights", "Team collaboration made simple", "Data-driven hiring decisions"].map((item) => (
                   <li key={item} className={s.checkItem}>
-                    <i className="bi bi-check-circle-fill" style={{ color: "#0D9488", marginRight: 10 }} />
+                    <i className={`bi bi-check-circle-fill ${s.checkIcon}`} />
                     {item}
                   </li>
                 ))}
               </ul>
               <motion.button
-                className="btn-primary-custom"
-                style={{ marginTop: 24 }}
+                className={`btn-primary-custom ${s.exploreBtn}`}
                 onClick={() => navigate("/login")}
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
@@ -296,28 +294,28 @@ export default function LandingPage() {
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
               >
                 <div className={s.dashHeader}>
-                  <span style={{ fontWeight: 700, color: "#0D9488", fontSize: 15 }}>⚡ Joblio</span>
-                  <span style={{ fontSize: 12, color: "#64748B" }}>Welcome back, Sarah 👋</span>
+                  <span className={s.dashBrand}>⚡ Joblio</span>
+                  <span className={s.dashWelcome}>Welcome back, Sarah 👋</span>
                 </div>
                 <div className={s.dashStats}>
                   {[{ label: "Candidates", val: "12,642", up: "+10.3%" }, { label: "Interviews", val: "32", up: "+48.0%" }, { label: "Hired", val: "156", up: "+12.2%" }, { label: "Days to Hire", val: "28", up: "+1.1%" }].map((d) => (
                     <div key={d.label} className={s.dashStat}>
-                      <div style={{ fontSize: 11, color: "#94A3B8", marginBottom: 2 }}>{d.label}</div>
-                      <div style={{ fontWeight: 700, fontSize: 18, color: "#1E293B" }}>{d.val}</div>
-                      <div style={{ fontSize: 11, color: "#10B981" }}>{d.up}</div>
+                      <div className={s.dashStatLabel}>{d.label}</div>
+                      <div className={s.dashStatValue}>{d.val}</div>
+                      <div className={s.dashStatTrend}>{d.up}</div>
                     </div>
                   ))}
                 </div>
-                <div style={{ padding: "0 16px 16px" }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: "#64748B", marginBottom: 10 }}>Top Candidates</div>
+                <div className={s.dashCandidatesWrap}>
+                  <div className={s.dashCandidatesTitle}>Top Candidates</div>
                   {[{ name: "John Smith", score: 94, skills: "React, Node.js" }, { name: "Sarah Johnson", score: 92, skills: "Python, ML" }, { name: "Michael Lee", score: 89, skills: "Java, Spring" }].map((c) => (
                     <div key={c.name} className={s.dashRow}>
                       <div className={s.dashAvatar}>{c.name[0]}</div>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: 12, fontWeight: 600 }}>{c.name}</div>
-                        <div style={{ fontSize: 11, color: "#94A3B8" }}>{c.skills}</div>
+                      <div className={s.dashCandidateInfo}>
+                        <div className={s.dashCandidateName}>{c.name}</div>
+                        <div className={s.dashCandidateSkills}>{c.skills}</div>
                       </div>
-                      <div style={{ fontSize: 12, fontWeight: 700, color: "var(--primary)" }}>{c.score}%</div>
+                      <div className={s.dashCandidateScore}>{c.score}%</div>
                     </div>
                   ))}
                 </div>
@@ -328,7 +326,7 @@ export default function LandingPage() {
       </section>
 
       {/* How it works */}
-      <section id="how-it-works" style={{ padding: "80px 0", background: "var(--accent-teal-wash)" }}>
+      <section id="how-it-works" className={s.tealSection}>
         <div className="container">
           <motion.div
             className="text-center mb-5"
@@ -343,7 +341,7 @@ export default function LandingPage() {
           </motion.div>
           <motion.div className="row g-4" variants={stagger} initial="hidden" whileInView="visible" viewport={viewport}>
             {STEPS.map((st, i) => (
-              <div key={st.num} className="col-12 col-sm-6 col-lg" style={{ position: "relative" }}>
+              <div key={st.num} className={`col-12 col-sm-6 col-lg ${s.stepCol}`}>
                 {i < STEPS.length - 1 && <div className={`${s.stepConnector} d-none d-lg-block`} />}
                 <motion.div
                   className={s.stepCard}
@@ -353,7 +351,7 @@ export default function LandingPage() {
                 >
                   <div className={s.stepNum}>{st.num}</div>
                   <div className={s.stepIconWrap}>
-                    <i className={`bi ${st.icon}`} style={{ fontSize: 24, color: "var(--primary)" }} />
+                    <i className={`bi ${st.icon} ${s.stepIcon}`} />
                   </div>
                   <div className={s.stepTitle}>{st.title}</div>
                   <p className={s.stepDesc}>{st.desc}</p>
@@ -365,7 +363,7 @@ export default function LandingPage() {
       </section>
 
       {/* Testimonials */}
-      <section style={{ padding: "80px 0", background: "#fff" }}>
+      <section className={s.whiteSection}>
         <div className="container">
           <motion.div
             className="text-center mb-5"
@@ -387,17 +385,17 @@ export default function LandingPage() {
                   transition={{ duration: 0.5 }}
                   whileHover={{ y: -6 }}
                 >
-                  <div style={{ marginBottom: 12 }}>
+                  <div className={s.starsWrap}>
                     {Array.from({ length: t.stars }).map((_, j) => (
-                      <i key={j} className="bi bi-star-fill" style={{ color: "#F59E0B", fontSize: 14, marginRight: 2 }} />
+                      <i key={j} className={`bi bi-star-fill ${s.starIcon}`} />
                     ))}
                   </div>
-                  <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.7, marginBottom: 20 }}>"{t.text}"</p>
+                  <p className={s.testimonialText}>"{t.text}"</p>
                   <div className="d-flex align-items-center gap-3">
                     <div className={s.testimonialAvatar} style={{ background: t.color }}>{t.initials}</div>
                     <div>
-                      <div style={{ fontWeight: 700, fontSize: 14, color: "#1E293B" }}>{t.name}</div>
-                      <div style={{ fontSize: 12, color: "#94A3B8" }}>{t.role}</div>
+                      <div className={s.testimonialAuthor}>{t.name}</div>
+                      <div className={s.testimonialRole}>{t.role}</div>
                     </div>
                   </div>
                 </motion.div>
@@ -408,7 +406,7 @@ export default function LandingPage() {
       </section>
 
       {/* FAQ */}
-      <section style={{ padding: "80px 0", background: "var(--accent-teal-wash)" }}>
+      <section className={s.tealSection}>
         <div className="container">
           <motion.div
             className="text-center mb-5"
@@ -448,7 +446,7 @@ export default function LandingPage() {
                           opacity: openFaq === i ? 1 : 0,
                         }}
                         transition={{ duration: 0.3, ease: "easeInOut" }}
-                        style={{ overflow: "hidden" }}
+                        className={s.faqAnswerWrap}
                       >
                         <p className={s.faqA}>{faq.a}</p>
                       </motion.div>
@@ -471,17 +469,17 @@ export default function LandingPage() {
       >
         <div className={s.ctaGlow} />
         <div className={s.ctaGlow2} />
-        <div className="container" style={{ position: "relative", zIndex: 1 }}>
+        <div className={`container ${s.ctaContent}`}>
           <div className="row align-items-center justify-content-between g-4">
             <motion.div
               className="col-12 col-lg-7 text-center text-lg-start"
               variants={slideLeft}
               transition={{ duration: 0.6 }}
             >
-              <h2 style={{ color: "#1d2445", fontWeight: 800, fontSize: "clamp(26px,4vw,44px)", marginBottom: 12 }}>
+              <h2 className={s.ctaTitle}>
                 Ready to hire smarter?
               </h2>
-              <p style={{ color: "#1d2445", marginBottom: 0, fontSize: 17 }}>
+              <p className={s.ctaDesc}>
                 Join 500+ companies already using Joblio to build amazing teams.
               </p>
             </motion.div>
@@ -498,7 +496,7 @@ export default function LandingPage() {
               >
                 Get Started Free →
               </motion.button>
-              <p style={{ color: "#1d2445", fontSize: 12, marginTop: 12, marginBottom: 0, opacity: 0.6 }}>
+              <p className={s.ctaDisclaimer}>
                 No credit card required • Free forever
               </p>
             </motion.div>
